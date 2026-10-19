@@ -153,3 +153,9 @@ cython_debug/
 
 .DS_Store
 *x.pt
+
+# Local reproduction outputs and internship data (publish manifests separately).
+artifacts/
+data/
+runs/
+.streamlit/secrets.toml

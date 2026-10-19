@@ -1,3 +1,9 @@
-ultralytics==8.0.136
-streamlit==1.24.0
-py-cpuinfo
+# Validated on Python 3.11 / Windows with NVIDIA RTX 5060 Laptop GPU.
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.9.1+cu128
+torchvision==0.24.1+cu128
+ultralytics==8.3.203
+streamlit==1.50.0
+numpy==1.26.4
+opencv-python==4.11.0.86
+py-cpuinfo==9.0.0

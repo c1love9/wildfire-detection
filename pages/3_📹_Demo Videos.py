@@ -1,5 +1,5 @@
 import streamlit as st #type: ignore
-from glob import glob
+from pathlib import Path
 st.markdown(
         """
         <style>
@@ -36,7 +36,7 @@ st.markdown("<div class='title'>Demo Videos</div>", unsafe_allow_html=True)
 
 st.caption("<div class='text'>Videos do not have sound.</div>", unsafe_allow_html=True)
 
-videos = glob('demo-videos/*')
+videos = sorted((Path(__file__).resolve().parents[1] / 'demo-videos').glob('*'))
 
 for video in videos:
-    st.video(video)
+    st.video(str(video))

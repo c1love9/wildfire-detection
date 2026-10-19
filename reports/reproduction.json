@@ -1,0 +1,324 @@
+{
+  "generated_at": "2026-10-19T21:08:28+08:00",
+  "scope": "Functional reproduction with upstream pretrained weights; not an accuracy evaluation or project training run.",
+  "python": "3.11.9",
+  "platform": "Windows-10-10.0.26100-SP0",
+  "packages": {
+    "torch": "2.9.1+cu128",
+    "torchvision": "0.24.1+cu128",
+    "ultralytics": "8.3.203",
+    "streamlit": "1.50.0",
+    "numpy": "1.26.4",
+    "opencv-python": "4.11.0.86",
+    "pillow": "11.3.0"
+  },
+  "cuda_available": true,
+  "torch_cuda": "12.8",
+  "inference": [
+    {
+      "image": "demo-images/image0.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "fire": 1,
+        "smoke": 2
+      }
+    },
+    {
+      "image": "demo-images/image1.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image10.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1,
+        "fire": 1
+      }
+    },
+    {
+      "image": "demo-images/image11.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image12.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image13.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image14.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image15.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image16.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image17.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image18.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 2,
+        "fire": 2
+      }
+    },
+    {
+      "image": "demo-images/image19.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image2.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image3.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 2
+      }
+    },
+    {
+      "image": "demo-images/image4.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 3
+      }
+    },
+    {
+      "image": "demo-images/image5.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image6.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 2,
+        "fire": 1
+      }
+    },
+    {
+      "image": "demo-images/image7.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image8.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 1
+      }
+    },
+    {
+      "image": "demo-images/image9.jpeg",
+      "device": "cuda:0",
+      "counts": {}
+    }
+  ],
+  "device_checks": [
+    {
+      "device": "cpu",
+      "image": "demo-images/image0.jpeg",
+      "counts": {
+        "fire": 1,
+        "smoke": 2
+      },
+      "valid_coordinates": true
+    },
+    {
+      "device": "cpu",
+      "image": "demo-images/image8.jpeg",
+      "counts": {
+        "smoke": 1
+      },
+      "valid_coordinates": true
+    },
+    {
+      "device": "cuda:0",
+      "image": "demo-images/image0.jpeg",
+      "counts": {
+        "fire": 1,
+        "smoke": 2
+      },
+      "valid_coordinates": true
+    },
+    {
+      "device": "cuda:0",
+      "image": "demo-images/image8.jpeg",
+      "counts": {
+        "smoke": 1
+      },
+      "valid_coordinates": true
+    }
+  ],
+  "ui_checks": [
+    {
+      "check": "Home: default nano model and built-in image",
+      "passed": true,
+      "messages": [
+        "Predicted 2 smokes, 1 fire in 0.03 seconds."
+      ]
+    },
+    {
+      "check": "Home: CPU image prediction",
+      "passed": true,
+      "messages": [
+        "Predicted 2 smokes, 1 fire in 0.03 seconds."
+      ]
+    },
+    {
+      "check": "Home: general-model selector",
+      "passed": true,
+      "messages": [
+        "Predicted 1 car, 1 person in 0.05 seconds."
+      ]
+    },
+    {
+      "check": "Home: image URL served locally",
+      "passed": true,
+      "messages": [
+        "Predicted 2 smokes, 1 fire in 0.02 seconds."
+      ]
+    },
+    {
+      "check": "Home: upload selector with no file",
+      "passed": true,
+      "messages": []
+    },
+    {
+      "check": "Page: 2_📸_Demo Images.py",
+      "passed": true,
+      "messages": []
+    },
+    {
+      "check": "Page: 3_📹_Demo Videos.py",
+      "passed": true,
+      "messages": []
+    }
+  ],
+  "video_checks": [
+    {
+      "file": "demo-videos/fire1.mov",
+      "readable": true,
+      "width": 480,
+      "height": 848,
+      "fps": 30.0,
+      "frame_count": 294
+    },
+    {
+      "file": "demo-videos/fire2.mov",
+      "readable": true,
+      "width": 720,
+      "height": 1280,
+      "fps": 30.0,
+      "frame_count": 945
+    },
+    {
+      "file": "demo-videos/fire3.mp4",
+      "readable": true,
+      "width": 3072,
+      "height": 2048,
+      "fps": 4.0,
+      "frame_count": 64
+    },
+    {
+      "file": "demo-videos/fire4.mp4",
+      "readable": true,
+      "width": 1280,
+      "height": 720,
+      "fps": 28.946249045345528,
+      "frame_count": 873
+    }
+  ],
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "memory_bytes": 8546484224,
+    "capability": [
+      12,
+      0
+    ],
+    "compiled_architectures": [
+      "sm_70",
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90",
+      "sm_100",
+      "sm_120"
+    ]
+  },
+  "cuda_checks": {
+    "matrix_multiply": true,
+    "nms_kept_indices": [
+      0
+    ]
+  },
+  "weights": {
+    "fire_n.pt": {
+      "sha256": "22364797523398115f67f43ff379c3d80c00dde9b4bc2e92e844bb357ca777e7",
+      "source_commit": "a44e1ecdb84b06bda145b1c3ad53854046fe14dd"
+    },
+    "yolov8n.pt": {
+      "sha256": "31e20dde3def09e2cf938c7be6fe23d9150bbbe503982af13345706515f2ef95",
+      "source_commit": "a44e1ecdb84b06bda145b1c3ad53854046fe14dd"
+    }
+  },
+  "fire_classes": {
+    "0": "smoke",
+    "1": "fire"
+  },
+  "class_examples": {
+    "fire": "demo-images/image0.jpeg",
+    "smoke": "demo-images/image8.jpeg"
+  },
+  "synthetic_negative_check": {
+    "kind": "uniform_gray_image",
+    "counts": 0,
+    "included_in_accuracy_metrics": false
+  },
+  "general_model_class_count": 80,
+  "status": "passed"
+}

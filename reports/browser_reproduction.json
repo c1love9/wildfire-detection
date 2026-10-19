@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "home_prediction": true,
+  "actual_upload_prediction": true,
+  "downloaded_filename": "prediction.png",
+  "downloaded_bytes": 1121757,
+  "invalid_upload_handled": true,
+  "page_errors": []
+}

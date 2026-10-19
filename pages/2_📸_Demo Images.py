@@ -1,5 +1,5 @@
 import streamlit as st
-from glob import glob
+from pathlib import Path
 
 st.markdown(
         """
@@ -29,8 +29,8 @@ st.markdown(
 
 st.markdown("<div class='title'>Demo Images</div>", unsafe_allow_html=True)
 
-images = glob('demo-images/*.jpeg')
+images = sorted((Path(__file__).resolve().parents[1] / 'demo-images').glob('*.jpeg'))
 
 for image in images:
-    st.image(image, use_column_width=True)
+    st.image(str(image), width='stretch')
 
