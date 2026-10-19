@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-10-19T16:16:24.966Z",
+  "scope": "Functional Edge browser checks against the final video page.",
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "start_detects_frames": true,
+  "paused_at_frame": 6,
+  "pause_prevents_advancement": true,
+  "resume_advances": true,
+  "stop_works": true,
+  "end_of_file_frames": 64,
+  "uploaded_video_detected": true,
+  "corrupt_video_handled": true,
+  "annotated_images_decoded": true,
+  "failed_media_requests": [],
+  "page_errors": []
+}

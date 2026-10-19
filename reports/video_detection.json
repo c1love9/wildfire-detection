@@ -1,0 +1,95 @@
+{
+  "generated_at": "2026-10-19T21:28:17+08:00",
+  "scope": "Functional video tests with upstream pretrained weights; no accuracy claims.",
+  "device": "cuda:0",
+  "full_videos": [
+    {
+      "source": "demo-videos/fire1.mov",
+      "decoded_and_detected_frames": 294,
+      "source_frame_count": 294,
+      "source_fps": 30.0,
+      "fire_frames": 146,
+      "smoke_frames": 294,
+      "last_media_seconds": 9.766666666666667,
+      "elapsed_seconds": 4.213,
+      "sequential_frames": true,
+      "media_timestamps_valid": true,
+      "released_at_eof": true,
+      "timestamp_fallback_frames": 0
+    },
+    {
+      "source": "demo-videos/fire2.mov",
+      "decoded_and_detected_frames": 945,
+      "source_frame_count": 945,
+      "source_fps": 30.0,
+      "fire_frames": 114,
+      "smoke_frames": 945,
+      "last_media_seconds": 31.46666666666667,
+      "elapsed_seconds": 13.154,
+      "sequential_frames": true,
+      "media_timestamps_valid": true,
+      "released_at_eof": true,
+      "timestamp_fallback_frames": 0
+    },
+    {
+      "source": "demo-videos/fire3.mp4",
+      "decoded_and_detected_frames": 64,
+      "source_frame_count": 64,
+      "source_fps": 4.0,
+      "fire_frames": 0,
+      "smoke_frames": 4,
+      "last_media_seconds": 15.75,
+      "elapsed_seconds": 2.379,
+      "sequential_frames": true,
+      "media_timestamps_valid": true,
+      "released_at_eof": true,
+      "timestamp_fallback_frames": 0
+    },
+    {
+      "source": "demo-videos/fire4.mp4",
+      "decoded_and_detected_frames": 873,
+      "source_frame_count": 873,
+      "source_fps": 28.946249045345528,
+      "fire_frames": 481,
+      "smoke_frames": 873,
+      "last_media_seconds": 30.068965517241377,
+      "elapsed_seconds": 14.038,
+      "sequential_frames": true,
+      "media_timestamps_valid": true,
+      "released_at_eof": true,
+      "timestamp_fallback_frames": 0
+    }
+  ],
+  "controls": [
+    {
+      "source": "fire1.mov",
+      "pause_resume_preserves_frame_and_media_time": true
+    },
+    {
+      "source": "fire2.mov",
+      "pause_resume_preserves_frame_and_media_time": true
+    },
+    {
+      "source": "fire3.mp4",
+      "pause_resume_preserves_frame_and_media_time": true
+    },
+    {
+      "source": "fire4.mp4",
+      "pause_resume_preserves_frame_and_media_time": true
+    }
+  ],
+  "ui_checks": [
+    "start_displays_real_frame_and_metrics",
+    "pause_does_not_advance_video",
+    "resume_continues_from_next_frame",
+    "stop_releases_video",
+    "full_video_eof_updates_controls_and_keeps_last_frame"
+  ],
+  "cpu_and_stop_check": {
+    "frames": 3,
+    "released_on_stop": true,
+    "no_frames_after_stop": true
+  },
+  "invalid_video_rejected": true,
+  "status": "passed"
+}

@@ -1,6 +1,6 @@
 # 原项目本地运行
 
-本阶段运行上游的 YOLOv8 图片检测与演示页面。后续的数据采集、自行训练、实时视频检测和分级报警另按实施计划推进。
+当前支持YOLOv8图片检测和逐帧视频火烟检测。数据采集、自行训练、摄像头接入和分级报警按后续实施计划推进。
 
 ## 已配置电脑
 
@@ -10,7 +10,7 @@
 
 首页默认使用 `Fire Detection`、`fire_n` 和一幅内置图片。有可用 CUDA 时默认使用 GPU，也可在 `Inference Device` 中切换 CPU。图片输入支持内置样例、网址和本地上传；推理后可下载带框图片。`General` 使用 COCO 通用检测模型，不能代替火烟模型。
 
-侧边栏 `Demo Images` 展示图片，`Demo Videos` 播放上游视频。视频页面目前只播放样例，不进行实时逐帧检测。
+侧边栏 `Demo Images` 展示图片。进入 `Demo Videos`，选择内置视频或上传MP4/MOV/AVI/MKV，点击“开始检测”即可看到逐帧的火焰／烟雾框、置信度、帧号、视频时间和当前帧数量。支持暂停、继续和停止；运行期间先停止再调整参数。详细操作与验证结果见 [video_detection.md](video_detection.md)。
 
 ## 在新电脑重新配置
 
@@ -48,7 +48,7 @@ py -3.11 -m venv .venv
 
 这些文件来自上游仓库，当前 Fork 中原样保留。普通完整克隆会取得全部文件。本机采用稀疏检出，暂未下载更大的 m/s/l 模型和说明文档动图。若需要恢复完整内容，在网络与磁盘条件允许时运行 `git sparse-checkout disable`；该操作可能继续下载较大的模型和媒体。
 
-模型和原项目来源见 [upstream.md](upstream.md)，本机实际加载的类别与 SHA-256 校验值见 [reproduction.json](../reports/reproduction.json)。
+模型和原项目来源见 [upstream.md](upstream.md)，本机实际加载的类别与 SHA-256 校验值见 [reproduction.json](../reports/reproduction.json)。上传的视频保存在本机 `artifacts/uploads/` 中，不进入版本库。
 
 ## 重新执行复现检查
 
@@ -61,6 +61,14 @@ py -3.11 -m venv .venv
 检查内容包括真实权重加载、全部内置图片、火焰／烟雾样例的 CPU 与 CUDA 推理、合成空背景、通用模型、四段视频解码、Streamlit 首页和图片／视频页面。检查需要已有模型和演示文件，使用本地 HTTP 服务验证图片网址输入，不依赖外部图片网站。上游的一些样例图片已经带有检测框，复现结果用于验证流程，正式评测需使用独立的原始素材和人工参考标签。
 
 机器可读结果写入 `reports/reproduction.json`；带框图片写入 `artifacts/reproduction/`。后者属于本机生成的临时结果，已从版本库排除。合成空背景仅用于功能检查，不计入课题的正常场景数据，也不用于证明模型准确率。
+
+验证完整视频检测、暂停／继续、停止和结束处理：
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\verify_video.py
+```
+
+该检查会逐帧处理四段样例，结果写入 `reports/video_detection.json`。视频页将结果动态显示；当前未导出整段带框视频。
 
 ## 常见情况
 

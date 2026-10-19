@@ -10,6 +10,7 @@ import hashlib
 import importlib.metadata
 import json
 import platform
+import sys
 import threading
 from collections import Counter
 from datetime import datetime, timedelta, timezone
@@ -26,6 +27,7 @@ from ultralytics import YOLO
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 OUTPUT = ROOT / 'artifacts' / 'reproduction'
 
 

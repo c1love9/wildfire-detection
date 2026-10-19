@@ -23,8 +23,11 @@
 |numpy|1.26.4|
 |opencv-python|4.11.0.86|
 |pillow|11.3.0|
+|pyarrow|18.1.0（视频检测明细表验证通过）|
 
 `requirements.txt` 固定直接依赖，`requirements-lock.txt` 固定全部59项运行依赖。GPU版 PyTorch 与 torchvision 从官方 CUDA 12.8 索引安装，其余包从 PyPI 安装。
+
+视频阶段固定 `pyarrow==18.1.0`，避免新版PyArrow的二进制模块要求NumPy 2而与当前NumPy 1.26.4冲突；已实际创建Arrow表格并渲染视频检测明细。
 
 已通过 `python -m pip check`、实际 CUDA 矩阵运算和 torchvision CUDA NMS 检查。CPU 与 GPU 都完成了真实权重图片推理，结果见 [复现记录](reproduction.md)。
 
