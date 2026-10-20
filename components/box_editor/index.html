@@ -20,7 +20,7 @@ const $=id=>document.getElementById(id),canvas=$('canvas'),ctx=canvas.getContext
 let doc=null,boxes=[],selected=-1,mode='draw',image=new Image(),width=1,height=1,scale=1,drag=null,undo=[];
 const clone=value=>JSON.parse(JSON.stringify(value));
 const send=(type,data={})=>parent.postMessage({isStreamlitMessage:true,type,...data},'*');
-const publish=()=>send('streamlit:setComponentValue',{value:{document_key:doc,boxes:clone(boxes)},dataType:'json'});
+const publish=()=>send('streamlit:setComponentValue',{value:{document_key:doc,boxes:clone(boxes),activity_stamp_ms:Date.now()},dataType:'json'});
 function remember(before){undo.push(before);if(undo.length>25)undo.shift();}
 function uid(){return crypto.randomUUID().replaceAll('-','');}
 function valid(b){const [x1,y1,x2,y2]=b.xyxy;return [x1,y1,x2,y2].every(Number.isFinite)&&x1>=0&&y1>=0&&x2<=width&&y2<=height&&x2-x1>=1&&y2-y1>=1;}

@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "scope": "Two automated simulated browser roles on one existing synthetic image; not human independence evidence",
+  "verified_at": "2026-10-20T13:17:05.797Z",
+  "separate_blank_canvases": true,
+  "activity_timing_pause_submit": true,
+  "adjudication_and_report": true,
+  "mask_upload_and_error_record": true,
+  "worktime_form_submission": true,
+  "page_errors": []
+}

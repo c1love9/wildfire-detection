@@ -22,7 +22,7 @@ with st.form('new_pair'):
     actor=st.text_input('实验执行者');note=st.text_input('成对实验说明')
     epochs=st.number_input('成对训练轮数',1,500,50);batch=st.number_input('成对批大小',1,64,4)
     if not exports:st.info('待实验：尚无已复核训练数据。')
-    if st.form_submit_button('保存成对实验配置',disabled=not export or not actor.strip() or not note.strip()):
+    if st.form_submit_button('保存成对实验配置',disabled=not export):
         try:store.create(export,TrainConfig(epochs=int(epochs),batch=int(batch),device='0' if device.startswith('cuda') else 'cpu'),actor,note);st.success('成对配置已保存。')
         except (OSError,ValueError) as exc:st.error(str(exc))
 records=store.records()
