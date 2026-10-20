@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "stage": "comparison",
+  "verified_at": "2026-10-20T13:02:47.468Z",
+  "real_side_by_side_inference": true,
+  "formal_evaluation_disabled_without_trained_model": true,
+  "page_errors": []
+}

@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "scope": "Existing synthetic model/dataset only; no formal accuracy claim",
+  "comparison_id": "compare_4e876f00b6d34e4098dc42330acf863e",
+  "same_test_images": 2,
+  "device": "cuda:0",
+  "request_and_result_verified": true
+}
