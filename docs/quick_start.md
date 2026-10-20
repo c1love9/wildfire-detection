@@ -10,6 +10,8 @@
 
 首页默认使用 `Fire Detection`、`fire_n` 和一幅内置图片。有可用 CUDA 时默认使用 GPU，也可在 `Inference Device` 中切换 CPU。图片输入支持内置样例、网址和本地上传；推理后可下载带框图片。`General` 使用 COCO 通用检测模型，不能代替火烟模型。
 
+成功训练的best.pt自动加入Home和Demo Videos的模型列表，显示“自训 · 实验说明 · 任务尾号 · best”。两页可分别选择模型与尺寸；视频/摄像头运行或暂停时模型锁定，停止后切换并重新开始。日志保留每次模型及校验快照。操作与验证范围见 [model_inference.md](model_inference.md)。主数据目录暂无正式自训任务时，完成Training训练后才出现相应选项。
+
 侧边栏 `Demo Images` 展示图片。进入 `Demo Videos`，选择内置视频或上传MP4/MOV/AVI/MKV，点击“开始检测”即可看到逐帧的火焰／烟雾框、置信度、帧号、视频时间和当前帧数量。支持暂停、继续和停止；运行期间先停止再调整参数。详细操作与验证结果见 [video_detection.md](video_detection.md)。连续确认后显示关注、预警或报警；在 `Alarm History`可筛选事件、查看等级变化并导出CSV，规则和日志保存说明见 [alarm.md](alarm.md)。
 
 ## 在新电脑重新配置

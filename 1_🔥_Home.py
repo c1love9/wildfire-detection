@@ -1,40 +1,19 @@
-import streamlit as st  # type: ignore
-import cv2
 import torch
-from ultralytics import YOLO
+import streamlit as st  # type: ignore
 import requests # type: ignore
 from PIL import Image
 from pathlib import Path
 from numpy import random
 import io
+from dataset_store import dataset_root
+from model_catalog import fire_models, general_models
+from inference_ui import load_detector, show_model
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 
-# Function to load the YOLO model
-@st.cache_resource
-def load_model(model_path):
-    model = YOLO(model_path)
-    return model
-
 # Function to predict objects in the image
 def predict_image(model, image, conf_threshold, iou_threshold, device='cpu'):
-    # Predict objects using the model
-    res = model.predict(
-        image.convert('RGB'),
-        conf=conf_threshold,
-        iou=iou_threshold,
-        device=device,
-        verbose=False,
-    )
-    
-    class_name = model.model.names
-    classes = res[0].boxes.cls
-    class_counts = {}
-    
-    # Count the number of occurrences for each class
-    for c in classes:
-        c = int(c)
-        class_counts[class_name[c]] = class_counts.get(class_name[c], 0) + 1
+    res_image, _, class_counts, latency_ms = model.predict_image(image, conf_threshold, iou_threshold)
 
     # Generate prediction text
     prediction_text = 'Predicted '
@@ -51,14 +30,9 @@ def predict_image(model, image, conf_threshold, iou_threshold, device='cpu'):
         prediction_text = "No objects detected"
 
     # Calculate inference latency
-    latency = sum(res[0].speed.values())  # in ms, need to convert to seconds
-    latency = round(latency / 1000, 2)
+    latency = round(latency_ms / 1000, 2)
     prediction_text += f' in {latency} seconds.'
 
-    # Convert the result image to RGB
-    res_image = res[0].plot()
-    res_image = cv2.cvtColor(res_image, cv2.COLOR_BGR2RGB)
-    
     return res_image, prediction_text
 
 def main():
@@ -145,16 +119,20 @@ def main():
     with col1:
         model_type = st.radio("Select Model Type", ("Fire Detection", "General"), index=0)
 
-    models_dir = PROJECT_ROOT / ("general-models" if model_type == "General" else "fire-models")
-    model_files = sorted(path.stem for path in models_dir.glob('*.pt'))
-    if not model_files:
-        st.error(f"No model weights found in {models_dir.name}. See docs/quick_start.md.")
+    choices = general_models(PROJECT_ROOT) if model_type == 'General' else fire_models(PROJECT_ROOT, dataset_root(PROJECT_ROOT))
+    model_files = list(choices)
+    if not choices:
+        st.error('No model weights found. See docs/quick_start.md.')
         st.stop()
     preferred_model = 'yolov8n' if model_type == 'General' else 'fire_n'
     default_index = model_files.index(preferred_model) if preferred_model in model_files else 0
     
     with col2:
-        selected_model = st.selectbox("Select Model Size", model_files, index=default_index)
+        selected_model = st.selectbox("Select Model Size", model_files, index=default_index, format_func=lambda key: choices[key].label)
+    choice = choices[selected_model]
+    show_model(choice)
+    sizes = sorted({160, 320, 640, 960, 1280, choice.imgsz})
+    imgsz = st.selectbox('推理图像尺寸', sizes, index=sizes.index(choice.imgsz))
 
     device_options = ['CPU']
     if torch.cuda.is_available():
@@ -186,11 +164,10 @@ def main():
             st.caption("Choose a model based on the trade-off between speed and precision that best suits your needs.")
 
     # Load the selected model
-    model_path = models_dir / (selected_model + ".pt")
     try:
-        model = load_model(str(model_path))
+        model = load_detector(choice, device, imgsz)
     except Exception as exc:
-        st.error(f"Unable to load {model_path.name}: {exc}")
+        st.error(f"Unable to load {choice.label}: {exc}")
         st.stop()
 
     # Add a section divider
@@ -257,7 +234,7 @@ def main():
             except Exception as exc:
                 st.error(f'Inference failed on {device_label}: {exc}')
                 st.stop()
-            st.image(prediction, caption="Prediction", width='stretch')
+            st.image(prediction, caption="Prediction", width=1000)
             st.success(text)
         
         prediction = Image.fromarray(prediction)

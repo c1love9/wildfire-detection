@@ -1,0 +1,108 @@
+{
+  "generated_at": "2026-10-20T11:24:40.280+00:00",
+  "status": "passed",
+  "scope": "Self-trained synthetic shape model; functional integration, not real fire accuracy. Physical camera frames discarded.",
+  "unit_tests_passed": 124,
+  "root": "artifacts\\model_checks\\integration_5498f040b3784d9e82f59a06b2d201c0",
+  "dataset_root": "artifacts\\model_checks\\integration_5498f040b3784d9e82f59a06b2d201c0\\catalog",
+  "training_id": "train_58066ee8ee9046048597c9ad3f398a74",
+  "model_key": "trained:train_58066ee8ee9046048597c9ad3f398a74:best",
+  "model_sha256": "c108257eabcaa7309778678d18e16be93653aedc26b407192c9b6f49621be560",
+  "training_epochs": 40,
+  "image_checks": [
+    {
+      "device": "cpu",
+      "counts": {
+        "smoke": 2,
+        "fire": 1
+      },
+      "model_sha256": "c108257eabcaa7309778678d18e16be93653aedc26b407192c9b6f49621be560"
+    },
+    {
+      "device": "cuda:0",
+      "counts": {
+        "smoke": 2,
+        "fire": 1
+      },
+      "model_sha256": "c108257eabcaa7309778678d18e16be93653aedc26b407192c9b6f49621be560"
+    }
+  ],
+  "upstream_class_mapping": {
+    "0": "smoke",
+    "1": "fire"
+  },
+  "trained_class_mapping": {
+    "0": "fire",
+    "1": "smoke"
+  },
+  "video_frames": 40,
+  "video_peak_level": 3,
+  "video_media": {
+    "status": "ready",
+    "trigger_seconds": 0.1,
+    "start_seconds": 0.0,
+    "end_seconds": 0.5,
+    "encoded_duration": 0.5,
+    "encoded_frames": 5,
+    "pre_truncated": false,
+    "post_truncated": false,
+    "completion_reason": "window_complete",
+    "codec": "h264",
+    "snapshot_sha256": "2c6b0a0f3f3c7ab9348d9bca78086ba263e84a9b79accd545eb05d0e7b7230bf",
+    "clip_sha256": "140ca6c7fb135bc23c08d2334fc9cb06619d04f124bbb260d8e375c468098d61"
+  },
+  "controlled_camera_segments": 2,
+  "camera_media": [
+    {
+      "status": "ready",
+      "trigger_seconds": 0.09999999999999432,
+      "start_seconds": 0.0,
+      "end_seconds": 0.49999999999999434,
+      "encoded_duration": 0.5,
+      "encoded_frames": 5,
+      "pre_truncated": false,
+      "post_truncated": false,
+      "completion_reason": "window_complete",
+      "codec": "h264",
+      "snapshot_sha256": "504617686149bf417aabc6e49989c99d73827c60252c9400aeea5f3d34b9183e",
+      "clip_sha256": "5b333ac0339e048bfb3ea086c5ad65deeddb64c7af134e2623368b9d421ee65f"
+    },
+    {
+      "status": "ready",
+      "trigger_seconds": 0.09999999999999432,
+      "start_seconds": 0.0,
+      "end_seconds": 0.49999999999999434,
+      "encoded_duration": 0.5,
+      "encoded_frames": 5,
+      "pre_truncated": false,
+      "post_truncated": false,
+      "completion_reason": "window_complete",
+      "codec": "h264",
+      "snapshot_sha256": "504617686149bf417aabc6e49989c99d73827c60252c9400aeea5f3d34b9183e",
+      "clip_sha256": "5b333ac0339e048bfb3ea086c5ad65deeddb64c7af134e2623368b9d421ee65f"
+    }
+  ],
+  "physical_camera": {
+    "frames": 25,
+    "observed_seconds": 2.2809999999990396,
+    "delivered_width": 640,
+    "delivered_height": 480,
+    "reported_fps": 30.00003000003,
+    "backend": "DSHOW",
+    "skipped_capture_frames": 11,
+    "personal_images_saved": false,
+    "released_on_pause": true,
+    "resumed_frames": 8,
+    "resumed_in_new_observation": true,
+    "capture_process_loss_detected_without_ui_poll": true,
+    "reopened_after_process_loss": true,
+    "released_at_end": true
+  },
+  "image_model_switch_and_general_regression": true,
+  "camera_model_locked_while_running_and_paused": true,
+  "stopping_then_switching_creates_new_run": true,
+  "history_preserves_model_and_csv_hash": true,
+  "browser_video": "artifacts\\model_checks\\integration_5498f040b3784d9e82f59a06b2d201c0\\synthetic_scene.avi",
+  "browser_image": "artifacts\\model_checks\\integration_5498f040b3784d9e82f59a06b2d201c0\\catalog\\training\\train_58066ee8ee9046048597c9ad3f398a74\\input\\images\\train\\0a1b06d437935950cb4904e3159d3d42d7c67f2afc2ed83974f1d8b9786cf317.png",
+  "alarm_log": "artifacts\\model_checks\\integration_5498f040b3784d9e82f59a06b2d201c0\\alarms_3eb1bad6398548398d05df2489546ed0.sqlite3"
+}

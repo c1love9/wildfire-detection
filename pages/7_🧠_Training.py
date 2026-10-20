@@ -146,6 +146,7 @@ if jobs:
                 files += ['output/results.csv', 'output/results.png'] if job['kind'] == 'train' else []
                 if job['kind'] == 'train':
                     files += [result['weights'][name]['path'] for name in ('best', 'last')]
+                    st.info('此任务的best.pt已加入检测模型列表；可在Home图片检测或Demo Videos视频/摄像头中选择，核验后加载。')
                 file = st.selectbox('选择下载文件', files, key='download_' + identifier)
                 path = bounded(directory, file)
                 st.download_button('下载实验文件', path.read_bytes(), file_name=identifier + '_' + path.name,

@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-10-20T11:38:49.881Z",
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "scope": "Synthetic images/video and self-trained functional model. Physical camera frames/alarms/media not saved.",
+  "model_sha256": "c108257eabcaa7309778678d18e16be93653aedc26b407192c9b6f49621be560",
+  "model_key": "trained:train_58066ee8ee9046048597c9ad3f398a74:best",
+  "training_id": "train_58066ee8ee9046048597c9ad3f398a74",
+  "image_upload_and_self_trained_selection": true,
+  "switch_back_to_upstream_and_general_image_regression": true,
+  "video_upload_model_switch_pause_resume_stop": true,
+  "model_locked_while_running_and_paused": true,
+  "self_trained_history_event": "bd56bbb14ca14a408c5c0f37659a58a3",
+  "history_playback": {
+    "duration": 1,
+    "csv_sha256": "71d364bd5aec7258ce611d938eb9171b1917d3a5037a1030a2fec8feffad80d2"
+  },
+  "model_provenance_csv": true,
+  "physical_camera_self_trained_pause_resume_stop": true,
+  "physical_camera_images_and_events_saved": false,
+  "page_errors": [],
+  "media_errors": [],
+  "model_selection_and_history_survive_restart": true,
+  "restart_verified_at": "2026-10-20T11:41:32.693Z",
+  "production_restart": {
+    "verified_at": "2026-10-20T11:42:42.161Z",
+    "status": "passed",
+    "default_upstream_image_prediction": true,
+    "image_decoded": true,
+    "video_page_ready": true,
+    "training_and_history_pages_ready": true,
+    "main_dataset_counts": {
+      "assets": 0,
+      "training_jobs": 0
+    },
+    "synthetic_models_added_to_main_dataset": false,
+    "page_errors": []
+  }
+}

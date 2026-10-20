@@ -13,6 +13,7 @@ from alarm_log import AlarmLog, END_NAMES, event_rows, events_csv, alarm_log_pat
 from recording import resolve_media_asset
 from monitoring import point_from_metadata
 from monitoring_ui import show_location
+from model_catalog import model_columns
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,6 +41,10 @@ try:
     st.dataframe(event_rows(events), hide_index=True, width='stretch')
     st.download_button('导出当前筛选 CSV', data=events_csv(events), file_name='alarm_events.csv', mime='text/csv')
     selected = st.selectbox('查看事件变化', events, format_func=lambda event: f"{event['source']} · {event['started_at']} · {event['id'][:12]}")
+    identity = model_columns(selected.get('metadata_json', '{}'))
+    st.caption(f"本次检测模型：{identity['检测模型']} · {identity['模型来源']}")
+    with st.expander('模型与推理参数快照'):
+        st.json(json.loads(selected.get('metadata_json', '{}')))
     is_camera = json.loads(selected.get('metadata_json', '{}')).get('input_type') == 'camera'
     time_label = '本段观测时间' if is_camera else '视频时间'
     if is_camera:

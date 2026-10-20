@@ -5,28 +5,26 @@ from io import BytesIO
 import logging
 from dataclasses import replace
 
+import torch
 from PIL import Image
 import streamlit as st
-import torch
 
-from video_detection import FireSmokeDetector, VideoSession
+from video_detection import VideoSession
 from alarm import AlarmConfig, LEVEL_NAMES, CLASS_NAMES
 from alarm_log import alarm_log_path
 from recording import RecordingConfig
 from camera_source import CameraConfig
 from camera_session import CameraSession
 from monitoring_ui import edit_monitoring_point, show_location
+from dataset_store import dataset_root
+from model_catalog import fire_models
+from inference_ui import load_detector, show_model
 
 
 ROOT = Path(__file__).resolve().parents[1]
 LOG_PATH = alarm_log_path(ROOT)
 SESSION_KEY = 'video_detection_session'
 STATUS = {'running': '正在检测', 'paused': '已暂停', 'completed': '检测完成', 'stopped': '已停止', 'error': '检测失败', 'disconnected': '摄像头观测中断'}
-
-
-@st.cache_resource
-def load_video_detector(weights: str, device: str):
-    return FireSmokeDetector(weights, device)
 
 
 def save_upload(upload) -> Path:
@@ -97,20 +95,27 @@ if monitoring_point:
     st.caption(f'当前关联：{monitoring_point.name}（模拟位置与视角，非设备实测）。')
 
 model_col, device_col, conf_col = st.columns(3)
-models = sorted((ROOT / 'fire-models').glob('*.pt'))
+models = st.session_state.get('video_model_choices') if locked else fire_models(ROOT, dataset_root(ROOT))
+models = models or fire_models(ROOT, dataset_root(ROOT))
 with model_col:
-    model_names = [path.stem for path in models]
+    model_names = list(models)
     if not model_names:
         st.error('缺少火烟模型，请按运行说明取回fire_n.pt。')
         st.stop()
-    selected_model = st.selectbox('检测模型', model_names, index=model_names.index('fire_n') if 'fire_n' in model_names else 0, disabled=locked)
+    selected_model = st.selectbox('检测模型', model_names, index=model_names.index('fire_n') if 'fire_n' in model_names else 0,
+                                  format_func=lambda key: models[key].label, disabled=locked)
+choice = models[selected_model]
 with device_col:
     devices = ['CPU'] + (['GPU (CUDA)'] if torch.cuda.is_available() else [])
     device_label = st.selectbox('计算设备', devices, index=len(devices) - 1, disabled=locked)
     device = 'cuda:0' if device_label == 'GPU (CUDA)' else 'cpu'
 with conf_col:
     confidence = st.slider('置信度阈值', 0.05, 0.95, 0.20, 0.05, disabled=locked)
+show_model(choice)
+st.caption('图片和视频页可分别选择模型；视频/摄像头运行或暂停时模型锁定，停止后可切换并开始新观测。')
 with st.expander('检测设置'):
+    sizes = sorted({160, 320, 640, 960, 1280, choice.imgsz})
+    imgsz = st.selectbox('推理图像尺寸', sizes, index=sizes.index(choice.imgsz), disabled=locked)
     iou = st.slider('重叠框抑制阈值（NMS IoU）', 0.1, 0.9, 0.5, 0.05, disabled=locked)
     st.caption('视频文件逐帧检测，摄像头检测最新采样帧。持续时间使用素材时间或实时采集时间，不使用页面刷新次数。')
 
@@ -157,7 +162,7 @@ except ValueError as exc:
 if alarm_config is not None and confidence > min(alarm_config.fire_confidence, alarm_config.smoke_confidence):
     st.warning('检测置信度高于部分报警阈值，低于检测阈值的框不会进入报警判定。')
 
-signature = (source_mode, str(source_path), selected_model, device, confidence, iou, alarm_config, recording_config, camera_config, monitoring_point)
+signature = (source_mode, str(source_path), selected_model, choice.sha256, imgsz, device, confidence, iou, alarm_config, recording_config, camera_config, monitoring_point)
 if st.session_state.get('video_input_signature') != signature:
     st.session_state['video_input_signature'] = signature
     st.session_state.pop('video_detection_error', None)
@@ -169,12 +174,12 @@ if session is not None and st.session_state.get('video_detection_signature') != 
 
 start_col, pause_col, stop_col = st.columns(3)
 with start_col:
-    if st.button('开始检测', type='primary', disabled=locked or source_path is None or alarm_config is None or recording_config is None or not monitoring_config_valid, width='stretch'):
+    if st.button('开始检测', type='primary', disabled=locked or bool(choice.error) or source_path is None or alarm_config is None or recording_config is None or not monitoring_config_valid, width='stretch'):
         try:
             if session is not None:
                 session.stop()
             with st.spinner('正在加载模型并打开输入…'):
-                detector = load_video_detector(str(ROOT / 'fire-models' / (selected_model + '.pt')), device)
+                detector = load_detector(choice, device, imgsz)
                 if source_mode == '摄像头':
                     st.session_state[SESSION_KEY] = CameraSession(camera_config, detector, confidence, iou,
                                                                   alarm_config=alarm_config, log_path=LOG_PATH,
@@ -186,6 +191,7 @@ with start_col:
                                                                 source_name=source_name, recording_config=recording_config,
                                                                 monitoring_point=monitoring_point)
             st.session_state['video_detection_signature'] = signature
+            st.session_state['video_model_choices'] = models
             st.session_state['video_detection_name'] = source_name
             st.session_state.pop('video_detection_error', None)
             st.rerun()
@@ -227,6 +233,8 @@ def show_detection():
     if active_session.status in {'completed', 'error', 'disconnected'} and locked:
         st.rerun()
     st.caption(f"{st.session_state['video_detection_name']} · {STATUS[active_session.status]}")
+    identity = getattr(active_session.detector, 'metadata', {})
+    st.caption(f"本次观测模型：{identity.get('label', selected_model)} · {identity.get('sha256', '')[:12]} · {identity.get('imgsz', imgsz)}像素")
     alarms = active_session.alarms
     alarm_state = alarms.snapshot
     labels = '、'.join(CLASS_NAMES[label] for label in alarm_state.classes)

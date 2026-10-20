@@ -16,8 +16,9 @@
 > - [数据采集、导入、统计与划分](docs/dataset.md)
 > - [GroundingDINO预标注、人工复核与YOLO导出](docs/annotations.md)
 > - [YOLO训练、损失曲线与独立评估](docs/training.md)
+> - [自训模型接入图片、视频与摄像头](docs/model_inference.md)
 >
-> Windows 本机双击 `启动项目.cmd`，然后打开 http://127.0.0.1:8501 。在侧边栏进入 `Demo Videos`，选择视频或摄像头、设置模拟监控点并点击“开始检测”；`Alarm History`可查询日志、回溯位置、查看截图、回放片段和导出CSV；`Dataset`可管理采集批次、上传/导入素材、USB采集与抽帧、统计数量和保存划分版本；`Annotations`可预标注、人工复核与YOLO导出；`Training`可训练已复核数据、保存参数/曲线/权重并单独评估val/test。实际自采数量、200幅双人独立参考标注、正式数据收敛训练与准确率评测、像素掩码及面积曲线等仍待完成，详见要求对照表。
+> Windows 本机双击 `启动项目.cmd`，然后打开 http://127.0.0.1:8501 。`Home`检测图片；`Demo Videos`检测视频或摄像头，二者均可选择上游模型或成功训练的自训best模型；`Alarm History`查询事件、模型快照、截图/片段、位置与CSV；`Dataset`采集/导入、统计及分组划分；`Annotations`预标注、人工复核与YOLO导出；`Training`训练与独立评估。停止视频/摄像头后可切换模型，历史不被覆盖。实际自采数量、200幅双人独立参考标注、正式数据收敛训练与准确率评测、像素掩码及面积曲线等仍待完成，详见要求对照表。
 
 Welcome to the Wildfire Detection Research repository! This repository hosts the code and resources related to our research on leveraging computer vision for fire detection. Our aim is to contribute to wildfire prevention efforts by developing and training an object detection model to accurately identify instances of fire and smoke in images.
 

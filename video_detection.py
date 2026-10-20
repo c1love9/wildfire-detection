@@ -10,7 +10,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-from ultralytics import YOLO
+from model_runtime import YoloDetector
 
 from alarm import AlarmConfig
 from alarm_log import AlarmMonitor, alarm_media_root
@@ -38,33 +38,8 @@ class DetectedFrame:
     time_estimated: bool
 
 
-class FireSmokeDetector:
-    """Serialize calls because YOLO keeps a mutable predictor on its model."""
-
-    def __init__(self, weights: str | Path, device: str = 'cpu'):
-        self.device = device
-        self.model = YOLO(str(weights))
-        if not {'fire', 'smoke'}.issubset(set(self.model.names.values())):
-            raise ValueError('请选择同时包含 fire 和 smoke 类别的检测模型。')
-        self.model.to(device)
-        self._lock = threading.Lock()
-
-    def predict(self, bgr: np.ndarray, conf: float, iou: float):
-        with self._lock:
-            result = self.model.predict(bgr, conf=conf, iou=iou, device=self.device, imgsz=640, verbose=False)[0]
-            detections = []
-            counts = {'fire': 0, 'smoke': 0}
-            for x1, y1, x2, y2, confidence, class_id in result.boxes.data.cpu().tolist():
-                label = result.names[int(class_id)]
-                counts[label] = counts.get(label, 0) + 1
-                detections.append({'class': label, 'confidence': confidence, 'xyxy': [x1, y1, x2, y2]})
-            annotated = result.plot()
-            # Bound each browser update; retain no list of historical images.
-            factor = min(1.0, 960 / annotated.shape[1], 720 / annotated.shape[0])
-            if factor < 1:
-                annotated = cv2.resize(annotated, (round(annotated.shape[1] * factor), round(annotated.shape[0] * factor)))
-            rgb = cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB)
-            return rgb, detections, counts, float(result.speed.get('inference') or 0)
+class FireSmokeDetector(YoloDetector):
+    """Compatibility entry point; the shared runtime validates fire/smoke."""
 
 
 class VideoSession:
@@ -103,6 +78,7 @@ class VideoSession:
                               metadata={'confidence': self.conf, 'nms_iou': self.iou,
                                         'device': getattr(self.detector, 'device', 'unknown'),
                                         'weights': str(getattr(self.detector.model, 'ckpt_path', 'unknown')) if hasattr(self.detector, 'model') else 'test detector',
+                                        **({'model': self.detector.metadata} if hasattr(self.detector, 'metadata') else {}),
                                         **metadata,
                                         **({'monitoring_point': self.monitoring_point.metadata()} if self.monitoring_point else {})})
         recorder = EventRecorder(recording_config, media_root or alarm_media_root(log_path), alarms.store, self.info.fps,

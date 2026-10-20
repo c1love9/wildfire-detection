@@ -16,6 +16,7 @@ from pathlib import Path
 
 from alarm import AlarmConfig, AlarmEngine, CLASS_NAMES, LEVEL_NAMES
 from monitoring import location_columns
+from model_catalog import model_columns
 
 
 END_NAMES = {'recovered': '已恢复', 'stopped': '手动停止', 'completed': '视频结束', 'error': '检测异常',
@@ -148,6 +149,7 @@ def event_rows(events):
         '最高置信度': round(event['max_confidence'], 3),
         '结束原因': END_NAMES.get(event['end_reason'], '未结束'),
         **location_columns(event.get('metadata_json', '{}')),
+        **model_columns(event.get('metadata_json', '{}')),
     } for event in events]
 
 
