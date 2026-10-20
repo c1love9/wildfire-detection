@@ -84,6 +84,10 @@ class DatasetStore:
                     manifest_path TEXT NOT NULL, summary_json TEXT NOT NULL
                 );
             ''')
+            if 'manifest_sha256' not in {row['name'] for row in db.execute('PRAGMA table_info(splits)')}:
+                db.execute('BEGIN IMMEDIATE')
+                if 'manifest_sha256' not in {row['name'] for row in db.execute('PRAGMA table_info(splits)')}:
+                    db.execute('ALTER TABLE splits ADD COLUMN manifest_sha256 TEXT')
 
     @contextmanager
     def connection(self):
@@ -354,8 +358,9 @@ class DatasetStore:
         for name, content in files.items():
             (directory / name).write_text(content, encoding='utf-8')
         with self.connection() as db:
-            db.execute('INSERT INTO splits VALUES(?,?,?,?,?)', (version, now(), expected['fingerprint'], f'splits/{version}/manifest.json',
-                                                             json.dumps(expected['image_counts'])))
+            db.execute('INSERT INTO splits(id,created_at,fingerprint,manifest_path,summary_json,manifest_sha256) VALUES(?,?,?,?,?,?)',
+                       (version, now(), expected['fingerprint'], f'splits/{version}/manifest.json',
+                        json.dumps(expected['image_counts']), file_sha(directory / 'manifest.json')))
         return version
 
     def splits(self):

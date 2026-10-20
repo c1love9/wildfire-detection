@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-10-20T09:45:58.650Z",
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "scope": "Public/synthetic images in an isolated catalog; automated browser actors are not human GT.",
+  "catalog_root": "artifacts\\annotation_checks\\browser_bac6612ba740434899b246b7b52bd572",
+  "real_model_batch_prelabel": true,
+  "original_proposal_boxes": 4,
+  "canvas_draw_class_change_pointer_resize_delete_numeric_move_undo": true,
+  "draft_and_approval_append_only": true,
+  "empty_approval_requires_explicit_confirmation": true,
+  "labels_zip": {
+    "labels": 3,
+    "draft_diff": {
+      "added": 1,
+      "removed": 1,
+      "changed": 1
+    },
+    "explicit_negative": true,
+    "training": false
+  },
+  "training_zip": {
+    "labels": 3,
+    "draft_diff": {
+      "added": 1,
+      "removed": 1,
+      "changed": 1
+    },
+    "explicit_negative": true,
+    "training": true
+  },
+  "labels_zip_sha256": "f7a3ebb35c1bb0019ba1df0d07727ee5b7c9327b27e5ae5fc072d783e9240dcd",
+  "training_zip_sha256": "761ec83b4a0fc5cb75fda7f548fc788f46ce84600a04dc1b1acf56e81c136ca3",
+  "download_transports": [
+    {
+      "filename": "labels.zip",
+      "native_failure": "canceled",
+      "transport": "real HTTP 200 forwarded unchanged -> browser fetch/Blob download; IDM integration left unchanged"
+    },
+    {
+      "filename": "training.zip",
+      "native_failure": "canceled",
+      "transport": "real HTTP 200 forwarded unchanged -> browser fetch/Blob download; IDM integration left unchanged"
+    }
+  ],
+  "page_errors": [],
+  "annotations_and_identical_export_survive_restart": true,
+  "navigation_to_detection": true,
+  "restart_verified_at": "2026-10-20T09:46:29.299Z",
+  "restart_download_transports": [
+    {
+      "filename": "training_after_restart.zip",
+      "native_failure": "canceled",
+      "transport": "real HTTP 200 forwarded unchanged -> browser fetch/Blob download; IDM integration left unchanged"
+    }
+  ],
+  "production_restart": {
+    "url": "http://127.0.0.1:8501/Annotations",
+    "main_dataset_assets": 0,
+    "empty_page_and_detection_navigation_passed": true,
+    "verified_at": "2026-10-20T09:47:23.563Z"
+  }
+}

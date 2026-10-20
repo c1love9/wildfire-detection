@@ -1,0 +1,13 @@
+{
+  "model_id": "IDEA-Research/grounding-dino-tiny",
+  "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+  "weights_sha256": "1a2412ef99bd74bcd3c2a246fa1e48581f8889a1300c9051974741314fc042f3",
+  "fire_prompt": "fire. flame. burning. blaze.",
+  "smoke_prompt": "smoke. smoke plume. heavy smoke.",
+  "box_threshold": 0.3,
+  "text_threshold": 0.25,
+  "nms_iou": 0.5,
+  "max_boxes_per_class": 50,
+  "shortest_edge": 640,
+  "longest_edge": 1066
+}

@@ -1,0 +1,77 @@
+{
+  "generated_at": "2026-10-20T09:43:44+00:00",
+  "status": "passed",
+  "scope": "Public/synthetic fixtures in isolated catalogs; automated review simulation is not human GT or accuracy evaluation.",
+  "unit_tests_passed": 95,
+  "root": "artifacts\\annotation_checks\\integration_ae53c752e87f46c985aa7ce22e91597d\\catalog",
+  "browser_root": "artifacts\\annotation_checks\\browser_bac6612ba740434899b246b7b52bd572",
+  "browser_asset_ids": [
+    "a184094057dfe49533c13bc886fe4b3a346ccaa37d83641cf8bd9a96e76725eb",
+    "3e0f32206df34ca3066c9a05d20f31204d0d8243302f77a6dfc74c3479b61e99",
+    "6e93a860e7156415533c06a14bf8eb90e4b03c20748ef509cbd35b89f5aa3173"
+  ],
+  "browser_split": "split_20261020_094505_667cc20e",
+  "model": {
+    "model_id": "IDEA-Research/grounding-dino-tiny",
+    "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+    "files_sha256": {
+      "config.json": "eec82c5ab66e16df12a9a212e68ac011779927c2536cf9078658e35d85f0c67a",
+      "preprocessor_config.json": "8454179ba95e2ad22947835aad7b45862a601fc0055ab88bf1ee70892d3aea60",
+      "tokenizer_config.json": "d40ab645b68211910b9170d22433d43186a6ec8ee6fd10ba170524b25bf4fb56",
+      "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+      "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "model.safetensors": "1a2412ef99bd74bcd3c2a246fa1e48581f8889a1300c9051974741314fc042f3"
+    },
+    "transformers": "4.57.1",
+    "torch": "2.9.1+cu128",
+    "device": "cuda:0",
+    "hardware": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "dtype": "float32",
+    "disable_custom_kernels": true,
+    "fine_tuned": false
+  },
+  "effective_prompts": {
+    "fire": "fire. flame. burning. blaze.",
+    "smoke": "smoke. smoke plume. heavy smoke."
+  },
+  "real_model_predictions": [
+    {
+      "asset_id": "a184094057dfe49533c13bc886fe4b3a346ccaa37d83641cf8bd9a96e76725eb",
+      "proposal_id": "e250c250f984440bbeba00c00645618d",
+      "status": "ready",
+      "error": null,
+      "box_count": 4
+    },
+    {
+      "asset_id": "3e0f32206df34ca3066c9a05d20f31204d0d8243302f77a6dfc74c3479b61e99",
+      "proposal_id": "7d8e18d9cffb47869a33baad0cd5a723",
+      "status": "ready",
+      "error": null,
+      "box_count": 2
+    },
+    {
+      "asset_id": "6e93a860e7156415533c06a14bf8eb90e4b03c20748ef509cbd35b89f5aa3173",
+      "proposal_id": "41e0d36228b4492584699bd2a318f651",
+      "status": "ready",
+      "error": null,
+      "box_count": 2
+    }
+  ],
+  "cpu_boxes": 4,
+  "unreviewed_export_blocked": true,
+  "simulated_review_revisions_per_image": 2,
+  "explicit_negative_empty_label": true,
+  "label_zip_sha256": "89b5749b32ee50c30461754b397d89639a208a583b60f7c8ed9c12f3df4e4970",
+  "training_yaml_accepted_by_ultralytics": true,
+  "grouped_training_image_counts": {
+    "train": 1,
+    "val": 1,
+    "test": 1
+  },
+  "ui_checks": [
+    "review_page",
+    "reviewed_label_export_controls",
+    "training_export_controls"
+  ]
+}

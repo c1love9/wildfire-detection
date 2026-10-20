@@ -9,3 +9,6 @@ opencv-python==4.11.0.86
 pyarrow==18.1.0
 py-cpuinfo==9.0.0
 pydeck==0.9.3
+transformers==4.57.1
+huggingface-hub==0.36.0
+safetensors==0.6.2

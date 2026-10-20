@@ -2,7 +2,7 @@
 
 > **实习项目 Fork：智能火灾报警系统**
 >
-> 本仓库在保留上游来源和许可证的基础上逐步改进。当前支持图片检测、逐帧视频与摄像头实时检测、连续确认、分级报警、持久化日志、报警截图／片段回放、模拟位置／视角及历史回溯，并提供数据采集／导入、来源统计和分组划分工具。
+> 本仓库在保留上游来源和许可证的基础上逐步改进。当前支持图片检测、逐帧视频与摄像头实时检测、连续确认、分级报警、持久化日志、报警截图／片段回放、模拟位置／视角及历史回溯，并提供数据采集／导入、来源统计、分组划分、GroundingDINO预标注、画框复核及YOLO标签导出。
 >
 > - [本地启动与重新安装](docs/quick_start.md)
 > - [上游来源与本阶段范围](docs/upstream.md)
@@ -14,8 +14,9 @@
 > - [模拟位置、摄像头视角与历史回溯](docs/monitoring.md)
 > - [第四题要求对照与未完成项](docs/requirements_audit.md)
 > - [数据采集、导入、统计与划分](docs/dataset.md)
+> - [GroundingDINO预标注、人工复核与YOLO导出](docs/annotations.md)
 >
-> Windows 本机双击 `启动项目.cmd`，然后打开 http://127.0.0.1:8501 。在侧边栏进入 `Demo Videos`，选择视频或摄像头、设置模拟监控点并点击“开始检测”；`Alarm History`可查询日志、回溯位置、查看截图、回放片段和导出CSV；`Dataset`可管理采集批次、上传/导入素材、USB采集与抽帧、统计数量和保存划分版本。实际自采数量、大模型预标注、自己的模型训练与正式评测、像素掩码及面积曲线等仍待完成，详见要求对照表。
+> Windows 本机双击 `启动项目.cmd`，然后打开 http://127.0.0.1:8501 。在侧边栏进入 `Demo Videos`，选择视频或摄像头、设置模拟监控点并点击“开始检测”；`Alarm History`可查询日志、回溯位置、查看截图、回放片段和导出CSV；`Dataset`可管理采集批次、上传/导入素材、USB采集与抽帧、统计数量和保存划分版本；`Annotations`可自动预标注、人工修改与确认、查看历史，并导出已复核标签或完整训练目录。实际自采数量、200幅双人独立参考标注、自己的模型训练与正式评测、像素掩码及面积曲线等仍待完成，详见要求对照表。
 
 Welcome to the Wildfire Detection Research repository! This repository hosts the code and resources related to our research on leveraging computer vision for fire detection. Our aim is to contribute to wildfire prevention efforts by developing and training an object detection model to accurately identify instances of fire and smoke in images.
 
