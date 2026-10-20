@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "stage": "experiments",
+  "verified_at": "2026-10-20T13:07:29.618Z",
+  "real_side_by_side_inference": true,
+  "formal_evaluation_disabled_without_trained_model": true,
+  "page_errors": []
+}

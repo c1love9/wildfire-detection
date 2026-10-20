@@ -53,12 +53,13 @@ if mode == '新建训练':
         a, b = st.columns(2)
         seed = a.number_input('随机种子', 0, 2147483647, defaults.seed)
         patience = b.number_input('早停耐心轮数（0表示关闭）', 0, 500, defaults.patience)
+        multi_scale = st.checkbox('多尺度训练',value=defaults.multi_scale,help='每批训练随机改变尺寸；公平对比时统一最终评估尺寸。Experiments可保存只有此因素不同的成对配置。')
         st.caption('单设备、workers=0、固定种子、deterministic=True、FP32；每轮仅验证val，test留给单独评估。')
         run = st.form_submit_button('开始训练', type='primary', disabled=not chosen or active or not actor.strip() or not note.strip())
     if run:
         try:
             config = TrainConfig(epochs=int(epochs), imgsz=imgsz, batch=int(batch), device='0' if device == 'GPU (CUDA)' else 'cpu',
-                                 optimizer=optimizer, lr0=lr, seed=int(seed), patience=int(patience))
+                                 optimizer=optimizer, lr0=lr, seed=int(seed), patience=int(patience),multi_scale=multi_scale)
             started(store.start_train(chosen, config, actor, note))
         except (OSError, ValueError) as exc:
             st.error(str(exc))

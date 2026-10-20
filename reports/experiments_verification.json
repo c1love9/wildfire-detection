@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "scope": "Existing isolated synthetic fixture only",
+  "pair": "pair_d54d351f54934971b7e76869c1abcd50",
+  "both_real_training_jobs_completed": true,
+  "only_multiscale_differs": true,
+  "same_initial_weight_sha": "31e20dde3def09e2cf938c7be6fe23d9150bbbe503982af13345706515f2ef95",
+  "unified_test_evaluation": true,
+  "no_assumed_improvement": true
+}

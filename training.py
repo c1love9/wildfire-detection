@@ -59,8 +59,11 @@ class TrainConfig:
     lr0: float = 0.001
     patience: int = 15
     seed: int = 42
+    multi_scale: bool = False
 
     def __post_init__(self):
+        if type(self.multi_scale) is not bool:
+            raise ValueError('多尺度训练开关须为布尔值。')
         for name, low, high in [('epochs', 1, 500), ('imgsz', 64, 1280), ('batch', 1, 64), ('patience', 0, 500), ('seed', 0, 2147483647)]:
             value = getattr(self, name)
             if type(value) is not int or not low <= value <= high:

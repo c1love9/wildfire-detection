@@ -104,7 +104,7 @@ def execute(store, job_id):
             started_at = time.perf_counter()
             model.train(data=str(data / 'data.yaml'), epochs=config.epochs, imgsz=config.imgsz, batch=config.batch,
                         device=config.device, optimizer=config.optimizer, lr0=config.lr0, patience=config.patience,
-                        seed=config.seed, deterministic=True, workers=0, amp=False, cache=False, plots=True,
+                        seed=config.seed, multi_scale=config.multi_scale, deterministic=True, workers=0, amp=False, cache=False, plots=True,
                         save=True, val=True, split='val', conf=0.001, iou=0.7, max_det=300,
                         project=str(directory), name='output', exist_ok=False, resume=False,
                         close_mosaic=min(10, config.epochs // 2), verbose=False)
