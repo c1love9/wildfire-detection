@@ -41,7 +41,7 @@ try {
     const recording = page.getByTestId('stExpander').filter({ has: page.getByText('报警截图与片段', { exact: true }) });
     if (!await recording.locator('details').evaluate(details => details.open)) await recording.locator('summary').click();
     await recording.locator('details[open]').waitFor();
-    await page.getByTestId('stCheckbox').locator('label').click();
+    await page.getByTestId('stCheckbox').filter({ hasText: '保存报警截图和片段' }).locator('label').click();
     await page.waitForFunction(() => document.querySelector('input[aria-label="保存报警截图和片段"]').checked === false);
     await button('开始检测').click();
     await waitFrames(12);

@@ -15,7 +15,7 @@ from video_detection import VideoInfo, VideoSession
 class CameraSession(VideoSession):
     def __init__(self, camera_config: CameraConfig, detector, conf=0.2, iou=0.5,
                  alarm_config=None, log_path=None, source_name=None, recording_config=None,
-                 media_root=None, source_factory=None, monotonic=None):
+                 media_root=None, source_factory=None, monotonic=None, monitoring_point=None):
         if not 0 < conf <= 1 or not 0 < iou <= 1:
             raise ValueError('置信度和IoU阈值必须位于0到1之间。')
         self._lock = threading.RLock()
@@ -25,6 +25,7 @@ class CameraSession(VideoSession):
         self.input_type = 'camera'
         self.source = f'camera:{camera_config.index}'
         self.detector, self.conf, self.iou = detector, conf, iou
+        self.monitoring_point = monitoring_point
         self._source_name = source_name or f'摄像头 {camera_config.index}'
         self._alarm_config = alarm_config or AlarmConfig()
         self._recording_config = recording_config

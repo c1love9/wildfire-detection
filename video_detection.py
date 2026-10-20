@@ -15,6 +15,7 @@ from ultralytics import YOLO
 from alarm import AlarmConfig
 from alarm_log import AlarmMonitor, alarm_media_root
 from recording import EventRecorder, RecordingConfig
+from monitoring import MonitoringPoint
 
 
 @dataclass(frozen=True)
@@ -72,7 +73,7 @@ class VideoSession:
     def __init__(self, source: str | Path, detector: FireSmokeDetector, conf: float = 0.2, iou: float = 0.5,
                  alarm_config: AlarmConfig | None = None, log_path: str | Path | None = None,
                  source_name: str | None = None, recording_config: RecordingConfig | None = None,
-                 media_root: str | Path | None = None):
+                 media_root: str | Path | None = None, monitoring_point: MonitoringPoint | None = None):
         if not 0 < conf <= 1 or not 0 < iou <= 1:
             raise ValueError('置信度和IoU阈值必须位于0到1之间。')
         self._lock = threading.RLock()
@@ -80,6 +81,7 @@ class VideoSession:
         self.detector = detector
         self.conf = conf
         self.iou = iou
+        self.monitoring_point = monitoring_point
         self.capture = cv2.VideoCapture(str(self.source))
         if not self.capture.isOpened():
             self.capture.release()
@@ -101,7 +103,8 @@ class VideoSession:
                               metadata={'confidence': self.conf, 'nms_iou': self.iou,
                                         'device': getattr(self.detector, 'device', 'unknown'),
                                         'weights': str(getattr(self.detector.model, 'ckpt_path', 'unknown')) if hasattr(self.detector, 'model') else 'test detector',
-                                        **metadata})
+                                        **metadata,
+                                        **({'monitoring_point': self.monitoring_point.metadata()} if self.monitoring_point else {})})
         recorder = EventRecorder(recording_config, media_root or alarm_media_root(log_path), alarms.store, self.info.fps,
                                  input_type=self.input_type) if (
             recording_config is not None and recording_config.enabled and alarms.store is not None) else None

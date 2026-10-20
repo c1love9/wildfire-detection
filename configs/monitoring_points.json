@@ -1,0 +1,10 @@
+[
+  {
+    "id": "demo_a", "name": "演示监控点 A", "latitude": 31.2304, "longitude": 121.4737,
+    "heading": 45.0, "pitch": -15.0, "horizontal_fov": 60.0, "simulated": true, "coordinate_system": "WGS84"
+  },
+  {
+    "id": "demo_b", "name": "演示监控点 B", "latitude": 31.2314, "longitude": 121.4752,
+    "heading": 225.0, "pitch": -25.0, "horizontal_fov": 80.0, "simulated": true, "coordinate_system": "WGS84"
+  }
+]

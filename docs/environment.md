@@ -37,4 +37,6 @@
 
 同日摄像头阶段验证HP True Vision FHD Camera、DirectShow、640×480交付画面及设备报告约30帧／秒。摄像头处理复用现有依赖，没有新增pip包；实拍启停与受控报警验证分别记录在 [camera.md](camera.md)。
 
+同日模拟位置与视角阶段将已有锁定环境中的 `pydeck==0.9.3` 列为直接依赖，未增加新的安装包。另覆盖在线/无在线底图、服务重启、历史回放及日志页先打开的顺序；日志页在OpenCV/Arrow前初始化PyTorch，修复本机历史页先打开后进入检测页的DLL加载冲突。详情见 [monitoring.md](monitoring.md)。
+
 版本组合依据：[PyTorch官方安装说明](https://pytorch.org/get-started/previous-versions/)、[Ultralytics安装说明](https://docs.ultralytics.com/quickstart/)。锁定文件针对本次 Windows x64 / Python 3.11 环境生成。

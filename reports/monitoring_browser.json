@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-10-20T06:14:26.078Z",
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "simulated_point_switch": true,
+  "manual_heading_and_pitch": true,
+  "controls_locked_during_detection": true,
+  "real_model_video_frames": 294,
+  "map_canvas_visible": true,
+  "map_pan_changes_render": true,
+  "online_style_loaded": true,
+  "online_tiles_loaded": true,
+  "basemap_toggle_works": true,
+  "source_free_map_with_map_services_blocked": true,
+  "historical_points_match_archived_coordinates": true,
+  "file_and_camera_event_media_replay": true,
+  "page_errors": [],
+  "media_errors": [],
+  "archived_map_and_media_survive_restart": true,
+  "restart_verified_at": "2026-10-20T06:18:16.239Z",
+  "history_first_startup_and_detection_page_preview": true
+}

@@ -1,12 +1,18 @@
 from pathlib import Path
+import base64
 import json
 import sqlite3
 
+# Initialize the model runtime before OpenCV/Arrow on a history-first startup;
+# PyTorch 2.9 Windows DLLs can fail when loaded after these native libraries.
+import torch
 import streamlit as st
 
 from alarm import LEVEL_NAMES
 from alarm_log import AlarmLog, END_NAMES, event_rows, events_csv, alarm_log_path, alarm_media_root
 from recording import resolve_media_asset
+from monitoring import point_from_metadata
+from monitoring_ui import show_location
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,6 +44,13 @@ try:
     time_label = '本段观测时间' if is_camera else '视频时间'
     if is_camera:
         st.caption('摄像头时间从本段开始观测起计时；暂停后继续将重新计时与确认。实际日期见记录时间，观测中断不表示火情恢复。')
+    st.caption('以下位置与角度取自该事件所属观测的历史快照；修改当前监控点不会改变历史。')
+    @st.fragment
+    def show_history_location():
+        show_location(point_from_metadata(selected.get('metadata_json', '{}')), level=selected['peak_level'],
+                      events=events, selected_id=selected['id'], key=f"history_map_{selected['id']}")
+
+    show_history_location()
     initial_media = store.media(selected['id'])
 
     @st.fragment(run_every=1.0 if initial_media and initial_media['status'] in {'recording', 'encoding'} else None)
@@ -56,7 +69,10 @@ try:
         snapshot = resolve_media_asset(root, media['snapshot_path'], '.jpg')
         with snapshot_col:
             if snapshot:
-                st.image(str(snapshot), caption='首次确认时的带框截图', width='content')
+                # Keep the immutable snapshot in its UI update. A pending URL
+                # request can outlive its media registration on filter/reload.
+                image_url = 'data:image/jpeg;base64,' + base64.b64encode(snapshot.read_bytes()).decode('ascii')
+                st.image(image_url, caption='首次确认时的带框截图', width='content')
             else:
                 st.info('截图文件未保存或已不在媒体目录中。')
         with video_col:

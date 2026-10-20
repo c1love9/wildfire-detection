@@ -15,6 +15,7 @@ from alarm_log import alarm_log_path
 from recording import RecordingConfig
 from camera_source import CameraConfig
 from camera_session import CameraSession
+from monitoring_ui import edit_monitoring_point, show_location
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -85,6 +86,16 @@ else:
     except (OSError, ValueError, TypeError) as exc:
         st.error(f'摄像头配置无效：{exc}')
 
+monitoring_point = None
+monitoring_config_valid = True
+try:
+    monitoring_point = edit_monitoring_point(ROOT / 'configs' / 'monitoring_points.json', locked)
+except (OSError, ValueError, TypeError, KeyError) as exc:
+    monitoring_config_valid = False
+    st.error(f'监控点配置无效：{exc}')
+if monitoring_point:
+    st.caption(f'当前关联：{monitoring_point.name}（模拟位置与视角，非设备实测）。')
+
 model_col, device_col, conf_col = st.columns(3)
 models = sorted((ROOT / 'fire-models').glob('*.pt'))
 with model_col:
@@ -146,7 +157,7 @@ except ValueError as exc:
 if alarm_config is not None and confidence > min(alarm_config.fire_confidence, alarm_config.smoke_confidence):
     st.warning('检测置信度高于部分报警阈值，低于检测阈值的框不会进入报警判定。')
 
-signature = (source_mode, str(source_path), selected_model, device, confidence, iou, alarm_config, recording_config, camera_config)
+signature = (source_mode, str(source_path), selected_model, device, confidence, iou, alarm_config, recording_config, camera_config, monitoring_point)
 if st.session_state.get('video_input_signature') != signature:
     st.session_state['video_input_signature'] = signature
     st.session_state.pop('video_detection_error', None)
@@ -158,7 +169,7 @@ if session is not None and st.session_state.get('video_detection_signature') != 
 
 start_col, pause_col, stop_col = st.columns(3)
 with start_col:
-    if st.button('开始检测', type='primary', disabled=locked or source_path is None or alarm_config is None or recording_config is None, width='stretch'):
+    if st.button('开始检测', type='primary', disabled=locked or source_path is None or alarm_config is None or recording_config is None or not monitoring_config_valid, width='stretch'):
         try:
             if session is not None:
                 session.stop()
@@ -167,11 +178,13 @@ with start_col:
                 if source_mode == '摄像头':
                     st.session_state[SESSION_KEY] = CameraSession(camera_config, detector, confidence, iou,
                                                                   alarm_config=alarm_config, log_path=LOG_PATH,
-                                                                  source_name=source_name, recording_config=recording_config)
+                                                                  source_name=source_name, recording_config=recording_config,
+                                                                  monitoring_point=monitoring_point)
                 else:
                     st.session_state[SESSION_KEY] = VideoSession(source_path, detector, confidence, iou,
                                                                 alarm_config=alarm_config, log_path=LOG_PATH,
-                                                                source_name=source_name, recording_config=recording_config)
+                                                                source_name=source_name, recording_config=recording_config,
+                                                                monitoring_point=monitoring_point)
             st.session_state['video_detection_signature'] = signature
             st.session_state['video_detection_name'] = source_name
             st.session_state.pop('video_detection_error', None)
@@ -274,3 +287,16 @@ def show_detection():
 
 
 show_detection()
+
+
+# The map is outside the inference fragment: panning/zooming never counts as
+# a sampled frame and the browser keeps its map while the image refreshes.
+@st.fragment(run_every=1.0 if session is not None and session.status == 'running' else None)
+def show_monitoring_map():
+    active = st.session_state.get(SESSION_KEY)
+    point = active.monitoring_point if active is not None else monitoring_point
+    level = active.alarms.snapshot.level if active is not None else 0
+    show_location(point, level, key='live_monitor_map')
+
+
+show_monitoring_map()

@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-10-20T06:00:45+00:00",
+  "status": "passed",
+  "scope": "Functional verification of simulated WGS84 locations and manually configured pose; no real GPS sensor or fire geolocation.",
+  "device": "cuda:0",
+  "database": "artifacts\\monitoring_checks\\integration_4c4bc424fb3144df8b0462326e01ad52\\events.sqlite3",
+  "real_model_file_frames": 294,
+  "file_media": {
+    "status": "partial",
+    "trigger_seconds": 0.5,
+    "start_seconds": 0.0,
+    "end_seconds": 9.8,
+    "encoded_duration": 9.8,
+    "encoded_frames": 294,
+    "pre_truncated": true,
+    "post_truncated": true,
+    "completion_reason": "completed",
+    "codec": "h264",
+    "snapshot_sha256": "b5dfb08e45f25ed9df231660cf6ba75d8d95cd6dd5e01daf71ec060bfc5187e2",
+    "clip_sha256": "79c05290e1dd7a5170ba1603415108e2ef6f5ba0be9310c21909a5f92c03ef1c"
+  },
+  "controlled_camera_frames": 170,
+  "controlled_camera_media": {
+    "status": "partial",
+    "trigger_seconds": 0.4999999999999716,
+    "start_seconds": 0.0,
+    "end_seconds": 10.499999999999972,
+    "encoded_duration": 10.5,
+    "encoded_frames": 315,
+    "pre_truncated": true,
+    "post_truncated": false,
+    "completion_reason": "window_complete",
+    "codec": "h264",
+    "snapshot_sha256": "31fe84860b547f90d67c4af85fc736261afd297eb8d0f8df9b5729f210122832",
+    "clip_sha256": "db766e13abbf740fdf036aad33d7f2aa189aea6dc6e340a6a708613224906214"
+  },
+  "controlled_camera_material": "Repeated public frame from demo-videos/fire1.mov with controlled 10 Hz timestamps",
+  "physical_camera": {
+    "frames": 10,
+    "released": true,
+    "personal_images_or_logs_saved": false
+  },
+  "ui_checks": [
+    "manual_pose_edit",
+    "pose_locked_while_running",
+    "disable_location",
+    "file_history_map_and_media",
+    "camera_history_map_and_media",
+    "inline_snapshots_and_isolated_history_map_controls"
+  ],
+  "archived_locations_preserved_after_reopen": true,
+  "csv_includes_simulation_label_and_coordinates": true
+}
