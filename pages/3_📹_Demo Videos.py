@@ -3,15 +3,19 @@ import base64
 import hashlib
 from io import BytesIO
 import logging
+from dataclasses import replace
 
 from PIL import Image
 import streamlit as st
 import torch
 
 from video_detection import FireSmokeDetector, VideoSession
+from alarm import AlarmConfig, LEVEL_NAMES, CLASS_NAMES
+from alarm_log import alarm_log_path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+LOG_PATH = alarm_log_path(ROOT)
 SESSION_KEY = 'video_detection_session'
 STATUS = {'running': '正在检测', 'paused': '已暂停', 'completed': '检测完成', 'stopped': '已停止', 'error': '检测失败'}
 
@@ -81,7 +85,36 @@ with st.expander('检测设置'):
     iou = st.slider('重叠框抑制阈值（NMS IoU）', 0.1, 0.9, 0.5, 0.05, disabled=locked)
     st.caption('每一帧都会参与检测。处理速度受设备与页面刷新影响，视频时间与原片保持对应。')
 
-signature = (str(source_path), selected_model, device, confidence, iou)
+try:
+    default_alarm = AlarmConfig.load(ROOT / 'configs' / 'alarm.json')
+except (OSError, ValueError, TypeError) as exc:
+    st.error(f'无法读取报警配置：{exc}')
+    st.stop()
+with st.expander('报警规则'):
+    st.caption('同一类别、同一区域同时满足连续帧数和持续时间才确认；烟雾可独立触发。以下为课程原型调试参数。')
+    frames_col, fire_threshold_col, smoke_threshold_col = st.columns(3)
+    confirm_frames = frames_col.number_input('连续确认帧数', min_value=2, value=default_alarm.confirm_frames, step=1, disabled=locked)
+    fire_threshold = fire_threshold_col.number_input('火焰报警置信度', min_value=0.0, max_value=1.0, value=float(default_alarm.fire_confidence), step=0.05, disabled=locked)
+    smoke_threshold = smoke_threshold_col.number_input('烟雾报警置信度', min_value=0.0, max_value=1.0, value=float(default_alarm.smoke_confidence), step=0.05, disabled=locked)
+    attention_col, warning_col, alarm_col, recovery_col = st.columns(4)
+    attention_seconds = attention_col.number_input('关注持续时间（秒）', min_value=0.0, value=float(default_alarm.attention_seconds), step=0.5, disabled=locked)
+    warning_seconds = warning_col.number_input('预警持续时间（秒）', min_value=0.0, value=float(default_alarm.warning_seconds), step=0.5, disabled=locked)
+    alarm_seconds = alarm_col.number_input('报警持续时间（秒）', min_value=0.0, value=float(default_alarm.alarm_seconds), step=0.5, disabled=locked)
+    recovery_seconds = recovery_col.number_input('恢复等待（秒）', min_value=0.0, value=float(default_alarm.recovery_seconds), step=0.5, disabled=locked)
+    st.caption(f'区域匹配IoU ≥ {default_alarm.match_iou:g}，相邻帧时间间隔 ≤ {default_alarm.max_frame_gap_seconds:g} 秒。可在配置文件中调整；计时使用视频时间，暂停不计入持续时间。')
+    st.caption('日志保存在本机，侧边栏“Alarm History”可查询和导出。')
+
+alarm_config = None
+try:
+    alarm_config = replace(default_alarm, confirm_frames=int(confirm_frames), fire_confidence=fire_threshold,
+                           smoke_confidence=smoke_threshold, attention_seconds=attention_seconds,
+                           warning_seconds=warning_seconds, alarm_seconds=alarm_seconds, recovery_seconds=recovery_seconds)
+except ValueError as exc:
+    st.warning(str(exc))
+if alarm_config is not None and confidence > min(alarm_config.fire_confidence, alarm_config.smoke_confidence):
+    st.warning('检测置信度高于部分报警阈值，低于检测阈值的框不会进入报警判定。')
+
+signature = (str(source_path), selected_model, device, confidence, iou, alarm_config)
 if st.session_state.get('video_input_signature') != signature:
     st.session_state['video_input_signature'] = signature
     st.session_state.pop('video_detection_error', None)
@@ -93,13 +126,15 @@ if session is not None and st.session_state.get('video_detection_signature') != 
 
 start_col, pause_col, stop_col = st.columns(3)
 with start_col:
-    if st.button('开始检测', type='primary', disabled=locked or source_path is None, width='stretch'):
+    if st.button('开始检测', type='primary', disabled=locked or source_path is None or alarm_config is None, width='stretch'):
         try:
             if session is not None:
                 session.stop()
             with st.spinner('正在加载模型并打开视频…'):
                 detector = load_video_detector(str(ROOT / 'fire-models' / (selected_model + '.pt')), device)
-                st.session_state[SESSION_KEY] = VideoSession(source_path, detector, confidence, iou)
+                st.session_state[SESSION_KEY] = VideoSession(source_path, detector, confidence, iou,
+                                                            alarm_config=alarm_config, log_path=LOG_PATH,
+                                                            source_name=source_name)
             st.session_state['video_detection_signature'] = signature
             st.session_state['video_detection_name'] = source_name
             st.session_state.pop('video_detection_error', None)
@@ -137,6 +172,16 @@ def show_detection():
         if active_session.status in {'completed', 'error'}:
             st.rerun()
     st.caption(f"{st.session_state['video_detection_name']} · {STATUS[active_session.status]}")
+    alarms = active_session.alarms
+    alarm_state = alarms.snapshot
+    labels = '、'.join(CLASS_NAMES[label] for label in alarm_state.classes)
+    level_message = f'当前报警等级：{LEVEL_NAMES[alarm_state.level]}' + (f' · {labels}' if labels else '')
+    if active_session.status != 'running':
+        level_message += '（检测已暂停，保留最后判定）' if active_session.status == 'paused' else '（检测已结束，保留最后判定）'
+    {0: st.success, 1: st.info, 2: st.warning, 3: st.error}[alarm_state.level](level_message)
+    st.caption(f'当前区域连续命中 {alarm_state.pending_frames} 帧 · 持续 {alarm_state.pending_seconds:.2f} 秒 · 本次确认事件 {alarms.event_count} 个')
+    if alarms.log_error:
+        st.warning(alarms.log_error)
     latest = active_session.latest
     if latest is not None:
         frame_col, time_col, fire_col, smoke_col = st.columns(4)
@@ -165,6 +210,18 @@ def show_detection():
         st.success(f'检测完成：共处理{active_session.processed_frames}帧；含火焰{active_session.fire_frames}帧，含烟雾{active_session.smoke_frames}帧。')
     elif active_session.status == 'error':
         st.error(active_session.error)
+    with st.expander('本次报警变化（最近50条）'):
+        changes = list(alarms.recent_transitions)
+        if changes:
+            st.dataframe([{'事件编号': item['event_id'][:12], '帧号': item['frame'],
+                           '视频时间（秒）': round(item['media_seconds'], 3),
+                           '等级变化': f"{LEVEL_NAMES[item['from_level']]} → {LEVEL_NAMES[item['to_level']]}",
+                           '原因': {'confirmed': '连续确认', 'escalated': '升级', 'downgraded': '降级',
+                                    'recovered': '持续消失后恢复', 'completed': '视频结束，未判定恢复',
+                                    'stopped': '手动停止，未判定恢复', 'error': '检测异常，未判定恢复'}[item['kind']]}
+                          for item in reversed(changes)], hide_index=True, width='stretch')
+        else:
+            st.write('尚未确认火烟事件；单帧检出不会直接生成报警日志。')
 
 
 show_detection()

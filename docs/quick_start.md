@@ -1,6 +1,6 @@
 # 原项目本地运行
 
-当前支持YOLOv8图片检测和逐帧视频火烟检测。数据采集、自行训练、摄像头接入和分级报警按后续实施计划推进。
+当前支持YOLOv8图片检测、逐帧视频火烟检测、连续确认、分级报警与本机报警日志。数据采集、自行训练、摄像头接入和片段回放按后续实施计划推进。
 
 ## 已配置电脑
 
@@ -10,7 +10,7 @@
 
 首页默认使用 `Fire Detection`、`fire_n` 和一幅内置图片。有可用 CUDA 时默认使用 GPU，也可在 `Inference Device` 中切换 CPU。图片输入支持内置样例、网址和本地上传；推理后可下载带框图片。`General` 使用 COCO 通用检测模型，不能代替火烟模型。
 
-侧边栏 `Demo Images` 展示图片。进入 `Demo Videos`，选择内置视频或上传MP4/MOV/AVI/MKV，点击“开始检测”即可看到逐帧的火焰／烟雾框、置信度、帧号、视频时间和当前帧数量。支持暂停、继续和停止；运行期间先停止再调整参数。详细操作与验证结果见 [video_detection.md](video_detection.md)。
+侧边栏 `Demo Images` 展示图片。进入 `Demo Videos`，选择内置视频或上传MP4/MOV/AVI/MKV，点击“开始检测”即可看到逐帧的火焰／烟雾框、置信度、帧号、视频时间和当前帧数量。支持暂停、继续和停止；运行期间先停止再调整参数。详细操作与验证结果见 [video_detection.md](video_detection.md)。连续确认后显示关注、预警或报警；在 `Alarm History`可筛选事件、查看等级变化并导出CSV，规则和日志保存说明见 [alarm.md](alarm.md)。
 
 ## 在新电脑重新配置
 
@@ -69,6 +69,14 @@ py -3.11 -m venv .venv
 ```
 
 该检查会逐帧处理四段样例，结果写入 `reports/video_detection.json`。视频页将结果动态显示；当前未导出整段带框视频。
+
+验证连续确认、分级、日志、异常及历史页面：
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\verify_alarm.py
+```
+
+报警默认参数在 `configs/alarm.json`，实际使用日志保存在 `artifacts/alarms/alarms.sqlite3`，重启后保留且不进入版本库。报警验证使用独立测试数据库，摘要写入 `reports/alarm_verification.json`。
 
 ## 常见情况
 

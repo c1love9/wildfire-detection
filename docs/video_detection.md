@@ -2,6 +2,8 @@
 
 本阶段把原先只播放样例的视频页改为逐帧运行YOLOv8检测。使用上游 `fire-models/fire_n.pt` 权重，输出火焰、烟雾的框、类别和置信度；支持内置样例、本地上传、CPU与CUDA。
 
+后续已在这条链路上加入连续多帧确认、分级报警和持久化日志，使用与验证见 [alarm.md](alarm.md)。下面的帧检测记录保留原视频阶段的口径。
+
 ## 操作步骤
 
 1. 按 [quick_start.md](quick_start.md) 启动项目，打开 <http://127.0.0.1:8501/Demo_Videos>，或从侧边栏进入 `Demo Videos`。
@@ -69,6 +71,6 @@
 - [视频页面](../pages/3_📹_Demo%20Videos.py)：视频选择、上传、参数、控制按钮与动态显示。
 - [verify_video.py](../scripts/verify_video.py)：完整视频与页面功能验证。
 
-本阶段完成视频文件的逐帧检测，尚未接入摄像头、实现连续多帧报警判定或导出整段带框视频，也未重新训练模型。后续可在这条检测链路上增加报警逻辑和日志。
+视频文件逐帧检测与连续报警判定现已接通。尚未接入摄像头或导出整段带框视频，也未重新训练模型；报警阶段的最新结果见 [alarm.md](alarm.md)。
 
 实现参考官方说明：[Streamlit 1.50 fragment定时更新](https://docs.streamlit.io/1.50.0/develop/api-reference/execution-flow/st.fragment)、[Ultralytics预测接口](https://docs.ultralytics.com/modes/predict/)。

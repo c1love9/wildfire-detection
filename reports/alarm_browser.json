@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-10-20T04:44:27.048Z",
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "default_rules_reach_all_three_levels": true,
+  "paused_frame": 153,
+  "pause_keeps_alarm_and_frame": true,
+  "resume_advances": true,
+  "stop_preserves_last_alarm": true,
+  "new_video_resets_evidence": true,
+  "short_detections_at_eof_do_not_confirm": true,
+  "persistent_history_filter": true,
+  "csv_download_has_one_event": true,
+  "annotated_images_decoded": true,
+  "page_errors": [],
+  "failed_media_requests": [],
+  "history_survives_server_restart": true,
+  "restart_verified_at": "2026-10-20T04:46:18.463Z"
+}

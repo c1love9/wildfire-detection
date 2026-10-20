@@ -1,0 +1,86 @@
+{
+  "generated_at": "2026-10-20T04:41:25+00:00",
+  "scope": "Functional tests; controlled outputs demonstrate suppression, not measured real-world accuracy.",
+  "config": {
+    "confirm_frames": 3,
+    "fire_confidence": 0.5,
+    "smoke_confidence": 0.5,
+    "attention_seconds": 0.5,
+    "warning_seconds": 2.0,
+    "alarm_seconds": 5.0,
+    "recovery_seconds": 2.0,
+    "match_iou": 0.1,
+    "max_frame_gap_seconds": 1.0
+  },
+  "unit_tests_passed": 23,
+  "controlled_spikes": {
+    "input_positive_frames": 50,
+    "confirmed_events": 0,
+    "source": "simulated detector outputs"
+  },
+  "full_videos": [
+    {
+      "source": "fire1.mov",
+      "frames": 294,
+      "raw_positive_frames": 294,
+      "raw_positive_episodes": 1,
+      "confirmed_state_frames": 279,
+      "events": 1,
+      "peak_level": 3,
+      "transitions": 4
+    },
+    {
+      "source": "fire2.mov",
+      "frames": 945,
+      "raw_positive_frames": 945,
+      "raw_positive_episodes": 1,
+      "confirmed_state_frames": 930,
+      "events": 1,
+      "peak_level": 3,
+      "transitions": 4
+    },
+    {
+      "source": "fire3.mp4",
+      "frames": 64,
+      "raw_positive_frames": 2,
+      "raw_positive_episodes": 2,
+      "confirmed_state_frames": 0,
+      "events": 0,
+      "peak_level": 0,
+      "transitions": 0
+    },
+    {
+      "source": "fire4.mp4",
+      "frames": 873,
+      "raw_positive_frames": 873,
+      "raw_positive_episodes": 1,
+      "confirmed_state_frames": 858,
+      "events": 1,
+      "peak_level": 3,
+      "transitions": 6
+    }
+  ],
+  "lifecycle": [
+    {
+      "reason": "stopped",
+      "pause_freezes_state": true,
+      "last_level_retained": 3,
+      "released": true
+    },
+    {
+      "reason": "error",
+      "pause_freezes_state": true,
+      "last_level_retained": 3,
+      "released": true
+    }
+  ],
+  "ui_checks": [
+    "real_model_alarm_banner",
+    "paused_alarm_and_log_stable",
+    "source_switch_resets_evidence_preserves_history",
+    "invalid_rule_disables_start",
+    "persistent_history_filter_and_transition_display"
+  ],
+  "device": "cuda:0",
+  "status": "passed"
+}

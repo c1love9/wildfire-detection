@@ -12,6 +12,9 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 
+from alarm import AlarmConfig
+from alarm_log import AlarmMonitor
+
 
 @dataclass(frozen=True)
 class VideoInfo:
@@ -65,7 +68,9 @@ class FireSmokeDetector:
 class VideoSession:
     """Read every frame in order; pause retains the next frame and media clock."""
 
-    def __init__(self, source: str | Path, detector: FireSmokeDetector, conf: float = 0.2, iou: float = 0.5):
+    def __init__(self, source: str | Path, detector: FireSmokeDetector, conf: float = 0.2, iou: float = 0.5,
+                 alarm_config: AlarmConfig | None = None, log_path: str | Path | None = None,
+                 source_name: str | None = None):
         if not 0 < conf <= 1 or not 0 < iou <= 1:
             raise ValueError('置信度和IoU阈值必须位于0到1之间。')
         self._lock = threading.RLock()
@@ -93,6 +98,10 @@ class VideoSession:
         self.smoke_frames = 0
         self._elapsed = 0.0
         self._started = time.perf_counter()
+        self.alarms = AlarmMonitor(alarm_config or AlarmConfig(), source_name or self.source.name, log_path,
+                                   metadata={'confidence': conf, 'nms_iou': iou,
+                                             'device': getattr(detector, 'device', 'unknown'),
+                                             'weights': str(getattr(detector.model, 'ckpt_path', 'unknown')) if hasattr(detector, 'model') else 'test detector'})
 
     @property
     def is_open(self) -> bool:
@@ -114,6 +123,7 @@ class VideoSession:
         self._end_interval()
         self.capture.release()
         self.status = status
+        self.alarms.finish(status)
 
     def pause(self):
         with self._lock:
@@ -163,6 +173,7 @@ class VideoSession:
                     rgb=rgb, detections=detections, counts=counts, inference_ms=inference_ms,
                     time_estimated=time_estimated,
                 )
+                self.alarms.update(self.processed_frames, media_seconds, detections)
                 return self.latest
             except Exception:
                 self.error = '读取或检测失败，请停止后尝试其他视频或切换计算设备。'

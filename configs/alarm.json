@@ -1,0 +1,11 @@
+{
+  "confirm_frames": 3,
+  "fire_confidence": 0.5,
+  "smoke_confidence": 0.5,
+  "attention_seconds": 0.5,
+  "warning_seconds": 2.0,
+  "alarm_seconds": 5.0,
+  "recovery_seconds": 2.0,
+  "match_iou": 0.1,
+  "max_frame_gap_seconds": 1.0
+}
