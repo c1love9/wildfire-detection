@@ -13,12 +13,14 @@ from video_detection import FireSmokeDetector, VideoSession
 from alarm import AlarmConfig, LEVEL_NAMES, CLASS_NAMES
 from alarm_log import alarm_log_path
 from recording import RecordingConfig
+from camera_source import CameraConfig
+from camera_session import CameraSession
 
 
 ROOT = Path(__file__).resolve().parents[1]
 LOG_PATH = alarm_log_path(ROOT)
 SESSION_KEY = 'video_detection_session'
-STATUS = {'running': '正在检测', 'paused': '已暂停', 'completed': '检测完成', 'stopped': '已停止', 'error': '检测失败'}
+STATUS = {'running': '正在检测', 'paused': '已暂停', 'completed': '检测完成', 'stopped': '已停止', 'error': '检测失败', 'disconnected': '摄像头观测中断'}
 
 
 @st.cache_resource
@@ -50,9 +52,10 @@ st.caption('使用YOLOv8逐帧检测，画面中的fire代表火焰、smoke代�
 
 session = st.session_state.get(SESSION_KEY)
 locked = session is not None and session.status in {'running', 'paused'}
-source_mode = st.radio('视频来源', ['内置样例', '上传视频'], horizontal=True, disabled=locked)
+source_mode = st.radio('视频来源', ['内置样例', '上传视频', '摄像头'], horizontal=True, disabled=locked)
 source_path = None
 source_name = None
+camera_config = None
 if source_mode == '内置样例':
     samples = sorted((ROOT / 'demo-videos').glob('*'))
     if samples:
@@ -62,11 +65,25 @@ if source_mode == '内置样例':
         st.caption('部分内置样例自带旧检测框，本次检测结果以当前帧数量和“当前帧检测明细”为准。')
     else:
         st.info('没有找到内置视频，可以切换到“上传视频”。')
-else:
+elif source_mode == '上传视频':
     upload = st.file_uploader('上传待检测视频', type=['mp4', 'mov', 'avi', 'mkv'], disabled=locked)
     if upload is not None:
         source_path = save_upload(upload)
         source_name = upload.name
+else:
+    try:
+        default_camera = CameraConfig.load(ROOT / 'configs' / 'camera.json')
+        camera_col, backend_col = st.columns(2)
+        camera_index = camera_col.number_input('摄像头编号', min_value=0, max_value=9, value=default_camera.index, step=1, disabled=locked)
+        backend_names = {'AUTO': '自动', 'DSHOW': 'DirectShow', 'MSMF': 'Media Foundation'}
+        backend = backend_col.selectbox('采集后端', list(backend_names), index=list(backend_names).index(default_camera.backend),
+                                       format_func=backend_names.get, disabled=locked)
+        camera_config = replace(default_camera, index=int(camera_index), backend=backend)
+        source_path, source_name = camera_index, f'摄像头 {camera_index}'
+        st.caption('使用运行本项目电脑连接的摄像头。默认编号0；点击开始后才打开设备。暂停时关闭设备，继续时创建新观测段并重新确认。')
+        st.caption('实时输入只检测最新采样画面，避免积压；离开页面且长时间不刷新时会自动关闭设备。')
+    except (OSError, ValueError, TypeError) as exc:
+        st.error(f'摄像头配置无效：{exc}')
 
 model_col, device_col, conf_col = st.columns(3)
 models = sorted((ROOT / 'fire-models').glob('*.pt'))
@@ -84,7 +101,7 @@ with conf_col:
     confidence = st.slider('置信度阈值', 0.05, 0.95, 0.20, 0.05, disabled=locked)
 with st.expander('检测设置'):
     iou = st.slider('重叠框抑制阈值（NMS IoU）', 0.1, 0.9, 0.5, 0.05, disabled=locked)
-    st.caption('每一帧都会参与检测。处理速度受设备与页面刷新影响，视频时间与原片保持对应。')
+    st.caption('视频文件逐帧检测，摄像头检测最新采样帧。持续时间使用素材时间或实时采集时间，不使用页面刷新次数。')
 
 try:
     default_alarm = AlarmConfig.load(ROOT / 'configs' / 'alarm.json')
@@ -107,7 +124,7 @@ with st.expander('报警规则'):
     warning_seconds = warning_col.number_input('预警持续时间（秒）', min_value=0.0, value=float(default_alarm.warning_seconds), step=0.5, disabled=locked)
     alarm_seconds = alarm_col.number_input('报警持续时间（秒）', min_value=0.0, value=float(default_alarm.alarm_seconds), step=0.5, disabled=locked)
     recovery_seconds = recovery_col.number_input('恢复等待（秒）', min_value=0.0, value=float(default_alarm.recovery_seconds), step=0.5, disabled=locked)
-    st.caption(f'区域匹配IoU ≥ {default_alarm.match_iou:g}，相邻帧时间间隔 ≤ {default_alarm.max_frame_gap_seconds:g} 秒。可在配置文件中调整；计时使用视频时间，暂停不计入持续时间。')
+    st.caption(f'区域匹配IoU ≥ {default_alarm.match_iou:g}，相邻检测帧时间间隔 ≤ {default_alarm.max_frame_gap_seconds:g} 秒。摄像头超过该间隔将结束观测，避免跨未观察区间确认或恢复。')
     st.caption('日志保存在本机，侧边栏“Alarm History”可查询和导出。')
 
 with st.expander('报警截图与片段'):
@@ -129,7 +146,7 @@ except ValueError as exc:
 if alarm_config is not None and confidence > min(alarm_config.fire_confidence, alarm_config.smoke_confidence):
     st.warning('检测置信度高于部分报警阈值，低于检测阈值的框不会进入报警判定。')
 
-signature = (str(source_path), selected_model, device, confidence, iou, alarm_config, recording_config)
+signature = (source_mode, str(source_path), selected_model, device, confidence, iou, alarm_config, recording_config, camera_config)
 if st.session_state.get('video_input_signature') != signature:
     st.session_state['video_input_signature'] = signature
     st.session_state.pop('video_detection_error', None)
@@ -145,11 +162,16 @@ with start_col:
         try:
             if session is not None:
                 session.stop()
-            with st.spinner('正在加载模型并打开视频…'):
+            with st.spinner('正在加载模型并打开输入…'):
                 detector = load_video_detector(str(ROOT / 'fire-models' / (selected_model + '.pt')), device)
-                st.session_state[SESSION_KEY] = VideoSession(source_path, detector, confidence, iou,
-                                                            alarm_config=alarm_config, log_path=LOG_PATH,
-                                                            source_name=source_name, recording_config=recording_config)
+                if source_mode == '摄像头':
+                    st.session_state[SESSION_KEY] = CameraSession(camera_config, detector, confidence, iou,
+                                                                  alarm_config=alarm_config, log_path=LOG_PATH,
+                                                                  source_name=source_name, recording_config=recording_config)
+                else:
+                    st.session_state[SESSION_KEY] = VideoSession(source_path, detector, confidence, iou,
+                                                                alarm_config=alarm_config, log_path=LOG_PATH,
+                                                                source_name=source_name, recording_config=recording_config)
             st.session_state['video_detection_signature'] = signature
             st.session_state['video_detection_name'] = source_name
             st.session_state.pop('video_detection_error', None)
@@ -159,11 +181,16 @@ with start_col:
 with pause_col:
     pause_label = '继续检测' if session is not None and session.status == 'paused' else '暂停检测'
     if st.button(pause_label, disabled=not locked, width='stretch'):
-        if session.status == 'paused':
-            session.resume()
-        else:
-            session.pause()
-        st.rerun()
+        try:
+            if session.status == 'paused':
+                session.resume()
+            else:
+                session.pause()
+            st.session_state.pop('video_detection_error', None)
+            st.rerun()
+        except (ValueError, OSError, RuntimeError) as exc:
+            st.session_state['video_detection_error'] = str(exc)
+            st.rerun()
 with stop_col:
     if st.button('停止检测', disabled=not locked, width='stretch'):
         session.stop()
@@ -177,15 +204,15 @@ if st.session_state.get('video_detection_error'):
 def show_detection():
     active_session = st.session_state.get(SESSION_KEY)
     if active_session is None:
-        st.info('选择视频后点击“开始检测”，这里会逐帧显示带框画面。')
+        st.info('选择视频或摄像头后点击“开始检测”，这里会显示带框检测画面。')
         return
     if active_session.status == 'running':
         try:
             active_session.step()
         except Exception:
             logging.getLogger(__name__).exception('Video inference failed')
-        if active_session.status in {'completed', 'error'}:
-            st.rerun()
+    if active_session.status in {'completed', 'error', 'disconnected'} and locked:
+        st.rerun()
     st.caption(f"{st.session_state['video_detection_name']} · {STATUS[active_session.status]}")
     alarms = active_session.alarms
     alarm_state = alarms.snapshot
@@ -194,7 +221,8 @@ def show_detection():
     if active_session.status != 'running':
         level_message += '（检测已暂停，保留最后判定）' if active_session.status == 'paused' else '（检测已结束，保留最后判定）'
     {0: st.success, 1: st.info, 2: st.warning, 3: st.error}[alarm_state.level](level_message)
-    st.caption(f'当前区域连续命中 {alarm_state.pending_frames} 帧 · 持续 {alarm_state.pending_seconds:.2f} 秒 · 本次确认事件 {alarms.event_count} 个')
+    is_camera = active_session.input_type == 'camera'
+    st.caption(f'当前区域连续命中 {alarm_state.pending_frames} 帧 · 持续 {alarm_state.pending_seconds:.2f} 秒 · 本段确认事件 {alarms.event_count} 个')
     if alarms.log_error:
         st.warning(alarms.log_error)
     if active_session.recorder and active_session.recorder.last_error:
@@ -202,8 +230,8 @@ def show_detection():
     latest = active_session.latest
     if latest is not None:
         frame_col, time_col, fire_col, smoke_col = st.columns(4)
-        frame_col.metric('当前帧', f'{latest.number} / {active_session.info.frame_count or "未知"}')
-        time_col.metric('视频时间（估计）' if latest.time_estimated else '视频时间', format_time(latest.media_seconds))
+        frame_col.metric('本段已检测帧' if is_camera else '当前帧', latest.number if is_camera else f'{latest.number} / {active_session.info.frame_count or "未知"}')
+        time_col.metric('本段观测时间' if is_camera else '视频时间（估计）' if latest.time_estimated else '视频时间', format_time(latest.media_seconds))
         fire_col.metric('火焰', latest.counts.get('fire', 0))
         smoke_col.metric('烟雾', latest.counts.get('smoke', 0))
         # Keep each image in the same update as its metrics. Separate media URLs
@@ -212,7 +240,10 @@ def show_detection():
         Image.fromarray(latest.rgb).save(encoded, format='JPEG', quality=85)
         image_url = 'data:image/jpeg;base64,' + base64.b64encode(encoded.getvalue()).decode('ascii')
         st.image(image_url, caption='逐帧检测结果', width='content')
-        st.caption(f'处理速度 {active_session.processing_fps:.1f} 帧/秒 · 本帧推理 {latest.inference_ms:.1f} ms · 源视频 {active_session.info.fps:.2f} 帧/秒')
+        st.caption(f'处理速度 {active_session.processing_fps:.1f} 帧/秒 · 本帧推理 {latest.inference_ms:.1f} ms · {"设备报告" if is_camera else "源视频"} {active_session.info.fps:.2f} 帧/秒')
+        if is_camera:
+            st.caption(f'观测段 {active_session.segment_number} · 跳过已过时采集帧 {active_session.dropped_frames} 帧' +
+                       (f' · 当前画面距采集 {active_session.frame_age_seconds:.2f} 秒' if active_session.status == 'running' else ' · 保留最后画面'))
         if active_session.info.frame_count:
             st.progress(min(1.0, latest.number / active_session.info.frame_count))
         with st.expander('当前帧检测明细'):
@@ -222,10 +253,10 @@ def show_detection():
             else:
                 st.write('当前帧未检出火焰或烟雾。')
     if active_session.info.fps_estimated:
-        st.info('未能读取源视频帧率，帧率显示值按30帧/秒估计。')
+        st.info('设备未报告有效帧率，显示值按请求帧率估计。' if is_camera else '未能读取源视频帧率，帧率显示值按30帧/秒估计。')
     if active_session.status == 'completed':
         st.success(f'检测完成：共处理{active_session.processed_frames}帧；含火焰{active_session.fire_frames}帧，含烟雾{active_session.smoke_frames}帧。')
-    elif active_session.status == 'error':
+    elif active_session.status in {'error', 'disconnected'}:
         st.error(active_session.error)
     with st.expander('本次报警变化（最近50条）'):
         changes = list(alarms.recent_transitions)
@@ -235,7 +266,8 @@ def show_detection():
                            '等级变化': f"{LEVEL_NAMES[item['from_level']]} → {LEVEL_NAMES[item['to_level']]}",
                            '原因': {'confirmed': '连续确认', 'escalated': '升级', 'downgraded': '降级',
                                     'recovered': '持续消失后恢复', 'completed': '视频结束，未判定恢复',
-                                    'stopped': '手动停止，未判定恢复', 'error': '检测异常，未判定恢复'}[item['kind']]}
+                                    'stopped': '手动停止，未判定恢复', 'error': '检测异常，未判定恢复',
+                                    'paused': '暂停观测，未判定恢复', 'disconnected': '摄像头观测中断，未判定恢复'}[item['kind']]}
                           for item in reversed(changes)], hide_index=True, width='stretch')
         else:
             st.write('尚未确认火烟事件；单帧检出不会直接生成报警日志。')

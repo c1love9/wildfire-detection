@@ -1,0 +1,10 @@
+{
+  "index": 0,
+  "backend": "AUTO",
+  "width": 640,
+  "height": 480,
+  "fps": 30,
+  "open_timeout_seconds": 8.0,
+  "read_timeout_seconds": 3.0,
+  "idle_timeout_seconds": 15.0
+}

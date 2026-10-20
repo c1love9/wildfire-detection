@@ -82,8 +82,9 @@ class _Clip:
 
 
 class EventRecorder:
-    def __init__(self, config: RecordingConfig, root, store, source_fps=30.0):
+    def __init__(self, config: RecordingConfig, root, store, source_fps=30.0, input_type='video'):
         self.config, self.store = config, store
+        self.input_type = input_type
         self.root = Path(root).resolve()
         self.source_fps = source_fps
         self.buffer = deque()
@@ -142,7 +143,7 @@ class EventRecorder:
         details = dict(trigger_frame=frame.number, trigger_seconds=frame.seconds,
                        target_start_seconds=frame.seconds - self.config.pre_seconds,
                        target_end_seconds=frame.seconds + self.config.post_seconds,
-                       time_estimated=frame.estimated, config=asdict(self.config))
+                       time_estimated=frame.estimated, input_type=self.input_type, config=asdict(self.config))
         clip = _Clip(event_id, directory, None, details)
         try:
             self._space()
@@ -284,6 +285,10 @@ class EventRecorder:
         self.buffer.clear()
         self.buffer_bytes = 0
         self._executor.shutdown(wait=False)
+
+    @property
+    def pending_jobs(self):
+        return len(self._active) + sum(not future.done() for future in self._futures)
 
     def wait(self, timeout=90):
         _, pending = wait(self._futures, timeout=timeout)

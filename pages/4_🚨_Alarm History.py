@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import sqlite3
 
 import streamlit as st
@@ -22,7 +23,7 @@ if not LOG_PATH.exists():
 try:
     store = AlarmLog(LOG_PATH)
     source_col, level_col = st.columns(2)
-    source = source_col.selectbox('视频来源筛选', ['全部', *store.sources()])
+    source = source_col.selectbox('输入来源筛选', ['全部', *store.sources()])
     level_name = level_col.selectbox('最高等级筛选', ['全部', '关注', '预警', '报警'])
     peak_level = None if level_name == '全部' else next(level for level, name in LEVEL_NAMES.items() if name == level_name)
     events = store.events(source=None if source == '全部' else source, peak_level=peak_level)
@@ -33,6 +34,10 @@ try:
     st.dataframe(event_rows(events), hide_index=True, width='stretch')
     st.download_button('导出当前筛选 CSV', data=events_csv(events), file_name='alarm_events.csv', mime='text/csv')
     selected = st.selectbox('查看事件变化', events, format_func=lambda event: f"{event['source']} · {event['started_at']} · {event['id'][:12]}")
+    is_camera = json.loads(selected.get('metadata_json', '{}')).get('input_type') == 'camera'
+    time_label = '本段观测时间' if is_camera else '视频时间'
+    if is_camera:
+        st.caption('摄像头时间从本段开始观测起计时；暂停后继续将重新计时与确认。实际日期见记录时间，观测中断不表示火情恢复。')
     initial_media = store.media(selected['id'])
 
     @st.fragment(run_every=1.0 if initial_media and initial_media['status'] in {'recording', 'encoding'} else None)
@@ -46,7 +51,7 @@ try:
         root = alarm_media_root(LOG_PATH)
         details = media['details']
         st.subheader('报警截图与片段')
-        st.caption(f"首次确认：第{details['trigger_frame']}帧 · 视频时间 {details['trigger_seconds']:.3f} 秒")
+        st.caption(f"首次确认：第{details['trigger_frame']}帧 · {time_label} {details['trigger_seconds']:.3f} 秒")
         snapshot_col, video_col = st.columns(2)
         snapshot = resolve_media_asset(root, media['snapshot_path'], '.jpg')
         with snapshot_col:
@@ -69,7 +74,7 @@ try:
                         if details['pre_truncated']:
                             reasons.append('确认前画面不足（视频开头或缓存限制）')
                         if details['post_truncated']:
-                            reasons.append('确认后画面不足（视频结束、停止或异常）')
+                            reasons.append('确认后画面不足（输入结束、暂停、停止或异常）')
                         st.info('；'.join(reasons) + '，已保存实际可用范围。')
                 else:
                     st.warning('片段文件已不在媒体目录中，请检查媒体文件是否随数据库一起保留。')
@@ -80,7 +85,7 @@ try:
     transitions = store.transitions(selected['id'])
     if transitions:
         reasons = {'confirmed': '连续确认', 'escalated': '升级', 'downgraded': '降级', 'recovered': '恢复', **END_NAMES}
-        st.dataframe([{'帧号': row['frame'], '视频时间（秒）': round(row['media_seconds'], 3),
+        st.dataframe([{'帧号': row['frame'], f'{time_label}（秒）': round(row['media_seconds'], 3),
                        '原等级': LEVEL_NAMES[row['from_level']], '新等级': LEVEL_NAMES[row['to_level']],
                        '原因': reasons[row['kind']], '记录时间（UTC）': row['recorded_at']}
                       for row in transitions], hide_index=True, width='stretch')

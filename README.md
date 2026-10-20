@@ -2,7 +2,7 @@
 
 > **实习项目 Fork：智能火灾报警系统**
 >
-> 本仓库在保留上游来源和许可证的基础上逐步改进。当前已完成环境配置、图片检测复现、逐帧视频火烟检测、连续确认、分级报警、持久化日志和报警截图／片段回放。
+> 本仓库在保留上游来源和许可证的基础上逐步改进。当前支持图片检测、逐帧视频与摄像头实时检测、连续确认、分级报警、持久化日志和报警截图／片段回放。
 >
 > - [本地启动与重新安装](docs/quick_start.md)
 > - [上游来源与本阶段范围](docs/upstream.md)
@@ -10,8 +10,9 @@
 > - [视频检测使用与验证记录](docs/video_detection.md)
 > - [连续确认、分级报警与日志](docs/alarm.md)
 > - [报警截图、前后片段与回放](docs/recording.md)
+> - [摄像头实时检测与验证](docs/camera.md)
 >
-> Windows 本机双击 `启动项目.cmd`，然后打开 http://127.0.0.1:8501 。在侧边栏进入 `Demo Videos`，选择视频并点击“开始检测”；`Alarm History`可查询日志、查看截图、回放片段和导出CSV。自己的模型训练、摄像头与模拟位置接入将在后续阶段实现。
+> Windows 本机双击 `启动项目.cmd`，然后打开 http://127.0.0.1:8501 。在侧边栏进入 `Demo Videos`，选择视频或摄像头并点击“开始检测”；`Alarm History`可查询日志、查看截图、回放片段和导出CSV。自己的模型训练、像素掩码与模拟位置展示按后续计划推进。
 
 Welcome to the Wildfire Detection Research repository! This repository hosts the code and resources related to our research on leveraging computer vision for fire detection. Our aim is to contribute to wildfire prevention efforts by developing and training an object detection model to accurately identify instances of fire and smoke in images.
 

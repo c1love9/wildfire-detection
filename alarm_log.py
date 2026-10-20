@@ -17,7 +17,8 @@ from pathlib import Path
 from alarm import AlarmConfig, AlarmEngine, CLASS_NAMES, LEVEL_NAMES
 
 
-END_NAMES = {'recovered': '已恢复', 'stopped': '手动停止', 'completed': '视频结束', 'error': '检测异常'}
+END_NAMES = {'recovered': '已恢复', 'stopped': '手动停止', 'completed': '视频结束', 'error': '检测异常',
+             'paused': '暂停观测', 'disconnected': '摄像头观测中断'}
 
 
 def alarm_log_path(root):
@@ -111,7 +112,7 @@ class AlarmLog:
         where = ' WHERE ' + ' AND '.join(clauses) if clauses else ''
         with self._connection() as connection:
             return [dict(row) for row in connection.execute(
-                'SELECT e.*, r.source FROM events e JOIN runs r ON e.run_id=r.id' + where +
+                'SELECT e.*, r.source, r.metadata_json FROM events e JOIN runs r ON e.run_id=r.id' + where +
                 ' ORDER BY e.started_at DESC, e.id DESC LIMIT ?', [*parameters, limit])]
 
     def transitions(self, event_id):
@@ -138,6 +139,7 @@ class AlarmLog:
 def event_rows(events):
     return [{
         '事件编号': event['id'], '视频': event['source'], '记录时间（UTC）': event['started_at'],
+        '输入类型': '摄像头' if json.loads(event.get('metadata_json', '{}')).get('input_type') == 'camera' else '视频',
         '起始帧': event['start_frame'], '开始视频时间（秒）': round(event['start_seconds'], 3),
         '结束视频时间（秒）': round(event['end_seconds'], 3) if event['end_seconds'] is not None else None,
         '类别': '、'.join(CLASS_NAMES[label] for label in json.loads(event['classes_json'])),

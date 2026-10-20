@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-10-20T13:27:12+08:00",
+  "scope": "Functional camera verification; simulated scene timing is not physical fire testing or accuracy data.",
+  "unit_tests_passed": 52,
+  "device": "cuda:0",
+  "file_regression": [
+    {
+      "source": "fire1.mov",
+      "frames": 294,
+      "events": 1,
+      "media": 1
+    },
+    {
+      "source": "fire2.mov",
+      "frames": 945,
+      "events": 1,
+      "media": 1
+    },
+    {
+      "source": "fire3.mp4",
+      "frames": 64,
+      "events": 0,
+      "media": 0
+    },
+    {
+      "source": "fire4.mp4",
+      "frames": 873,
+      "events": 1,
+      "media": 1
+    }
+  ],
+  "ui_checks": [
+    "camera_alarm_pause_release_resume_new_segment_and_stop",
+    "camera_history_snapshot_video_and_observation_time_label",
+    "switch_back_to_file_preserves_original_timestamp_semantics"
+  ],
+  "physical_camera": {
+    "status": "passed",
+    "frames": 25,
+    "observed_seconds": 2.936999999999898,
+    "delivered_width": 640,
+    "delivered_height": 480,
+    "reported_fps": 30.00003000003,
+    "backend": "DSHOW",
+    "skipped_capture_frames": 22,
+    "personal_images_saved": false,
+    "released_on_pause": true,
+    "resumed_frames": 8,
+    "resumed_in_new_observation": true,
+    "capture_process_loss_detected_without_ui_poll": true,
+    "reopened_after_process_loss": true,
+    "released_at_end": true
+  },
+  "controlled_camera": {
+    "source_material": "Black frames then a repeated public frame from demo-videos/fire1.mov",
+    "timestamps": "controlled monotonic at 10 Hz",
+    "frames": 190,
+    "real_model": true,
+    "highest_level": 3,
+    "event_count": 1,
+    "media": {
+      "status": "ready",
+      "trigger_seconds": 7.499999999999574,
+      "start_seconds": 2.499999999999858,
+      "end_seconds": 17.499999999999574,
+      "encoded_duration": 15.0,
+      "encoded_frames": 450,
+      "pre_truncated": false,
+      "post_truncated": false,
+      "completion_reason": "window_complete",
+      "codec": "h264",
+      "snapshot_sha256": "31fe84860b547f90d67c4af85fc736261afd297eb8d0f8df9b5729f210122832",
+      "clip_sha256": "00982ff5460b90f08e63a9e92e02aaed941a613b707132b243601bbb88c337dd"
+    },
+    "camera_session_pipeline": true
+  },
+  "status": "passed"
+}

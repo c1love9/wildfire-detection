@@ -92,6 +92,20 @@ class VideoSession:
             width=int(self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)),
             height=int(self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)),
         )
+        self.input_type = 'video'
+        self._initialize_pipeline(source_name or self.source.name, alarm_config, log_path, recording_config, media_root,
+                                  {'input_type': 'video', 'clock': 'source_pts'})
+
+    def _initialize_pipeline(self, source_name, alarm_config, log_path, recording_config, media_root, metadata):
+        alarms = AlarmMonitor(alarm_config or AlarmConfig(), source_name, log_path,
+                              metadata={'confidence': self.conf, 'nms_iou': self.iou,
+                                        'device': getattr(self.detector, 'device', 'unknown'),
+                                        'weights': str(getattr(self.detector.model, 'ckpt_path', 'unknown')) if hasattr(self.detector, 'model') else 'test detector',
+                                        **metadata})
+        recorder = EventRecorder(recording_config, media_root or alarm_media_root(log_path), alarms.store, self.info.fps,
+                                 input_type=self.input_type) if (
+            recording_config is not None and recording_config.enabled and alarms.store is not None) else None
+        self.alarms, self.recorder = alarms, recorder
         self.status = 'running'
         self.error = None
         self.latest: DetectedFrame | None = None
@@ -100,12 +114,20 @@ class VideoSession:
         self.smoke_frames = 0
         self._elapsed = 0.0
         self._started = time.perf_counter()
-        self.alarms = AlarmMonitor(alarm_config or AlarmConfig(), source_name or self.source.name, log_path,
-                                   metadata={'confidence': conf, 'nms_iou': iou,
-                                             'device': getattr(detector, 'device', 'unknown'),
-                                             'weights': str(getattr(detector.model, 'ckpt_path', 'unknown')) if hasattr(detector, 'model') else 'test detector'})
-        self.recorder = EventRecorder(recording_config, media_root or alarm_media_root(log_path), self.alarms.store, self.info.fps) if (
-            recording_config is not None and recording_config.enabled and self.alarms.store is not None) else None
+
+    def _detect_frame(self, bgr, media_seconds, time_estimated=False):
+        rgb, detections, counts, inference_ms = self.detector.predict(bgr, self.conf, self.iou)
+        self.processed_frames += 1
+        self.fire_frames += int(counts.get('fire', 0) > 0)
+        self.smoke_frames += int(counts.get('smoke', 0) > 0)
+        self.latest = DetectedFrame(number=self.processed_frames, media_seconds=media_seconds,
+                                    rgb=rgb, detections=detections, counts=counts, inference_ms=inference_ms,
+                                    time_estimated=time_estimated)
+        self.alarms.update(self.processed_frames, media_seconds, detections)
+        if self.recorder:
+            event = self.alarms.current_event
+            self.recorder.add_frame(self.latest, event['id'] if event else None)
+        return self.latest
 
     @property
     def is_open(self) -> bool:
@@ -126,10 +148,10 @@ class VideoSession:
     def _finish(self, status: str):
         self._end_interval()
         self.capture.release()
-        self.status = status
         self.alarms.finish(status)
         if self.recorder:
             self.recorder.finish(status)
+        self.status = status
 
     def wait_for_media(self, timeout=90):
         if self.recorder:
@@ -174,20 +196,7 @@ class VideoSession:
                     media_seconds = self.processed_frames / self.info.fps
                     if self.latest is not None:
                         media_seconds = max(media_seconds, self.latest.media_seconds + 1 / self.info.fps)
-                rgb, detections, counts, inference_ms = self.detector.predict(bgr, self.conf, self.iou)
-                self.processed_frames += 1
-                self.fire_frames += int(counts.get('fire', 0) > 0)
-                self.smoke_frames += int(counts.get('smoke', 0) > 0)
-                self.latest = DetectedFrame(
-                    number=self.processed_frames, media_seconds=media_seconds,
-                    rgb=rgb, detections=detections, counts=counts, inference_ms=inference_ms,
-                    time_estimated=time_estimated,
-                )
-                self.alarms.update(self.processed_frames, media_seconds, detections)
-                if self.recorder:
-                    event = self.alarms.current_event
-                    self.recorder.add_frame(self.latest, event['id'] if event else None)
-                return self.latest
+                return self._detect_frame(bgr, media_seconds, time_estimated)
             except Exception:
                 self.error = '读取或检测失败，请停止后尝试其他视频或切换计算设备。'
                 self._finish('error')

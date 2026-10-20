@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-10-20T05:33:42.927Z",
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "physical_camera_frames_before_pause": 12,
+  "physical_camera_pause_resume_stop": true,
+  "physical_camera_images_saved": false,
+  "controlled_public_fixture_history": true,
+  "camera_observation_time_label": true,
+  "controlled_clip_duration": 15,
+  "screenshot_decoded": true,
+  "playback_advances": true,
+  "seeking_works": true,
+  "page_errors": [],
+  "media_errors": [],
+  "camera_history_and_media_survive_restart": true,
+  "restart_verified_at": "2026-10-20T05:37:52.910Z"
+}

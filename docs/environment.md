@@ -35,4 +35,6 @@
 
 2026-10-20报警媒体阶段另验证本机FFmpeg 8.0.1，含libx264编码器和ffprobe。它作为外部程序生成H.264／yuv420p的MP4，不属于pip依赖，未加入Python锁定文件；新电脑需另行配置。实际视频播放与编码检查见 [recording.md](recording.md)。
 
+同日摄像头阶段验证HP True Vision FHD Camera、DirectShow、640×480交付画面及设备报告约30帧／秒。摄像头处理复用现有依赖，没有新增pip包；实拍启停与受控报警验证分别记录在 [camera.md](camera.md)。
+
 版本组合依据：[PyTorch官方安装说明](https://pytorch.org/get-started/previous-versions/)、[Ultralytics安装说明](https://docs.ultralytics.com/quickstart/)。锁定文件针对本次 Windows x64 / Python 3.11 环境生成。
