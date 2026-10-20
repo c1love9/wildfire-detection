@@ -24,6 +24,10 @@ def alarm_log_path(root):
     return Path(os.environ.get('FIRE_ALARM_LOG_PATH', Path(root) / 'artifacts' / 'alarms' / 'alarms.sqlite3'))
 
 
+def alarm_media_root(log_path):
+    return Path(os.environ.get('FIRE_ALARM_MEDIA_ROOT', Path(log_path).parent / 'media')).resolve()
+
+
 def _now():
     return datetime.now(timezone.utc).isoformat(timespec='milliseconds')
 
@@ -54,6 +58,10 @@ class AlarmLog:
                 );
                 CREATE INDEX IF NOT EXISTS events_started ON events(started_at DESC);
                 CREATE INDEX IF NOT EXISTS transitions_event ON transitions(event_id, id);
+                CREATE TABLE IF NOT EXISTS event_media (
+                    event_id TEXT PRIMARY KEY REFERENCES events(id), snapshot_path TEXT, clip_path TEXT,
+                    status TEXT NOT NULL, details_json TEXT NOT NULL, error TEXT, updated_at TEXT NOT NULL
+                );
             ''')
 
     @contextmanager
@@ -109,6 +117,22 @@ class AlarmLog:
     def transitions(self, event_id):
         with self._connection() as connection:
             return [dict(row) for row in connection.execute('SELECT * FROM transitions WHERE event_id=? ORDER BY id', (event_id,))]
+
+    def save_media(self, event_id, snapshot_path, clip_path, status, details, error=None):
+        with self._connection() as connection:
+            connection.execute('''INSERT INTO event_media VALUES(?,?,?,?,?,?,?)
+                ON CONFLICT(event_id) DO UPDATE SET snapshot_path=excluded.snapshot_path, clip_path=excluded.clip_path,
+                    status=excluded.status, details_json=excluded.details_json, error=excluded.error, updated_at=excluded.updated_at''',
+                               (event_id, snapshot_path, clip_path, status, json.dumps(details), error, _now()))
+
+    def media(self, event_id):
+        with self._connection() as connection:
+            row = connection.execute('SELECT * FROM event_media WHERE event_id=?', (event_id,)).fetchone()
+        if row is None:
+            return None
+        result = dict(row)
+        result['details'] = json.loads(result.pop('details_json'))
+        return result
 
 
 def event_rows(events):

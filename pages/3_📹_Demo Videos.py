@@ -12,6 +12,7 @@ import torch
 from video_detection import FireSmokeDetector, VideoSession
 from alarm import AlarmConfig, LEVEL_NAMES, CLASS_NAMES
 from alarm_log import alarm_log_path
+from recording import RecordingConfig
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -90,6 +91,11 @@ try:
 except (OSError, ValueError, TypeError) as exc:
     st.error(f'无法读取报警配置：{exc}')
     st.stop()
+try:
+    default_recording = RecordingConfig.load(ROOT / 'configs' / 'recording.json')
+except (OSError, ValueError, TypeError) as exc:
+    st.error(f'无法读取录制配置：{exc}')
+    st.stop()
 with st.expander('报警规则'):
     st.caption('同一类别、同一区域同时满足连续帧数和持续时间才确认；烟雾可独立触发。以下为课程原型调试参数。')
     frames_col, fire_threshold_col, smoke_threshold_col = st.columns(3)
@@ -104,17 +110,26 @@ with st.expander('报警规则'):
     st.caption(f'区域匹配IoU ≥ {default_alarm.match_iou:g}，相邻帧时间间隔 ≤ {default_alarm.max_frame_gap_seconds:g} 秒。可在配置文件中调整；计时使用视频时间，暂停不计入持续时间。')
     st.caption('日志保存在本机，侧边栏“Alarm History”可查询和导出。')
 
+with st.expander('报警截图与片段'):
+    recording_enabled = st.checkbox('保存报警截图和片段', value=default_recording.enabled, disabled=locked)
+    pre_col, post_col = st.columns(2)
+    pre_seconds = pre_col.number_input('确认前保存（秒）', min_value=0.0, max_value=30.0, value=float(default_recording.pre_seconds), step=1.0, disabled=locked)
+    post_seconds = post_col.number_input('确认后保存（秒）', min_value=0.0, max_value=60.0, value=float(default_recording.post_seconds), step=1.0, disabled=locked)
+    st.caption('首次连续确认（关注级）时保存截图，每个事件生成一段带检测框的静音视频。开始或结束处时间不足、提前停止时会标明实际范围。')
+
 alarm_config = None
+recording_config = None
 try:
     alarm_config = replace(default_alarm, confirm_frames=int(confirm_frames), fire_confidence=fire_threshold,
                            smoke_confidence=smoke_threshold, attention_seconds=attention_seconds,
                            warning_seconds=warning_seconds, alarm_seconds=alarm_seconds, recovery_seconds=recovery_seconds)
+    recording_config = replace(default_recording, enabled=recording_enabled, pre_seconds=pre_seconds, post_seconds=post_seconds)
 except ValueError as exc:
     st.warning(str(exc))
 if alarm_config is not None and confidence > min(alarm_config.fire_confidence, alarm_config.smoke_confidence):
     st.warning('检测置信度高于部分报警阈值，低于检测阈值的框不会进入报警判定。')
 
-signature = (str(source_path), selected_model, device, confidence, iou, alarm_config)
+signature = (str(source_path), selected_model, device, confidence, iou, alarm_config, recording_config)
 if st.session_state.get('video_input_signature') != signature:
     st.session_state['video_input_signature'] = signature
     st.session_state.pop('video_detection_error', None)
@@ -126,7 +141,7 @@ if session is not None and st.session_state.get('video_detection_signature') != 
 
 start_col, pause_col, stop_col = st.columns(3)
 with start_col:
-    if st.button('开始检测', type='primary', disabled=locked or source_path is None or alarm_config is None, width='stretch'):
+    if st.button('开始检测', type='primary', disabled=locked or source_path is None or alarm_config is None or recording_config is None, width='stretch'):
         try:
             if session is not None:
                 session.stop()
@@ -134,7 +149,7 @@ with start_col:
                 detector = load_video_detector(str(ROOT / 'fire-models' / (selected_model + '.pt')), device)
                 st.session_state[SESSION_KEY] = VideoSession(source_path, detector, confidence, iou,
                                                             alarm_config=alarm_config, log_path=LOG_PATH,
-                                                            source_name=source_name)
+                                                            source_name=source_name, recording_config=recording_config)
             st.session_state['video_detection_signature'] = signature
             st.session_state['video_detection_name'] = source_name
             st.session_state.pop('video_detection_error', None)
@@ -182,6 +197,8 @@ def show_detection():
     st.caption(f'当前区域连续命中 {alarm_state.pending_frames} 帧 · 持续 {alarm_state.pending_seconds:.2f} 秒 · 本次确认事件 {alarms.event_count} 个')
     if alarms.log_error:
         st.warning(alarms.log_error)
+    if active_session.recorder and active_session.recorder.last_error:
+        st.warning(active_session.recorder.last_error)
     latest = active_session.latest
     if latest is not None:
         frame_col, time_col, fire_col, smoke_col = st.columns(4)

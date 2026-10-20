@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-10-20T05:01:47.463Z",
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "real_model_video_detected_frames": 294,
+  "pause_resume_preserves_frame": true,
+  "screenshot_decoded": true,
+  "video_loaded": true,
+  "video_duration": 9.8,
+  "video_playback_advances": true,
+  "seeking_works": true,
+  "truncated_window_explained": true,
+  "page_errors": [],
+  "media_errors": [],
+  "screenshot_and_playback_survive_restart": true,
+  "restart_verified_at": "2026-10-20T05:04:51.327Z"
+}

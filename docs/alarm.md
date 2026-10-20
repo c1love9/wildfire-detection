@@ -2,6 +2,8 @@
 
 视频页在每帧检测后增加时序判定。短暂的单帧检出不直接创建报警事件；同一类别、同一区域连续出现后才确认，再依据源视频中的持续时间升级。烟雾可以独立触发各级提示。
 
+现已加入报警截图、确认前后片段保存和日志页回放，详情见 [recording.md](recording.md)。
+
 ## 使用方法
 
 1. 启动项目，打开 [视频检测页](http://127.0.0.1:8501/Demo_Videos)。先使用 `fire1.mov`、`fire_n` 和默认参数。
@@ -92,4 +94,4 @@
 
 [verify_alarm_browser.mjs](../scripts/verify_alarm_browser.mjs) 是可选的真实浏览器检查，需要已安装Playwright及Edge；不属于应用运行依赖。可通过 `PLAYWRIGHT_MODULE` 指定已有Playwright模块地址，`BROWSER_EXECUTABLE` 指定浏览器。检查时先让页面服务使用一份新的独立日志库，再运行该脚本，避免已有事件影响“一条事件”的断言。服务重启后可使用 `--history-only` 再查同一数据库。
 
-主要实现：[alarm.py](../alarm.py) 负责纯时序判定，[alarm_log.py](../alarm_log.py) 负责事件与SQLite，[video_detection.py](../video_detection.py) 负责与视频生命周期连接。当前没有新增运行依赖，也没有训练新权重。摄像头、像素掩码、报警片段回放与模拟位置仍按后续计划推进。
+主要实现：[alarm.py](../alarm.py) 负责纯时序判定，[alarm_log.py](../alarm_log.py) 负责事件与SQLite，[video_detection.py](../video_detection.py) 负责与视频生命周期连接。原报警规则没有新增Python依赖；后续媒体阶段调用本机FFmpeg。当前没有训练新权重，摄像头、像素掩码与模拟位置仍按后续计划推进。

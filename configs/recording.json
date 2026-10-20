@@ -1,0 +1,12 @@
+{
+  "enabled": true,
+  "pre_seconds": 5.0,
+  "post_seconds": 10.0,
+  "output_fps": 30,
+  "jpeg_quality": 85,
+  "max_buffer_mb": 32.0,
+  "max_buffer_frames": 300,
+  "max_pending_clips": 4,
+  "min_free_mb": 256.0,
+  "ffmpeg_binary": ""
+}

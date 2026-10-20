@@ -33,4 +33,6 @@
 
 本环境独立于系统 Python。系统原有 Python 中的 CPU 版 PyTorch 不用于启动本项目。安装与启动方法见 [quick_start.md](quick_start.md)。
 
+2026-10-20报警媒体阶段另验证本机FFmpeg 8.0.1，含libx264编码器和ffprobe。它作为外部程序生成H.264／yuv420p的MP4，不属于pip依赖，未加入Python锁定文件；新电脑需另行配置。实际视频播放与编码检查见 [recording.md](recording.md)。
+
 版本组合依据：[PyTorch官方安装说明](https://pytorch.org/get-started/previous-versions/)、[Ultralytics安装说明](https://docs.ultralytics.com/quickstart/)。锁定文件针对本次 Windows x64 / Python 3.11 环境生成。

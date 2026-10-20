@@ -1,0 +1,178 @@
+{
+  "generated_at": "2026-10-20T12:58:59+08:00",
+  "scope": "Functional recording verification; controlled outputs are not real-world accuracy data.",
+  "unit_tests_passed": 36,
+  "recording_config": {
+    "enabled": true,
+    "pre_seconds": 5.0,
+    "post_seconds": 10.0,
+    "output_fps": 30,
+    "jpeg_quality": 85,
+    "max_buffer_mb": 32.0,
+    "max_buffer_frames": 300,
+    "max_pending_clips": 4,
+    "min_free_mb": 256.0,
+    "ffmpeg_binary": ""
+  },
+  "real_videos": [
+    {
+      "source": "fire1.mov",
+      "frames": 294,
+      "events": 1,
+      "media": [
+        {
+          "status": "partial",
+          "trigger_seconds": 0.5,
+          "start_seconds": 0.0,
+          "end_seconds": 9.8,
+          "encoded_duration": 9.8,
+          "encoded_frames": 294,
+          "pre_truncated": true,
+          "post_truncated": true,
+          "completion_reason": "completed",
+          "codec": "h264",
+          "snapshot_sha256": "b5dfb08e45f25ed9df231660cf6ba75d8d95cd6dd5e01daf71ec060bfc5187e2",
+          "clip_sha256": "79c05290e1dd7a5170ba1603415108e2ef6f5ba0be9310c21909a5f92c03ef1c"
+        }
+      ],
+      "peak_buffer_bytes": 6568553,
+      "peak_buffer_frames": 151
+    },
+    {
+      "source": "fire2.mov",
+      "frames": 945,
+      "events": 1,
+      "media": [
+        {
+          "status": "partial",
+          "trigger_seconds": 0.5,
+          "start_seconds": 0.0,
+          "end_seconds": 10.5,
+          "encoded_duration": 10.5,
+          "encoded_frames": 315,
+          "pre_truncated": true,
+          "post_truncated": false,
+          "completion_reason": "window_complete",
+          "codec": "h264",
+          "snapshot_sha256": "4ab6add09bfece6e48898e7261b06bd65028f528143fb5cfb456d7fd9b2cdc8d",
+          "clip_sha256": "42b2d6bd705c84e47fa6fef1fcd9c866fe0e34311da1722eb15a6eaeca63eca7"
+        }
+      ],
+      "peak_buffer_bytes": 10230742,
+      "peak_buffer_frames": 151
+    },
+    {
+      "source": "fire3.mp4",
+      "frames": 64,
+      "events": 0,
+      "media": [],
+      "peak_buffer_bytes": 1954301,
+      "peak_buffer_frames": 21
+    },
+    {
+      "source": "fire4.mp4",
+      "frames": 873,
+      "events": 1,
+      "media": [
+        {
+          "status": "partial",
+          "trigger_seconds": 0.5172413793103449,
+          "start_seconds": 0.0,
+          "end_seconds": 10.517241379310345,
+          "encoded_duration": 10.533333,
+          "encoded_frames": 316,
+          "pre_truncated": true,
+          "post_truncated": false,
+          "completion_reason": "window_complete",
+          "codec": "h264",
+          "snapshot_sha256": "4bd5c4c9da4b28f53fcb29c06f4c5f8d3141aa9c1ede97514327bad104ec889d",
+          "clip_sha256": "b509bd8ed8fa3b39f481435b9888a4bc3ad9bfe4e3a87cf1b78b1a37da1a926e"
+        }
+      ],
+      "peak_buffer_bytes": 14232916,
+      "peak_buffer_frames": 146
+    }
+  ],
+  "controlled_cases": [
+    {
+      "name": "full_5_plus_10",
+      "observation_end": "completed",
+      "media": {
+        "status": "ready",
+        "trigger_seconds": 7.500000000000001,
+        "start_seconds": 2.5,
+        "end_seconds": 17.5,
+        "encoded_duration": 15.0,
+        "encoded_frames": 450,
+        "pre_truncated": false,
+        "post_truncated": false,
+        "completion_reason": "window_complete",
+        "codec": "h264",
+        "snapshot_sha256": "51d6470b7bf3e2d1b63523e95dc66de4668bd654e4d9a5bcf97b87a2b7ecf04d",
+        "clip_sha256": "35058b35ded381433540888409576dfce79970dbb5cd8f3098b1adcee8e899ae"
+      }
+    },
+    {
+      "name": "near_eof",
+      "observation_end": "completed",
+      "media": {
+        "status": "partial",
+        "trigger_seconds": 31.3,
+        "start_seconds": 26.3,
+        "end_seconds": 31.500000000000004,
+        "encoded_duration": 5.2,
+        "encoded_frames": 156,
+        "pre_truncated": false,
+        "post_truncated": true,
+        "completion_reason": "completed",
+        "codec": "h264",
+        "snapshot_sha256": "85f78ec28d72f439d85edf4021dad410139b9c7b87a56cb6be33273a9dd49d93",
+        "clip_sha256": "bd0be638cf6227e9f329e5a2434be44c6b11d4f04aaff67abe04fda2e18919f7"
+      }
+    },
+    {
+      "name": "manual_stop",
+      "observation_end": "stopped",
+      "media": {
+        "status": "partial",
+        "trigger_seconds": 0.5,
+        "start_seconds": 0.0,
+        "end_seconds": 1.3333333333333335,
+        "encoded_duration": 1.333333,
+        "encoded_frames": 40,
+        "pre_truncated": true,
+        "post_truncated": true,
+        "completion_reason": "stopped",
+        "codec": "h264",
+        "snapshot_sha256": "a6ce0190d553f56f65c98bc8bd5776fe8043bfb005ad4e6b6ad4075a39b808b8",
+        "clip_sha256": "6ad722b3b1eb9aa9b0a6aa3aca29095cbce19e2cbe19e74d6e122dca73878286"
+      }
+    },
+    {
+      "name": "detector_error",
+      "observation_end": "error",
+      "media": {
+        "status": "partial",
+        "trigger_seconds": 0.5,
+        "start_seconds": 0.0,
+        "end_seconds": 1.3333333333333335,
+        "encoded_duration": 1.333333,
+        "encoded_frames": 40,
+        "pre_truncated": true,
+        "post_truncated": true,
+        "completion_reason": "error",
+        "codec": "h264",
+        "snapshot_sha256": "a6ce0190d553f56f65c98bc8bd5776fe8043bfb005ad4e6b6ad4075a39b808b8",
+        "clip_sha256": "6ad722b3b1eb9aa9b0a6aa3aca29095cbce19e2cbe19e74d6e122dca73878286"
+      }
+    }
+  ],
+  "ui_checks": [
+    "video_controls_create_media_for_confirmed_event",
+    "history_renders_snapshot_and_video",
+    "missing_clip_shows_message_without_exception"
+  ],
+  "device": "cuda:0",
+  "ffmpeg": "ffmpeg version 8.0.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers",
+  "status": "passed"
+}

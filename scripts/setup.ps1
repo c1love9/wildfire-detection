@@ -15,6 +15,9 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Installing project dependencies failed.' }
     & $projectPython -m pip check
     if ($LASTEXITCODE -ne 0) { throw 'Installed dependencies have conflicts.' }
+    if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue) -and -not $env:FIRE_ALARM_FFMPEG) {
+        Write-Warning 'Alarm video clips also require FFmpeg with libx264 on PATH. See docs\recording.md. Detection and snapshots can run without it.'
+    }
     Write-Host 'Environment ready. Run scripts\start.ps1 to open the original demo.'
 }
 finally {

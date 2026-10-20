@@ -13,7 +13,8 @@ import numpy as np
 from ultralytics import YOLO
 
 from alarm import AlarmConfig
-from alarm_log import AlarmMonitor
+from alarm_log import AlarmMonitor, alarm_media_root
+from recording import EventRecorder, RecordingConfig
 
 
 @dataclass(frozen=True)
@@ -70,7 +71,8 @@ class VideoSession:
 
     def __init__(self, source: str | Path, detector: FireSmokeDetector, conf: float = 0.2, iou: float = 0.5,
                  alarm_config: AlarmConfig | None = None, log_path: str | Path | None = None,
-                 source_name: str | None = None):
+                 source_name: str | None = None, recording_config: RecordingConfig | None = None,
+                 media_root: str | Path | None = None):
         if not 0 < conf <= 1 or not 0 < iou <= 1:
             raise ValueError('置信度和IoU阈值必须位于0到1之间。')
         self._lock = threading.RLock()
@@ -102,6 +104,8 @@ class VideoSession:
                                    metadata={'confidence': conf, 'nms_iou': iou,
                                              'device': getattr(detector, 'device', 'unknown'),
                                              'weights': str(getattr(detector.model, 'ckpt_path', 'unknown')) if hasattr(detector, 'model') else 'test detector'})
+        self.recorder = EventRecorder(recording_config, media_root or alarm_media_root(log_path), self.alarms.store, self.info.fps) if (
+            recording_config is not None and recording_config.enabled and self.alarms.store is not None) else None
 
     @property
     def is_open(self) -> bool:
@@ -124,6 +128,12 @@ class VideoSession:
         self.capture.release()
         self.status = status
         self.alarms.finish(status)
+        if self.recorder:
+            self.recorder.finish(status)
+
+    def wait_for_media(self, timeout=90):
+        if self.recorder:
+            self.recorder.wait(timeout)
 
     def pause(self):
         with self._lock:
@@ -174,6 +184,9 @@ class VideoSession:
                     time_estimated=time_estimated,
                 )
                 self.alarms.update(self.processed_frames, media_seconds, detections)
+                if self.recorder:
+                    event = self.alarms.current_event
+                    self.recorder.add_frame(self.latest, event['id'] if event else None)
                 return self.latest
             except Exception:
                 self.error = '读取或检测失败，请停止后尝试其他视频或切换计算设备。'

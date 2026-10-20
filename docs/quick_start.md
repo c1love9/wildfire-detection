@@ -1,6 +1,6 @@
 # 原项目本地运行
 
-当前支持YOLOv8图片检测、逐帧视频火烟检测、连续确认、分级报警与本机报警日志。数据采集、自行训练、摄像头接入和片段回放按后续实施计划推进。
+当前支持YOLOv8图片检测、逐帧视频火烟检测、连续确认、分级报警、本机日志和报警截图／片段回放。数据采集、自行训练、摄像头与模拟位置接入按后续实施计划推进。
 
 ## 已配置电脑
 
@@ -13,6 +13,8 @@
 侧边栏 `Demo Images` 展示图片。进入 `Demo Videos`，选择内置视频或上传MP4/MOV/AVI/MKV，点击“开始检测”即可看到逐帧的火焰／烟雾框、置信度、帧号、视频时间和当前帧数量。支持暂停、继续和停止；运行期间先停止再调整参数。详细操作与验证结果见 [video_detection.md](video_detection.md)。连续确认后显示关注、预警或报警；在 `Alarm History`可筛选事件、查看等级变化并导出CSV，规则和日志保存说明见 [alarm.md](alarm.md)。
 
 ## 在新电脑重新配置
+
+报警片段编码还需要本机安装支持libx264的FFmpeg并加入PATH。本机已验证FFmpeg 8.0.1，新电脑安装与检查见 [recording.md](recording.md)；没有编码器时检测与截图仍可用，片段会显示失败提示。
 
 已验证的环境目标为 Windows x64、Python 3.11、NVIDIA CUDA 显卡。先安装 Python 3.11 与合适的显卡驱动，然后在项目目录运行：
 
@@ -77,6 +79,12 @@ py -3.11 -m venv .venv
 ```
 
 报警默认参数在 `configs/alarm.json`，实际使用日志保存在 `artifacts/alarms/alarms.sqlite3`，重启后保留且不进入版本库。报警验证使用独立测试数据库，摘要写入 `reports/alarm_verification.json`。
+
+媒体默认在首次确认时保存截图，并收集确认前5秒、后10秒的画面。进入 `Alarm History`选择事件，即可查看截图与回放片段；不足部分会标明。媒体文件默认位于 `artifacts/alarms/media/`，参数在 `configs/recording.json`。完整操作与资源上限见 [recording.md](recording.md)。验证：
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\verify_recording.py
+```
 
 ## 常见情况
 
