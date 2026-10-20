@@ -20,6 +20,7 @@ from dataset_store import dataset_root
 from model_catalog import fire_models
 from inference_ui import load_detector, show_model, with_segmentation, show_segmentation
 from trends import show_trends
+from alerts import show_notifications, notification_pending
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,6 +50,7 @@ def format_time(seconds: float) -> str:
 st.set_page_config(page_title='视频火烟检测', page_icon='📹', layout='wide')
 st.title('视频火焰与烟雾检测')
 st.caption('使用YOLOv8逐帧检测，画面中的fire代表火焰、smoke代表烟雾，框旁数字为置信度。')
+sound_enabled = st.checkbox('允许报警提示音', value=False, help='主动开启后，事件确认或升级时播放一次；可随时关闭。')
 
 session = st.session_state.get(SESSION_KEY)
 locked = session is not None and session.status in {'running', 'paused'}
@@ -142,6 +144,12 @@ with st.expander('报警规则'):
     warning_seconds = warning_col.number_input('预警持续时间（秒）', min_value=0.0, value=float(default_alarm.warning_seconds), step=0.5, disabled=locked)
     alarm_seconds = alarm_col.number_input('报警持续时间（秒）', min_value=0.0, value=float(default_alarm.alarm_seconds), step=0.5, disabled=locked)
     recovery_seconds = recovery_col.number_input('恢复等待（秒）', min_value=0.0, value=float(default_alarm.recovery_seconds), step=0.5, disabled=locked)
+    aw, aa, tw, ta = st.columns(4)
+    area_warning = aw.number_input('面积预警阈值（%）', min_value=0.01, max_value=99., value=default_alarm.area_warning_ratio*100, disabled=locked)
+    area_alarm = aa.number_input('面积报警阈值（%）', min_value=0.02, max_value=100., value=default_alarm.area_alarm_ratio*100, disabled=locked)
+    area_warning_seconds = tw.number_input('面积预警持续（秒）', min_value=0.1, value=default_alarm.area_warning_seconds, disabled=locked)
+    area_alarm_seconds = ta.number_input('面积报警持续（秒）', min_value=0.1, value=default_alarm.area_alarm_seconds, disabled=locked)
+    st.caption('有效分割的同一区域面积可加速升级；关闭或失败时仍按原有持续时间规则报警。面积参数为可调整的演示设置。')
     st.caption(f'区域匹配IoU ≥ {default_alarm.match_iou:g}，相邻检测帧时间间隔 ≤ {default_alarm.max_frame_gap_seconds:g} 秒。摄像头超过该间隔将结束观测，避免跨未观察区间确认或恢复。')
     st.caption('日志保存在本机，侧边栏“Alarm History”可查询和导出。')
 
@@ -157,7 +165,9 @@ recording_config = None
 try:
     alarm_config = replace(default_alarm, confirm_frames=int(confirm_frames), fire_confidence=fire_threshold,
                            smoke_confidence=smoke_threshold, attention_seconds=attention_seconds,
-                           warning_seconds=warning_seconds, alarm_seconds=alarm_seconds, recovery_seconds=recovery_seconds)
+                           warning_seconds=warning_seconds, alarm_seconds=alarm_seconds, recovery_seconds=recovery_seconds,
+                           area_warning_ratio=area_warning/100, area_alarm_ratio=area_alarm/100,
+                           area_warning_seconds=area_warning_seconds, area_alarm_seconds=area_alarm_seconds)
     recording_config = replace(default_recording, enabled=recording_enabled, pre_seconds=pre_seconds, post_seconds=post_seconds)
 except ValueError as exc:
     st.warning(str(exc))
@@ -220,6 +230,9 @@ with stop_col:
 if st.session_state.get('video_detection_error'):
     st.error(st.session_state['video_detection_error'])
 
+
+if session is not None:
+    show_notifications(session, sound_enabled)
 
 @st.fragment(run_every=0.1 if session is not None and session.status == 'running' else None)
 def show_detection():
@@ -300,6 +313,8 @@ def show_detection():
             st.write('尚未确认火烟事件；单帧检出不会直接生成报警日志。')
     with st.expander('面积与等级曲线', expanded=True):
         show_trends(list(active_session.trends.recent), 'live_trends')
+    if notification_pending(active_session):
+        st.rerun()
 
 
 show_detection()

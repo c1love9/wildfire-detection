@@ -8,6 +8,7 @@ const browser = await chromium.launch({channel:'msedge',headless:true,args:['--e
 const page = await browser.newPage({viewport:{width:1440,height:1200}});
 const errors=[]; page.on('pageerror',e=>errors.push(e.message));
 const stage=process.argv[2] || 'segmentation';
+let notices=0;
 const output=path.join(root,'artifacts/completion_checks/browser'); await fs.mkdir(output,{recursive:true});
 const base=process.env.ALARM_APP_URL || 'http://127.0.0.1:8502';
 async function idle(){await page.waitForTimeout(400);await page.getByTestId('stStatusWidget').waitFor({state:'hidden',timeout:120000});await page.waitForTimeout(400);assert.equal(await page.getByTestId('stException').count(),0);}
@@ -26,7 +27,16 @@ try{
  await page.getByText('火焰画面占比',{exact:true}).waitFor({timeout:120000});
  if(stage!=='segmentation') {
    await page.getByRole('button',{name:'导出面积趋势 CSV',exact:true}).waitFor();
-   await page.waitForFunction(()=>{const metric=[...document.querySelectorAll('[data-testid="stMetric"]')].find(e=>e.textContent.includes('当前帧'));return Number(metric?.querySelector('[data-testid="stMetricValue"]')?.textContent.split('/')[0])>=25;},{},{timeout:120000});
+   const deadline=Date.now()+120000;
+   while(Date.now()<deadline){
+     const ack=page.getByRole('button',{name:'确认并关闭',exact:true});
+     if(await ack.isVisible()){await ack.click();notices++;await page.waitForTimeout(200);}
+     const frame=await page.evaluate(()=>{const metric=[...document.querySelectorAll('[data-testid="stMetric"]')].find(e=>e.textContent.includes('当前帧'));return Number(metric?.querySelector('[data-testid="stMetricValue"]')?.textContent.split('/')[0]);});
+     if(frame>=(stage==='alerts'?80:25))break;
+     await page.waitForTimeout(200);
+   }
+   const ack=page.getByRole('button',{name:'确认并关闭',exact:true});if(await ack.isVisible()){await ack.click();notices++;await page.waitForTimeout(200);}
+   if(stage==='alerts')assert(notices>0,'No alarm dialog was observed');
  }
  await page.getByRole('button',{name:'暂停检测',exact:true}).click();await idle();
  assert(await page.getByRole('checkbox',{name:'开启火烟像素分割',exact:true}).isDisabled());
@@ -37,7 +47,7 @@ try{
    await page.getByRole('button',{name:'导出面积趋势 CSV',exact:true}).waitFor();
  }
  assert.deepEqual(errors,[]);
- const report={status:'passed',stage,verified_at:new Date().toISOString(),image_masks_and_download_controls:true,video_segmented_pause_stop:true,page_errors:errors};
+ const report={status:'passed',stage,verified_at:new Date().toISOString(),image_masks_and_download_controls:true,video_segmented_pause_stop:true,alarm_dialogs_acknowledged:notices,page_errors:errors};
  await fs.writeFile(path.join(root,'reports/'+stage+'_browser.json'),JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify(report));
 }catch(error){await page.screenshot({path:path.join(output,'failure.png'),fullPage:true});throw error;}finally{await browser.close();}

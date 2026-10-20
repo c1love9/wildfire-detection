@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "stage": "alerts",
+  "verified_at": "2026-10-20T12:56:10.858Z",
+  "image_masks_and_download_controls": true,
+  "video_segmented_pause_stop": true,
+  "alarm_dialogs_acknowledged": 9,
+  "page_errors": []
+}

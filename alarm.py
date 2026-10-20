@@ -23,6 +23,10 @@ class AlarmConfig:
     recovery_seconds: float = 2.0
     match_iou: float = 0.1
     max_frame_gap_seconds: float = 1.0
+    area_warning_ratio: float = 0.03
+    area_alarm_ratio: float = 0.10
+    area_warning_seconds: float = 1.0
+    area_alarm_seconds: float = 2.0
 
     def __post_init__(self):
         if type(self.confirm_frames) is not int or self.confirm_frames < 2:
@@ -36,6 +40,8 @@ class AlarmConfig:
             raise ValueError('持续时间应满足：0 ≤ 关注 < 预警 < 报警。')
         if min(self.recovery_seconds, self.max_frame_gap_seconds) <= 0:
             raise ValueError('恢复等待和相邻帧最大间隔必须大于0。')
+        if not 0 < self.area_warning_ratio < self.area_alarm_ratio <= 1 or min(self.area_warning_seconds, self.area_alarm_seconds) <= 0:
+            raise ValueError('面积阈值须满足0 < 预警 < 报警 ≤ 100%，面积持续时间须大于0。')
 
     @classmethod
     def load(cls, path: str | Path) -> AlarmConfig:
@@ -62,6 +68,7 @@ class _Track:
     streak_frames: int = 1
     peak_confidence: float = 0.0
     supported_at: dict[int, float] = field(default_factory=dict)
+    area_started: dict[int, float] = field(default_factory=dict)
 
 
 def _iou(first, second):
@@ -103,14 +110,17 @@ class AlarmEngine:
                 continue
             if len(box) != 4 or not all(math.isfinite(value) for value in box) or box[2] <= box[0] or box[3] <= box[1]:
                 continue
-            boxes.append((label, confidence, box))
+            area = detection.get('area_ratio')
+            if not isinstance(area, (float, int)) or isinstance(area, bool) or not math.isfinite(area) or not 0 <= area <= 1:
+                area = None
+            boxes.append((label, confidence, box, area))
 
         # Greedy, one-to-one association prevents different regions or duplicate
         # boxes within a frame from accumulating one continuous streak.
         pairs = sorted(
             ((_iou(track.box, box), index, box_index)
              for index, track in enumerate(self._tracks)
-             for box_index, (label, _, box) in enumerate(boxes) if label == track.label),
+             for box_index, (label, _, box, _) in enumerate(boxes) if label == track.label),
             reverse=True,
         )
         matched_tracks, assignments = set(), {}
@@ -123,7 +133,7 @@ class AlarmEngine:
                 track.streak_frames = 0
 
         current_tracks = []
-        for box_index, (label, confidence, box) in enumerate(boxes):
+        for box_index, (label, confidence, box, area) in enumerate(boxes):
             if box_index in assignments:
                 track = self._tracks[assignments[box_index]]
                 adjacent = track.last_frame == number - 1 and seconds - track.last_seen <= cfg.max_frame_gap_seconds
@@ -131,6 +141,7 @@ class AlarmEngine:
                     track.streak_frames += 1
                 else:
                     track.streak_frames, track.streak_start = 1, seconds
+                    track.area_started.clear()
                 track.box, track.last_frame, track.last_seen = box, number, seconds
                 track.peak_confidence = max(track.peak_confidence, confidence)
             else:
@@ -142,6 +153,14 @@ class AlarmEngine:
                 for level, required in ((1, cfg.attention_seconds), (2, cfg.warning_seconds), (3, cfg.alarm_seconds)):
                     if duration + 1e-9 >= required:
                         track.supported_at[level] = seconds
+            for level, threshold, required in ((2, cfg.area_warning_ratio, cfg.area_warning_seconds),
+                                                (3, cfg.area_alarm_ratio, cfg.area_alarm_seconds)):
+                if area is None or area < threshold:
+                    track.area_started.pop(level, None)
+                    continue
+                track.area_started.setdefault(level, seconds)
+                if track.streak_frames >= cfg.confirm_frames and seconds - track.area_started[level] + 1e-9 >= required:
+                    track.supported_at[level] = seconds
 
         held = [(track, max((level for level, supported in track.supported_at.items()
                              if seconds - supported + 1e-9 < cfg.recovery_seconds), default=0)) for track in self._tracks]
