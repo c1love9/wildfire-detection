@@ -7,7 +7,7 @@ from numpy import random
 import io
 from dataset_store import dataset_root
 from model_catalog import fire_models, general_models
-from inference_ui import load_detector, show_model
+from inference_ui import load_detector, show_model, with_segmentation, show_segmentation
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 
@@ -164,8 +164,9 @@ def main():
             st.caption("Choose a model based on the trade-off between speed and precision that best suits your needs.")
 
     # Load the selected model
+    segmentation_enabled = st.checkbox('开启火烟像素分割', value=False, disabled=model_type == 'General')
     try:
-        model = load_detector(choice, device, imgsz)
+        model = with_segmentation(load_detector(choice, device, imgsz), segmentation_enabled and model_type != 'General')
     except Exception as exc:
         st.error(f"Unable to load {choice.label}: {exc}")
         st.stop()
@@ -230,7 +231,15 @@ def main():
         # Display the uploaded image
         with st.spinner("Detecting"):
             try:
-                prediction, text = predict_image(model, image, conf_threshold, iou_threshold, device)
+                if segmentation_enabled and model_type != 'General':
+                    import cv2
+                    import numpy as np
+                    frame_result = model.predict_frame(cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR), conf_threshold, iou_threshold)
+                    prediction = frame_result.rgb
+                    text = 'Predicted ' + ', '.join(f'{count} {label}' for label, count in frame_result.counts.items())
+                    show_segmentation(frame_result, downloads=True)
+                else:
+                    prediction, text = predict_image(model, image, conf_threshold, iou_threshold, device)
             except Exception as exc:
                 st.error(f'Inference failed on {device_label}: {exc}')
                 st.stop()

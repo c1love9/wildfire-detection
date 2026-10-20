@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "stage": "segmentation",
+  "verified_at": "2026-10-20T12:46:11.082Z",
+  "image_masks_and_download_controls": true,
+  "video_segmented_pause_stop": true,
+  "page_errors": []
+}

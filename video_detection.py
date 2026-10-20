@@ -36,6 +36,7 @@ class DetectedFrame:
     counts: dict[str, int]
     inference_ms: float
     time_estimated: bool
+    result: object = None
 
 
 class FireSmokeDetector(YoloDetector):
@@ -95,13 +96,20 @@ class VideoSession:
         self._started = time.perf_counter()
 
     def _detect_frame(self, bgr, media_seconds, time_estimated=False):
-        rgb, detections, counts, inference_ms = self.detector.predict(bgr, self.conf, self.iou)
+        result = self.detector.predict_frame(bgr, self.conf, self.iou) if hasattr(self.detector, 'predict_frame') else None
+        if result is None:
+            rgb, detections, counts, inference_ms = self.detector.predict(bgr, self.conf, self.iou)
+        else:
+            rgb, detections, counts, inference_ms = result.rgb, result.detections, result.counts, sum(result.timing_ms.values())
+        factor = min(1., 960 / rgb.shape[1], 720 / rgb.shape[0])
+        if factor < 1:
+            rgb = cv2.resize(rgb, (round(rgb.shape[1] * factor), round(rgb.shape[0] * factor)))
         self.processed_frames += 1
         self.fire_frames += int(counts.get('fire', 0) > 0)
         self.smoke_frames += int(counts.get('smoke', 0) > 0)
         self.latest = DetectedFrame(number=self.processed_frames, media_seconds=media_seconds,
                                     rgb=rgb, detections=detections, counts=counts, inference_ms=inference_ms,
-                                    time_estimated=time_estimated)
+                                    time_estimated=time_estimated, result=result)
         self.alarms.update(self.processed_frames, media_seconds, detections)
         if self.recorder:
             event = self.alarms.current_event

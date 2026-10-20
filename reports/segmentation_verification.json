@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "sam_revision": "70c1a07f894ebb5b307fd9eaaee97b9dfc16068f",
+  "scope": "Existing public demo; physical camera frames discarded; no formal accuracy claim",
+  "checks": [
+    {
+      "device": "cpu",
+      "shape": [
+        720,
+        1280,
+        3
+      ],
+      "counts": {
+        "fire": 1,
+        "smoke": 2
+      },
+      "areas": {
+        "fire": 0.25772026909722223,
+        "smoke": 0.34336046006944443,
+        "combined": 0.3457107204861111
+      },
+      "timing_ms": {
+        "detection": 105.69630000100005,
+        "segmentation": 3771.031200001744
+      }
+    },
+    {
+      "device": "cuda:0",
+      "shape": [
+        720,
+        1280,
+        3
+      ],
+      "counts": {
+        "fire": 1,
+        "smoke": 2
+      },
+      "areas": {
+        "fire": 0.25768337673611114,
+        "smoke": 0.3433246527777778,
+        "combined": 0.3456716579861111
+      },
+      "timing_ms": {
+        "detection": 67.83329999962007,
+        "segmentation": 339.0631000002031
+      }
+    }
+  ],
+  "physical_camera": {
+    "frames": 25,
+    "observed_seconds": 2.3430000000007567,
+    "delivered_width": 640,
+    "delivered_height": 480,
+    "reported_fps": 30.00003000003,
+    "backend": "DSHOW",
+    "skipped_capture_frames": 12,
+    "personal_images_saved": false,
+    "released_on_pause": true,
+    "resumed_frames": 8,
+    "resumed_in_new_observation": true,
+    "capture_process_loss_detected_without_ui_poll": true,
+    "reopened_after_process_loss": true,
+    "released_at_end": true
+  }
+}

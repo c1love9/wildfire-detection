@@ -10,6 +10,7 @@ import ultralytics
 from ultralytics import YOLO
 
 from dataset_store import file_sha
+from inference_result import FrameResult
 
 
 class YoloDetector:
@@ -62,3 +63,9 @@ class YoloDetector:
         with self._lock:
             result, detections, counts = self._infer(image.convert('RGB'), conf, iou)
             return cv2.cvtColor(result.plot(), cv2.COLOR_BGR2RGB), detections, counts, sum(result.speed.values())
+
+    def predict_frame(self, bgr, conf, iou):
+        from PIL import Image
+        rgb, boxes, counts, elapsed = self.predict_image(Image.fromarray(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)), conf, iou)
+        return FrameResult(rgb, boxes, {'fire': 0, 'smoke': 0, **counts}, bgr.shape[1], bgr.shape[0],
+                           {'detection': elapsed}, self.metadata)

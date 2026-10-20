@@ -18,7 +18,7 @@ from camera_session import CameraSession
 from monitoring_ui import edit_monitoring_point, show_location
 from dataset_store import dataset_root
 from model_catalog import fire_models
-from inference_ui import load_detector, show_model
+from inference_ui import load_detector, show_model, with_segmentation, show_segmentation
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -114,6 +114,7 @@ with conf_col:
 show_model(choice)
 st.caption('图片和视频页可分别选择模型；视频/摄像头运行或暂停时模型锁定，停止后可切换并开始新观测。')
 with st.expander('检测设置'):
+    segmentation_enabled = st.checkbox('开启火烟像素分割', value=False, disabled=locked)
     sizes = sorted({160, 320, 640, 960, 1280, choice.imgsz})
     imgsz = st.selectbox('推理图像尺寸', sizes, index=sizes.index(choice.imgsz), disabled=locked)
     iou = st.slider('重叠框抑制阈值（NMS IoU）', 0.1, 0.9, 0.5, 0.05, disabled=locked)
@@ -162,7 +163,7 @@ except ValueError as exc:
 if alarm_config is not None and confidence > min(alarm_config.fire_confidence, alarm_config.smoke_confidence):
     st.warning('检测置信度高于部分报警阈值，低于检测阈值的框不会进入报警判定。')
 
-signature = (source_mode, str(source_path), selected_model, choice.sha256, imgsz, device, confidence, iou, alarm_config, recording_config, camera_config, monitoring_point)
+signature = (source_mode, str(source_path), selected_model, choice.sha256, imgsz, device, confidence, iou, segmentation_enabled, alarm_config, recording_config, camera_config, monitoring_point)
 if st.session_state.get('video_input_signature') != signature:
     st.session_state['video_input_signature'] = signature
     st.session_state.pop('video_detection_error', None)
@@ -179,7 +180,7 @@ with start_col:
             if session is not None:
                 session.stop()
             with st.spinner('正在加载模型并打开输入…'):
-                detector = load_detector(choice, device, imgsz)
+                detector = with_segmentation(load_detector(choice, device, imgsz), segmentation_enabled)
                 if source_mode == '摄像头':
                     st.session_state[SESSION_KEY] = CameraSession(camera_config, detector, confidence, iou,
                                                                   alarm_config=alarm_config, log_path=LOG_PATH,
@@ -250,6 +251,8 @@ def show_detection():
         st.warning(active_session.recorder.last_error)
     latest = active_session.latest
     if latest is not None:
+        if latest.result is not None:
+            show_segmentation(latest.result)
         frame_col, time_col, fire_col, smoke_col = st.columns(4)
         frame_col.metric('本段已检测帧' if is_camera else '当前帧', latest.number if is_camera else f'{latest.number} / {active_session.info.frame_count or "未知"}')
         time_col.metric('本段观测时间' if is_camera else '视频时间（估计）' if latest.time_estimated else '视频时间', format_time(latest.media_seconds))
