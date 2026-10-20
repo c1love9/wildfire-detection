@@ -21,6 +21,7 @@ from model_catalog import fire_models
 from inference_ui import load_detector, show_model, with_segmentation, show_segmentation
 from trends import show_trends
 from alerts import show_notifications, notification_pending
+from channels import load_channels
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,7 +55,8 @@ sound_enabled = st.checkbox('允许报警提示音', value=False, help='主动�
 
 session = st.session_state.get(SESSION_KEY)
 locked = session is not None and session.status in {'running', 'paused'}
-source_mode = st.radio('视频来源', ['内置样例', '上传视频', '摄像头'], horizontal=True, disabled=locked)
+source_mode = st.radio('视频来源', ['内置样例', '上传视频', '摄像头', '命名通道'], horizontal=True, disabled=locked)
+channel = None
 source_path = None
 source_name = None
 camera_config = None
@@ -72,7 +74,7 @@ elif source_mode == '上传视频':
     if upload is not None:
         source_path = save_upload(upload)
         source_name = upload.name
-else:
+elif source_mode == '摄像头':
     try:
         default_camera = CameraConfig.load(ROOT / 'configs' / 'camera.json')
         camera_col, backend_col = st.columns(2)
@@ -86,11 +88,25 @@ else:
         st.caption('实时输入只检测最新采样画面，避免积压；离开页面且长时间不刷新时会自动关闭设备。')
     except (OSError, ValueError, TypeError) as exc:
         st.error(f'摄像头配置无效：{exc}')
+else:
+    try:
+        channels = st.session_state.get('channel_catalog') if locked else load_channels()
+        channel_id = st.selectbox('监控通道', [c['id'] for c in channels], format_func=lambda key:next(c['name'] for c in channels if c['id']==key), disabled=locked)
+        channel = next(c for c in channels if c['id']==channel_id)
+        source_name = channel['name']
+        if channel['kind']=='camera':
+            camera_config=replace(CameraConfig.load(ROOT/'configs/camera.json'), index=channel['source'])
+            source_path=channel['source']
+        else:
+            source_path=ROOT/channel['source']
+        st.caption('通道绑定输入源与模拟点位；停止后切换，Channels页面可修改配置。')
+    except (OSError,ValueError,TypeError) as exc:
+        st.error('通道配置无效：'+str(exc))
 
 monitoring_point = None
 monitoring_config_valid = True
 try:
-    monitoring_point = edit_monitoring_point(ROOT / 'configs' / 'monitoring_points.json', locked)
+    monitoring_point = edit_monitoring_point(ROOT / 'configs' / 'monitoring_points.json', locked, channel['point_id'] if channel else None)
 except (OSError, ValueError, TypeError, KeyError) as exc:
     monitoring_config_valid = False
     st.error(f'监控点配置无效：{exc}')
@@ -174,7 +190,7 @@ except ValueError as exc:
 if alarm_config is not None and confidence > min(alarm_config.fire_confidence, alarm_config.smoke_confidence):
     st.warning('检测置信度高于部分报警阈值，低于检测阈值的框不会进入报警判定。')
 
-signature = (source_mode, str(source_path), selected_model, choice.sha256, imgsz, device, confidence, iou, segmentation_enabled, alarm_config, recording_config, camera_config, monitoring_point)
+signature = (source_mode, str(source_path), channel, selected_model, choice.sha256, imgsz, device, confidence, iou, segmentation_enabled, alarm_config, recording_config, camera_config, monitoring_point)
 if st.session_state.get('video_input_signature') != signature:
     st.session_state['video_input_signature'] = signature
     st.session_state.pop('video_detection_error', None)
@@ -192,18 +208,20 @@ with start_col:
                 session.stop()
             with st.spinner('正在加载模型并打开输入…'):
                 detector = with_segmentation(load_detector(choice, device, imgsz), segmentation_enabled)
-                if source_mode == '摄像头':
+                if camera_config is not None:
                     st.session_state[SESSION_KEY] = CameraSession(camera_config, detector, confidence, iou,
                                                                   alarm_config=alarm_config, log_path=LOG_PATH,
                                                                   source_name=source_name, recording_config=recording_config,
-                                                                  monitoring_point=monitoring_point)
+                                                                  monitoring_point=monitoring_point, channel=channel)
                 else:
                     st.session_state[SESSION_KEY] = VideoSession(source_path, detector, confidence, iou,
                                                                 alarm_config=alarm_config, log_path=LOG_PATH,
                                                                 source_name=source_name, recording_config=recording_config,
-                                                                monitoring_point=monitoring_point)
+                                                                monitoring_point=monitoring_point, channel=channel)
             st.session_state['video_detection_signature'] = signature
             st.session_state['video_model_choices'] = models
+            if channel:
+                st.session_state['channel_catalog'] = channels
             st.session_state['video_detection_name'] = source_name
             st.session_state.pop('video_detection_error', None)
             st.rerun()

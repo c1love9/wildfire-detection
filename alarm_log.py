@@ -109,7 +109,7 @@ class AlarmLog:
         with self._connection() as connection:
             return [row[0] for row in connection.execute('SELECT DISTINCT source FROM runs ORDER BY source')]
 
-    def events(self, source=None, peak_level=None, limit=500):
+    def events(self, source=None, peak_level=None, limit=500, channel_id=None):
         clauses, parameters = [], []
         if source is not None:
             clauses.append('r.source=?')
@@ -117,6 +117,9 @@ class AlarmLog:
         if peak_level is not None:
             clauses.append('e.peak_level=?')
             parameters.append(peak_level)
+        if channel_id is not None:
+            clauses.append("json_extract(r.metadata_json, '$.channel.id')=?")
+            parameters.append(channel_id)
         where = ' WHERE ' + ' AND '.join(clauses) if clauses else ''
         with self._connection() as connection:
             return [dict(row) for row in connection.execute(
@@ -126,6 +129,10 @@ class AlarmLog:
     def transitions(self, event_id):
         with self._connection() as connection:
             return [dict(row) for row in connection.execute('SELECT * FROM transitions WHERE event_id=? ORDER BY id', (event_id,))]
+
+    def channels(self):
+        with self._connection() as connection:
+            return [dict(row) for row in connection.execute("SELECT DISTINCT json_extract(metadata_json,'$.channel.id') AS id, json_extract(metadata_json,'$.channel.name') AS name FROM runs WHERE json_extract(metadata_json,'$.channel.id') IS NOT NULL")]
 
     def save_media(self, event_id, snapshot_path, clip_path, status, details, error=None):
         with self._connection() as connection:
@@ -168,6 +175,8 @@ def event_rows(events):
         '结束原因': END_NAMES.get(event['end_reason'], '未结束'),
         **location_columns(event.get('metadata_json', '{}')),
         **model_columns(event.get('metadata_json', '{}')),
+        '通道编号': json.loads(event.get('metadata_json', '{}')).get('channel', {}).get('id'),
+        '通道名称': json.loads(event.get('metadata_json', '{}')).get('channel', {}).get('name', '未记录'),
     } for event in events]
 
 

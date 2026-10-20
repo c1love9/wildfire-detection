@@ -22,6 +22,7 @@ try{
  await page.getByTestId('stImage').locator('img').last().evaluate(e=>e.decode());
  await page.screenshot({path:path.join(output,'segmentation_image.png'),fullPage:true});
  await page.goto(base+'/Demo_Videos');await page.getByRole('heading',{name:'视频火焰与烟雾检测',exact:true}).waitFor();await idle();
+ if(stage==='channels'){await page.getByText('命名通道',{exact:true}).click();await idle();await page.getByText(/当前关联：演示监控点 A/).waitFor();}
  await expand('检测设置');await toggle('开启火烟像素分割');
  await page.getByRole('button',{name:'开始检测',exact:true}).click();
  await page.getByText('火焰画面占比',{exact:true}).waitFor({timeout:120000});
@@ -42,6 +43,13 @@ try{
  assert(await page.getByRole('checkbox',{name:'开启火烟像素分割',exact:true}).isDisabled());
  await page.screenshot({path:path.join(output,stage+'_video.png'),fullPage:true});
  await page.getByRole('button',{name:'停止检测',exact:true}).click();await idle();
+ if(stage==='channels'){
+   const control=page.getByTestId('stSelectbox').filter({has:page.getByText('监控通道',{exact:true})}).getByRole('combobox');
+   await control.click();await page.getByRole('option').filter({hasText:'监控通道 B'}).click();await idle();
+   await page.getByText(/当前关联：演示监控点 B/).waitFor();
+   await page.getByRole('button',{name:'开始检测',exact:true}).click();await page.getByText(/监控通道 B · 正在检测/).waitFor();
+   await page.getByRole('button',{name:'停止检测',exact:true}).click();await idle();
+ }
  if(stage!=='segmentation') {
    await page.goto(base+'/Alarm_History');await page.getByRole('heading',{name:'报警日志',exact:true}).waitFor();await idle();
    await page.getByRole('button',{name:'导出面积趋势 CSV',exact:true}).waitFor();

@@ -50,7 +50,7 @@ class VideoSession:
     def __init__(self, source: str | Path, detector: FireSmokeDetector, conf: float = 0.2, iou: float = 0.5,
                  alarm_config: AlarmConfig | None = None, log_path: str | Path | None = None,
                  source_name: str | None = None, recording_config: RecordingConfig | None = None,
-                 media_root: str | Path | None = None, monitoring_point: MonitoringPoint | None = None):
+                 media_root: str | Path | None = None, monitoring_point: MonitoringPoint | None = None, channel=None):
         if not 0 < conf <= 1 or not 0 < iou <= 1:
             raise ValueError('置信度和IoU阈值必须位于0到1之间。')
         self._lock = threading.RLock()
@@ -59,6 +59,7 @@ class VideoSession:
         self.conf = conf
         self.iou = iou
         self.monitoring_point = monitoring_point
+        self.channel = dict(channel) if channel else None
         self.capture = cv2.VideoCapture(str(self.source))
         if not self.capture.isOpened():
             self.capture.release()
@@ -82,6 +83,7 @@ class VideoSession:
                                         'weights': str(getattr(self.detector.model, 'ckpt_path', 'unknown')) if hasattr(self.detector, 'model') else 'test detector',
                                         **({'model': self.detector.metadata} if hasattr(self.detector, 'metadata') else {}),
                                         **metadata,
+                                        **({'channel': self.channel} if self.channel else {}),
                                         **({'monitoring_point': self.monitoring_point.metadata()} if self.monitoring_point else {})})
         recorder = EventRecorder(recording_config, media_root or alarm_media_root(log_path), alarms.store, self.info.fps,
                                  input_type=self.input_type) if (

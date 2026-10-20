@@ -33,8 +33,10 @@ try:
     source_col, level_col = st.columns(2)
     source = source_col.selectbox('输入来源筛选', ['全部', *store.sources()])
     level_name = level_col.selectbox('最高等级筛选', ['全部', '关注', '预警', '报警'])
+    channel_options = {'全部': None, **{f"{c['name']} · {c['id']}": c['id'] for c in store.channels()}}
+    channel_filter = st.selectbox('通道筛选', list(channel_options))
     peak_level = None if level_name == '全部' else next(level for level, name in LEVEL_NAMES.items() if name == level_name)
-    events = store.events(source=None if source == '全部' else source, peak_level=peak_level)
+    events = store.events(source=None if source == '全部' else source, peak_level=peak_level, channel_id=channel_options[channel_filter])
     st.caption(f'显示最近 {len(events)} 条匹配事件（最多500条）；“未结束”可能是仍在检测或上次运行未正常结束。')
     if not events:
         st.info('没有匹配的已确认事件。')

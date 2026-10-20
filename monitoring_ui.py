@@ -11,13 +11,17 @@ from alarm import LEVEL_NAMES
 from monitoring import destination, load_monitoring_points, point_from_metadata, view_sector
 
 
-def edit_monitoring_point(path, locked=False):
+def edit_monitoring_point(path, locked=False, point_id=None):
     with st.expander('监控点位置与视角（模拟）'):
         mode = st.selectbox('位置记录方式', ['模拟定位', '不记录位置'], disabled=locked)
         st.caption('固定坐标与手动角度用于课程演示，不读取电脑或摄像头的实际位置，也不控制云台。')
         if mode == '不记录位置':
             return None
         points = load_monitoring_points(path)
+        if point_id is not None:
+            points = [point for point in points if point.id == point_id]
+            if not points:
+                raise ValueError('通道关联的监控点不存在。')
         point = st.selectbox('模拟监控点', points, format_func=lambda item: item.name, disabled=locked)
         longitude_col, latitude_col = st.columns(2)
         longitude = longitude_col.number_input('模拟经度（WGS84）', min_value=-180.0, max_value=180.0,

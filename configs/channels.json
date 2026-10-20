@@ -1,0 +1,5 @@
+[
+  {"id":"channel_a","name":"监控通道 A","kind":"video","source":"demo-videos/fire1.mov","point_id":"demo_a"},
+  {"id":"channel_b","name":"监控通道 B","kind":"video","source":"demo-videos/fire2.mov","point_id":"demo_b"},
+  {"id":"channel_usb","name":"USB 摄像头","kind":"camera","source":0,"point_id":"demo_a"}
+]
