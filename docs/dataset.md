@@ -1,6 +1,6 @@
 # 数据采集、导入、统计与划分
 
-进入侧边栏 `Dataset` 管理原始素材；随后进入 `Annotations` 使用 [GroundingDINO预标注、人工复核与YOLO导出](annotations.md)。实际数据数量仍须自行积累并核实，模型训练尚未实现。
+进入侧边栏 `Dataset` 管理原始素材；随后进入 `Annotations` 使用 [GroundingDINO预标注、人工复核与YOLO导出](annotations.md)，再进入 `Training` [训练模型与单独评估](training.md)。实际数据数量与正式训练实验仍须自行积累并核实。
 
 ## 操作顺序
 

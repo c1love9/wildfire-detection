@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-10-20T10:54:39.670Z",
+  "status": "passed",
+  "browser": "155.0.4283.62",
+  "scope": "Isolated synthetic fixtures and automated review; not formal accuracy evidence.",
+  "catalog_root": "artifacts\\training_checks\\integration_e730c35b8cc044a0978f006475b1a990\\browser_catalog",
+  "train_job": "train_d98243d726424987884991274d016a14",
+  "test_eval_job": "eval_22e7687df6dc49e18b85608e141222c1",
+  "browser_training_and_live_loss_map_curves": true,
+  "best_weight_download_sha256": "96e23f03d04e2a16c22d1bc371f0d395008927cf67f4f007a4fd66d0bbca36f0",
+  "test_metrics_download_sha256": "ffaa5b212010d817b7eca227225ed64a193ab5fd87907ef6f3c00b2686831aa1",
+  "explicit_test_evaluation_with_cpu": true,
+  "download_transports": [
+    {
+      "filename": "results.csv",
+      "transport": "native browser download"
+    },
+    {
+      "filename": "best.pt",
+      "native_failure": "canceled",
+      "transport": "real HTTP 200 artifact fetched via Playwright request; native IDM integration unchanged"
+    },
+    {
+      "filename": "test_metrics.json",
+      "transport": "native browser download"
+    }
+  ],
+  "page_errors": [],
+  "restart_survivor": {
+    "id": "train_94a5df3fc1b148f6b14c481ddc0efb5f",
+    "pid": 34440,
+    "process_started": 1792493673.877317,
+    "epochs_before_restart": 1
+  },
+  "worker_survives_service_restart_with_same_pid": true,
+  "running_worker_cancellation_passed": true,
+  "saved_metrics_identical_after_restart": true,
+  "epochs_after_restart_before_cancel": 56,
+  "restart_verified_at": "2026-10-20T10:55:11.535Z",
+  "restart_download_transports": [
+    {
+      "filename": "test_metrics_after_restart.json",
+      "transport": "native browser download"
+    }
+  ],
+  "saved_plot_display_width": 1000,
+  "saved_plot_readable_after_final_ui_adjustment": true,
+  "production_restart": {
+    "url": "http://127.0.0.1:8501/Training",
+    "empty_training_and_evaluation_pages_passed": true,
+    "annotation_and_video_pages_passed": true,
+    "main_data_not_seeded": true,
+    "verified_at": "2026-10-20T10:57:22.532Z"
+  }
+}

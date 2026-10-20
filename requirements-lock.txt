@@ -31,8 +31,8 @@ opencv-python==4.11.0.86
 packaging==25.0
 pandas==2.3.3
 pillow==11.3.0
-polars==2.0.0
-polars-runtime-32==2.0.0
+polars==1.34.0
+polars-runtime-32==1.34.0
 protobuf==6.33.6
 psutil==7.2.2
 py-cpuinfo==9.0.0
