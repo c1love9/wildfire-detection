@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-10-20T07:04:08+00:00",
+  "status": "passed",
+  "scope": "Synthetic/public fixtures in an isolated catalog; no test item counts as the user internship dataset.",
+  "unit_tests_passed": 79,
+  "root": "artifacts\\dataset_checks\\integration_d052c2aab2ad4c1987f28fb2c066cdbe\\catalog",
+  "physical_camera": {
+    "status": "passed",
+    "width": 640,
+    "height": 480,
+    "personal_media_saved": false
+  },
+  "public_video_sampled_frames": 5,
+  "public_source_unchanged": true,
+  "simulated_usb_snapshot_and_h264_clip": true,
+  "duplicate_import_does_not_inflate_unique_counts": true,
+  "split_images": {
+    "train": 7,
+    "val": 2,
+    "test": 1
+  },
+  "version": "split_20261020_070404_890cc27b",
+  "ui_checks": [
+    "empty_page",
+    "create_batch",
+    "folder_import",
+    "statistics_and_downloads",
+    "save_split",
+    "changed_data_disables_old_preview",
+    "simulated_camera_snapshot_and_clip_release"
+  ],
+  "stale_versions_preserved": true,
+  "browser_root": "artifacts\\dataset_checks\\integration_d052c2aab2ad4c1987f28fb2c066cdbe\\browser_catalog_retry",
+  "final_unit_verified_at": "2026-10-20T07:15:22+00:00"
+}
