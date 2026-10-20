@@ -24,10 +24,18 @@ try{
  await expand('检测设置');await toggle('开启火烟像素分割');
  await page.getByRole('button',{name:'开始检测',exact:true}).click();
  await page.getByText('火焰画面占比',{exact:true}).waitFor({timeout:120000});
+ if(stage!=='segmentation') {
+   await page.getByRole('button',{name:'导出面积趋势 CSV',exact:true}).waitFor();
+   await page.waitForFunction(()=>{const metric=[...document.querySelectorAll('[data-testid="stMetric"]')].find(e=>e.textContent.includes('当前帧'));return Number(metric?.querySelector('[data-testid="stMetricValue"]')?.textContent.split('/')[0])>=25;},{},{timeout:120000});
+ }
  await page.getByRole('button',{name:'暂停检测',exact:true}).click();await idle();
  assert(await page.getByRole('checkbox',{name:'开启火烟像素分割',exact:true}).isDisabled());
  await page.screenshot({path:path.join(output,stage+'_video.png'),fullPage:true});
  await page.getByRole('button',{name:'停止检测',exact:true}).click();await idle();
+ if(stage!=='segmentation') {
+   await page.goto(base+'/Alarm_History');await page.getByRole('heading',{name:'报警日志',exact:true}).waitFor();await idle();
+   await page.getByRole('button',{name:'导出面积趋势 CSV',exact:true}).waitFor();
+ }
  assert.deepEqual(errors,[]);
  const report={status:'passed',stage,verified_at:new Date().toISOString(),image_masks_and_download_controls:true,video_segmented_pause_stop:true,page_errors:errors};
  await fs.writeFile(path.join(root,'reports/'+stage+'_browser.json'),JSON.stringify(report,null,2)+'\n');

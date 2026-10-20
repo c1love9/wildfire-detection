@@ -65,6 +65,12 @@ class AlarmLog:
                     event_id TEXT PRIMARY KEY REFERENCES events(id), snapshot_path TEXT, clip_path TEXT,
                     status TEXT NOT NULL, details_json TEXT NOT NULL, error TEXT, updated_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS observation_samples (
+                    run_id TEXT NOT NULL REFERENCES runs(id), frame INTEGER NOT NULL,
+                    media_seconds REAL NOT NULL, fire REAL, smoke REAL, combined REAL,
+                    level INTEGER NOT NULL, status TEXT NOT NULL, elapsed_ms REAL,
+                    PRIMARY KEY(run_id, frame)
+                );
             ''')
 
     @contextmanager
@@ -136,6 +142,18 @@ class AlarmLog:
         result = dict(row)
         result['details'] = json.loads(result.pop('details_json'))
         return result
+
+    def save_sample(self, run_id, sample):
+        with self._connection() as connection:
+            connection.execute('INSERT OR REPLACE INTO observation_samples VALUES(?,?,?,?,?,?,?,?,?)',
+                               (run_id, sample['frame'], sample['media_seconds'], sample['fire'], sample['smoke'], sample['combined'],
+                                sample['level'], sample['status'], sample['elapsed_ms']))
+
+    def samples(self, run_id, start=0, end=None):
+        with self._connection() as connection:
+            return [dict(row) for row in connection.execute(
+                'SELECT * FROM observation_samples WHERE run_id=? AND media_seconds>=? AND (? IS NULL OR media_seconds<=?) ORDER BY frame',
+                (run_id, start, end, end))]
 
 
 def event_rows(events):

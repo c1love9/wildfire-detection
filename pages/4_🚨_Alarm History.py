@@ -14,6 +14,7 @@ from recording import resolve_media_asset
 from monitoring import point_from_metadata
 from monitoring_ui import show_location
 from model_catalog import model_columns
+from trends import show_trends
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -103,6 +104,7 @@ try:
             st.warning('本事件媒体保存未完成：' + media['error'])
 
     show_event_media()
+    show_trends(store.samples(selected['run_id'], selected['start_seconds'], selected['end_seconds']), 'history_trends')
     transitions = store.transitions(selected['id'])
     if transitions:
         reasons = {'confirmed': '连续确认', 'escalated': '升级', 'downgraded': '降级', 'recovered': '恢复', **END_NAMES}

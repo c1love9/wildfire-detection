@@ -19,6 +19,7 @@ from monitoring_ui import edit_monitoring_point, show_location
 from dataset_store import dataset_root
 from model_catalog import fire_models
 from inference_ui import load_detector, show_model, with_segmentation, show_segmentation
+from trends import show_trends
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -247,6 +248,8 @@ def show_detection():
     st.caption(f'当前区域连续命中 {alarm_state.pending_frames} 帧 · 持续 {alarm_state.pending_seconds:.2f} 秒 · 本段确认事件 {alarms.event_count} 个')
     if alarms.log_error:
         st.warning(alarms.log_error)
+    if active_session.trends.error:
+        st.warning(active_session.trends.error)
     if active_session.recorder and active_session.recorder.last_error:
         st.warning(active_session.recorder.last_error)
     latest = active_session.latest
@@ -295,6 +298,8 @@ def show_detection():
                           for item in reversed(changes)], hide_index=True, width='stretch')
         else:
             st.write('尚未确认火烟事件；单帧检出不会直接生成报警日志。')
+    with st.expander('面积与等级曲线', expanded=True):
+        show_trends(list(active_session.trends.recent), 'live_trends')
 
 
 show_detection()

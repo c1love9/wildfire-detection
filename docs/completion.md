@@ -11,3 +11,7 @@ Home或Demo Videos在检测设置中开启“火烟像素分割”；先运行�
 面积为原图像素占比，同类与跨类分别取并集，不用框面积替代。无目标时有效分割为零；关闭、缺失或失败时为未知。分割失败不终止检测，面积不使用上一帧结果。SAM会在打开摄像头之前加载与预热；实际处理速度随设备记录，不承诺与纯YOLO相同帧率。
 
 参考：[SAM模型](https://huggingface.co/facebook/sam-vit-base)、[Transformers 4.57.1 SAM文档](https://huggingface.co/docs/transformers/v4.57.1/en/model_doc/sam)。正式面积误差需要独立人工参考掩码。
+
+## 面积趋势
+
+视频与摄像头在同一观测内每秒保存一次面积，等级变化与观测结束时额外保存。实时窗口最多300个点，完整记录位于报警数据库observation_samples。暂停不采样，摄像头继续后建立新段。分割关闭/失败保存NULL，不用零替代。Alarm History按事件的起止时间显示历史曲线，可下载CSV；旧事件没有曲线时明确说明。

@@ -87,6 +87,7 @@ class CameraSession(VideoSession):
             if self.status == 'running':
                 self._capture_watch_stop.set()
                 self.capture.release()
+                self.trends.flush()
                 self._end_interval()
                 self.alarms.finish('paused')
                 if self.recorder:

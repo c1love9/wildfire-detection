@@ -16,6 +16,7 @@ from alarm import AlarmConfig
 from alarm_log import AlarmMonitor, alarm_media_root
 from recording import EventRecorder, RecordingConfig
 from monitoring import MonitoringPoint
+from trends import TrendRecorder
 
 
 @dataclass(frozen=True)
@@ -86,6 +87,7 @@ class VideoSession:
                                  input_type=self.input_type) if (
             recording_config is not None and recording_config.enabled and alarms.store is not None) else None
         self.alarms, self.recorder = alarms, recorder
+        self.trends = TrendRecorder(alarms.store, alarms.run_id)
         self.status = 'running'
         self.error = None
         self.latest: DetectedFrame | None = None
@@ -111,6 +113,7 @@ class VideoSession:
                                     rgb=rgb, detections=detections, counts=counts, inference_ms=inference_ms,
                                     time_estimated=time_estimated, result=result)
         self.alarms.update(self.processed_frames, media_seconds, detections)
+        self.trends.add(self.latest, self.alarms.snapshot.level)
         if self.recorder:
             event = self.alarms.current_event
             self.recorder.add_frame(self.latest, event['id'] if event else None)
@@ -133,6 +136,7 @@ class VideoSession:
             self._started = None
 
     def _finish(self, status: str):
+        self.trends.flush()
         self._end_interval()
         self.capture.release()
         self.alarms.finish(status)
