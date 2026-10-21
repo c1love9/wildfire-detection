@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "reference_sha256": "a53057dc5e41568263441f4b358cb338c5d2124cc566f16715f136304d43c80d",
+  "reference_unchanged": true,
+  "preserve_only_parts_identical": true,
+  "a4_section_unchanged": true,
+  "cover_logo_preserved": true,
+  "teacher_signature_and_scores_blank": true,
+  "native_word_equations": 2,
+  "bibliography_items": 9,
+  "added_figures": 5,
+  "output_sha256": "ecbb3e204b1bba7d66194a8640fe185d27e5a7ea2ab77ebd984ab7ddddeb46df",
+  "rendered_pages": 15,
+  "all_pages_visually_inspected": true
+}

@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-21T09:16:45.748Z",
+  "normal_workspace_pages": [
+    "",
+    "Demo_Images",
+    "Demo_Videos",
+    "Alarm_History",
+    "Dataset",
+    "Annotations",
+    "Training",
+    "Channels",
+    "Comparison",
+    "Experiments",
+    "Quality"
+  ],
+  "formal_actions_pending_without_real_data": true,
+  "restarted_fixture_history_playback": {
+    "duration": 1.333333,
+    "played": 1.333333,
+    "error": null
+  },
+  "trend_csv_download": true,
+  "history_map_and_snapshot": true,
+  "comparison_and_pair_history_after_restart": true,
+  "page_errors": []
+}

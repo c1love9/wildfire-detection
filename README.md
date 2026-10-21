@@ -2,9 +2,12 @@
 
 > **实习项目 Fork：智能火灾报警系统**
 >
-> 本仓库在保留上游来源和许可证的基础上逐步改进。当前支持图片检测、逐帧视频与摄像头实时检测、连续确认、分级报警、持久化日志、报警截图／片段回放、模拟位置／视角及历史回溯，并提供数据采集／导入、来源统计、分组划分、GroundingDINO预标注、画框复核、YOLO导出、模型训练与独立评估。
+> 本仓库在保留上游来源和许可证的基础上逐步改进。当前支持图片、逐帧视频与摄像头检测，可选SAM像素分割、面积趋势、连续确认、面积辅助分级、弹窗/可选声音、持久化日志和报警截图/片段。命名通道关联模拟位置与视角；提供数据导入/划分、GroundingDINO预标注、复核/YOLO导出、训练、统一模型对比、成对优化实验与独立标注质量工具。
 >
 > - [本地启动与重新安装](docs/quick_start.md)
+> - [本轮功能说明与协议](docs/completion.md)
+> - [架构与流程](docs/architecture.md)
+> - [报告 演示与交付清单](docs/delivery.md)
 > - [上游来源与本阶段范围](docs/upstream.md)
 > - [本机复现记录](docs/reproduction.md)
 > - [视频检测使用与验证记录](docs/video_detection.md)
@@ -18,7 +21,7 @@
 > - [YOLO训练、损失曲线与独立评估](docs/training.md)
 > - [自训模型接入图片、视频与摄像头](docs/model_inference.md)
 >
-> Windows 本机双击 `启动项目.cmd`，然后打开 http://127.0.0.1:8501 。`Home`检测图片；`Demo Videos`检测视频或摄像头，二者均可选择上游模型或成功训练的自训best模型；`Alarm History`查询事件、模型快照、截图/片段、位置与CSV；`Dataset`采集/导入、统计及分组划分；`Annotations`预标注、人工复核与YOLO导出；`Training`训练与独立评估。停止视频/摄像头后可切换模型，历史不被覆盖。实际自采数量、200幅双人独立参考标注、正式数据收敛训练与准确率评测、像素掩码及面积曲线等仍待完成，详见要求对照表。
+> Windows 本机双击 `启动项目.cmd`，打开 http://127.0.0.1:8501 。`Home`检测图片；`Demo Videos`检测视频/摄像头，支持模型与分割选择；`Alarm History`查看历史地图、媒体、趋势及CSV；`Dataset`、`Annotations`、`Training`管理数据/标注/训练；`Channels`、`Comparison`、`Experiments`、`Quality`提供通道、统一对比与质量实验。停止后可切换输入和模型，历史保留快照。当前状态为“系统功能、实验工具和材料框架完成”；实际数据、200幅真人双标、充分收敛训练及正式评测仍待补，详见要求对照表。下方英文研究结果属于上游项目，不能作为本人实验成果。
 
 Welcome to the Wildfire Detection Research repository! This repository hosts the code and resources related to our research on leveraging computer vision for fire detection. Our aim is to contribute to wildfire prevention efforts by developing and training an object detection model to accurately identify instances of fire and smoke in images.
 

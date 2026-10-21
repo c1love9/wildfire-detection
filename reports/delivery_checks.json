@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-21T09:41:38.910+00:00",
+  "scope": "System features and materials only; public demos and existing isolated synthetic fixture",
+  "unit_tests_passed": 160,
+  "sam_revision": "70c1a07f894ebb5b307fd9eaaee97b9dfc16068f",
+  "comparison_and_pair_inventory_verified": true,
+  "quality_masks_and_submissions_persisted": true,
+  "alarm_media_pairs_checked": 5,
+  "trend_samples_persisted": 31,
+  "exact_database_content_survives_restart": true,
+  "normal_dataset_assets": 0,
+  "normal_training_jobs": 0,
+  "docx_editable_text_and_tables": true,
+  "docx_sha256": "ecbb3e204b1bba7d66194a8640fe185d27e5a7ea2ab77ebd984ab7ddddeb46df",
+  "video": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1440,
+        "height": 1000,
+        "pix_fmt": "yuv420p"
+      }
+    ],
+    "format": {
+      "duration": "211.880000"
+    }
+  },
+  "video_sha256": "a74dce183a3aabc71703a076b910b6cedf7e1e63615dbfa2cbd349df7bd8b861",
+  "formal_experiments": "pending real data, human independence, convergence, test, mask reference, controlled worktime and optimization"
+}

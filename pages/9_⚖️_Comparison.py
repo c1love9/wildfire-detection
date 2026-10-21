@@ -50,6 +50,8 @@ else:
         except (OSError,ValueError,RuntimeError) as exc:st.error(str(exc))
 records=[r for r in store.records() if r['status']=='completed']
 st.subheader('历史对比结果')
+if store.records():
+    st.dataframe(store.records(),hide_index=True)
 if records:
     selected=st.selectbox('对比记录',[r['id'] for r in records])
     try:

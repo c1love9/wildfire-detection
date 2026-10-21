@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "scope": "Actual browser recording on existing public demos and isolated synthetic records; no formal accuracy claim",
+  "duration_seconds": 207.256,
+  "raw_video": "artifacts\\release\\video_raw\\page@d9582dccb97985a14c641cb9c23ee5de.webm",
+  "chapters": [
+    {
+      "seconds": 1,
+      "text": "01 图片检测与 SAM 分割 · 使用已有公开演示素材，以下不是正式精度结果"
+    },
+    {
+      "seconds": 32,
+      "text": "02 命名通道 A · 模拟位置与视角随通道绑定，停止后才可切换"
+    },
+    {
+      "seconds": 41,
+      "text": "03 逐帧分割与连续确认 · 面积辅助升级，弹窗确认，声音默认关闭"
+    },
+    {
+      "seconds": 61,
+      "text": "04 暂停后不新增采样 · 火焰、烟雾、并集占比及报警等级趋势可导出"
+    },
+    {
+      "seconds": 77,
+      "text": "05 停止后切换通道 B · 独立确认状态，历史保留原通道和位置快照"
+    },
+    {
+      "seconds": 91,
+      "text": "06 历史日志 · 按通道筛选，回溯事件发生时的位置与模型"
+    },
+    {
+      "seconds": 122,
+      "text": "07 YOLO 与 GroundingDINO · 同尺寸同设备并排推理，提示词和协议可追溯"
+    },
+    {
+      "seconds": 139,
+      "text": "08 冻结测试集与统一评测 · 合成流程记录仅用于工具验证，正式结果待补"
+    },
+    {
+      "seconds": 150,
+      "text": "09 固定尺寸与多尺度训练 · 同初始权重、同数据、同种子，仅改变声明因素"
+    },
+    {
+      "seconds": 177,
+      "text": "10 独立标注与质量工具 · 分开访问、空白画布、提交锁定，真人独立性仍需实际执行"
+    },
+    {
+      "seconds": 193,
+      "text": "11 人工参考掩码与工时对照 · 实际误差、200幅双人标注和工时节省仍待正式数据"
+    },
+    {
+      "seconds": 202,
+      "text": "交付状态：系统功能、实验工具和材料框架完成 · 正式数据与实验结论待补"
+    }
+  ],
+  "page_errors": []
+}

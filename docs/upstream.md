@@ -25,6 +25,8 @@
 
 ## 依赖与材料来源
 
+2026-10-20至21日按后续计划增加SAM ViT-B框提示分割、原图并集占比/持久化趋势、连续区域面积辅助分级、去重弹窗/可选声音、绑定视频/USB的命名通道，以及YOLO/DINO统一冻结test评测、固定尺寸/多尺度控制实验、双人独立标注/仲裁/掩码误差与受控计时工具。自行实现统一结果、状态/快照、评测与审计层，底层模型沿用官方固定版本，未微调SAM或GroundingDINO。协议与边界见 [completion.md](completion.md)。教师模板版报告、实际演示与清单见 [delivery.md](delivery.md)。
+
 |组件|用途|来源|
 |---|---|---|
 |Ultralytics|加载与运行YOLOv8模型|https://github.com/ultralytics/ultralytics|
@@ -34,5 +36,6 @@
 |D-Fire|上游训练所用数据集；本阶段未重新下载训练数据|https://github.com/gaia-solutions-on-demand/DFireDataset|
 |GroundingDINO Tiny|官方开放词汇模型，按英文提示词生成fire/smoke候选框|https://huggingface.co/IDEA-Research/grounding-dino-tiny|
 |Transformers|本机GroundingDINO处理器与推理，固定4.57.1|https://huggingface.co/docs/transformers/model_doc/grounding-dino|
+|SAM ViT-B|同帧检测框提示掩码；固定revision和SHA-256，未微调|https://huggingface.co/facebook/sam-vit-base|
 
 各依赖和数据沿用各自的许可与使用条件，根目录的 MIT 许可证描述上游项目代码。原模型类别及权重校验值由实测记录 `reports/reproduction.json` 给出。

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="470" viewBox="0 0 1100 470">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#222"/></marker></defs>
+<rect width="1100" height="470" fill="white"/>
+<g font-family="SimSun,serif" font-size="27" text-anchor="middle" fill="#111" stroke="#222" stroke-width="2">
+<rect x="25" y="175" width="225" height="100" rx="6" fill="#f2f5f7"/><rect x="375" y="100" width="350" height="240" rx="6" fill="#f2f5f7"/>
+<rect x="850" y="60" width="220" height="95" rx="6" fill="#f2f5f7"/><rect x="850" y="290" width="220" height="95" rx="6" fill="#f2f5f7"/>
+<g stroke="none"><text x="138" y="213">USB 数字摄像头</text><text x="138" y="248">现有成品设备</text>
+<text x="550" y="145">Windows 主机</text><text x="550" y="195">USB 驱动与帧采集</text><text x="550" y="245">CPU 或内置 GPU 推理</text><text x="550" y="295">本地日志与媒体存储</text>
+<text x="960" y="99">显示器与浏览器</text><text x="960" y="132">画面与报警弹窗</text><text x="960" y="328">扬声器</text><text x="960" y="362">主动开启后提示</text></g>
+<path d="M250,225 H370" fill="none" marker-end="url(#arrow)"/><path d="M725,145 H845" fill="none" marker-end="url(#arrow)"/><path d="M725,305 H845" fill="none" marker-end="url(#arrow)"/>
+<g stroke="none" font-size="24"><text x="310" y="195">USB 接口</text><text x="785" y="114">显示输出</text><text x="785" y="277">音频输出</text><text x="550" y="425">本方案复用成品接口和主机供电，不另行制作外设电路</text></g></g></svg>

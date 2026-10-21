@@ -116,7 +116,9 @@ class ComparisonStore:
         directory=bounded(self.root,identifier)
         if record['status']!='completed' or file_sha(directory/'request.json')!=record['request_sha'] or file_sha(directory/'result.json')!=record['result_sha']:
             raise OSError('对比任务未完成或文件校验失败。')
-        return read_json(directory/'result.json')
+        result=read_json(directory/'result.json')
+        verify_inventory(directory,result['inventory'])
+        return result
 
     def run(self,training_id,yolo,dino,actor,note,progress=None):
         if not actor.strip() or not note.strip():raise ValueError('请填写执行者与实验说明。')

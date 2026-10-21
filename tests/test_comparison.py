@@ -1,5 +1,10 @@
 import torch
 import unittest
+import tempfile
+from pathlib import Path
+from dataset_store import DatasetStore, file_sha
+from comparison import ComparisonStore
+from training import write_json
 from PIL import Image
 from comparison import evaluate_predictions,letterbox,transform_boxes
 
@@ -34,6 +39,19 @@ class ComparisonTests(unittest.TestCase):
         box=transform_boxes([{'class':'fire','xyxy':[0,0,1000,333]}],transform)[0]['xyxy']
         self.assertEqual(box[0],0);self.assertEqual(box[2],640)
         self.assertEqual(box[3]-box[1],213)
+
+    def test_history_rejects_changed_frozen_input(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            dataset=DatasetStore(Path(temporary));store=ComparisonStore(dataset)
+            identifier='compare_test';directory=store.root/identifier;directory.mkdir()
+            image=directory/'input.png';image.write_bytes(b'original')
+            write_json(directory/'request.json',{'id':identifier})
+            write_json(directory/'result.json',{'inventory':{'input.png':file_sha(image)}})
+            with dataset.connection() as db:
+                db.execute('INSERT INTO comparisons VALUES(?,?,?,?,?)',(identifier,'2026-10-21',file_sha(directory/'request.json'),file_sha(directory/'result.json'),'completed'))
+            self.assertEqual(store.result(identifier)['inventory']['input.png'],file_sha(image))
+            image.write_bytes(b'changed')
+            with self.assertRaises(OSError):store.result(identifier)
 
 
 if __name__=='__main__':unittest.main()

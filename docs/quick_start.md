@@ -1,6 +1,6 @@
 # 原项目本地运行
 
-当前支持YOLOv8图片检测、逐帧视频与摄像头实时检测、连续确认、分级报警、本机日志、报警截图／片段回放、模拟位置／视角回溯，并提供采集/导入、统计、分组划分、GroundingDINO预标注、画框复核、YOLO导出及训练/独立评估工具。实际自采数量、双人独立参考标注、正式数据收敛训练与准确率评测、像素掩码等仍待完成，见 [第四题对照表](requirements_audit.md)。
+当前已完成检测、可选SAM分割、面积趋势、面积辅助报警、弹窗/可选声音、通道与历史回放，以及数据、标注、训练、统一对比、优化实验和质量工具。状态为“系统功能、实验工具和材料框架完成”；实际数据数量、200幅真人双人标注及正式训练/测试仍待完成，见 [第四题对照表](requirements_audit.md)。
 
 ## 已配置电脑
 
@@ -15,6 +15,10 @@
 侧边栏 `Demo Images` 展示图片。进入 `Demo Videos`，选择内置视频或上传MP4/MOV/AVI/MKV，点击“开始检测”即可看到逐帧的火焰／烟雾框、置信度、帧号、视频时间和当前帧数量。支持暂停、继续和停止；运行期间先停止再调整参数。详细操作与验证结果见 [video_detection.md](video_detection.md)。连续确认后显示关注、预警或报警；在 `Alarm History`可筛选事件、查看等级变化并导出CSV，规则和日志保存说明见 [alarm.md](alarm.md)。
 
 ## 在新电脑重新配置
+
+开启像素分割前，运行 `.venv\Scripts\python.exe scripts\prepare_sam.py` 下载并校验固定版本SAM ViT-B。GroundingDINO使用 `.venv\Scripts\python.exe scripts\prepare_grounding_dino.py` 准备。权重均在忽略目录，不随本轮提交上传。默认不启用分割，纯检测不依赖SAM下载。
+
+新入口：`Channels`编辑命名通道；`Comparison`并排检测/冻结test评测；`Experiments`成对训练及报警策略对照；`Quality`独立标注、人工参考掩码和受控工时。详细规则、未知值处理与统一指标口径见 [completion.md](completion.md)，连贯演示见 [delivery.md](delivery.md)。
 
 检测前可设置“监控点位置与视角（模拟）”，选择A/B预设或修改经纬度和角度；停止后可修改。报警历史会回溯事件发生时的位置与视角，详见 [monitoring.md](monitoring.md)。
 
