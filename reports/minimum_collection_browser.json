@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-22T09:15:19.687Z",
+  "dataset_images": 700,
+  "dataset_videos": 300,
+  "external_video_frames": 500,
+  "downloaded_manifest_rows": 1000,
+  "candidates_visible_in_review_workspace": true,
+  "human_approval_not_fabricated": true,
+  "training_gated_until_reviewed_export": true,
+  "page_errors": []
+}

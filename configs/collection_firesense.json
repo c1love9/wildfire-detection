@@ -1,0 +1,91 @@
+{
+  "posVideo1.868.avi": {
+    "use": false
+  },
+  "posVideo2.871.avi": {
+    "use": true,
+    "scene": {
+      "setting": "室内",
+      "lighting": "逆光",
+      "distance": "近景"
+    },
+    "group": "firesense_kitchen_fire"
+  },
+  "posVideo3.872.avi": {
+    "use": true,
+    "group": "firesense_campfire_leaf",
+    "content": [
+      "fire",
+      "smoke"
+    ],
+    "scene": {
+      "distance": "近景"
+    }
+  },
+  "posVideo4.873.avi": {
+    "use": true,
+    "scene": {
+      "setting": "室内",
+      "lighting": "未说明",
+      "distance": "近景"
+    },
+    "group": "firesense_fireplace"
+  },
+  "posVideo5.874.avi": {
+    "use": true,
+    "scene": {
+      "setting": "室内",
+      "lighting": "未说明",
+      "distance": "近景"
+    },
+    "group": "firesense_fireplace"
+  },
+  "posVideo6.875.avi": {
+    "use": false
+  },
+  "posVideo7.876.avi": {
+    "use": true,
+    "group": "firesense_fence_burn",
+    "content": [
+      "fire",
+      "smoke"
+    ],
+    "scene": {
+      "lighting": "逆光",
+      "distance": "中景"
+    }
+  },
+  "posVideo8.877.avi": {
+    "use": true,
+    "scene": {
+      "setting": "室内",
+      "lighting": "未说明",
+      "distance": "近景"
+    },
+    "group": "firesense_fireplace"
+  },
+  "posVideo9.878.avi": {
+    "use": true,
+    "content": [
+      "fire",
+      "smoke"
+    ],
+    "scene": {
+      "distance": "近景"
+    }
+  },
+  "posVideo10.869.avi": {
+    "use": true,
+    "group": "firesense_ultimate_chase_forest",
+    "scene": {
+      "distance": "中景"
+    }
+  },
+  "posVideo11.870.avi": {
+    "use": true,
+    "group": "firesense_ultimate_chase_forest",
+    "scene": {
+      "distance": "中景"
+    }
+  }
+}

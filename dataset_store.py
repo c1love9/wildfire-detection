@@ -230,12 +230,21 @@ class DatasetStore:
             content = set().union(*(set(json.loads(row['content_json'])) for row in related))
             conflict = ('normal' in content and bool(content & {'fire', 'smoke'}))
             origin = next(iter(origins)) if len(origins) == 1 else 'conflict'
+            # Imported frame collections can retain their original videos outside
+            # this catalog so raw sources are not counted again as selected clips.
+            external_frame = any(
+                row['frame_number'] is not None and row['media_seconds'] is not None
+                and bool((metadata := json.loads(row['metadata_json'])).get('source_video'))
+                and isinstance(metadata.get('source_sha256'), str)
+                and len(metadata['source_sha256']) == 64
+                and all(char in '0123456789abcdef' for char in metadata['source_sha256'])
+                for row in occurrences)
             facts.append({**asset, 'origin': origin, 'content': sorted(content), 'content_conflict': conflict,
                           'eligible': bool(origins) and origins <= {'own', 'public'},
                           'batch_ids': sorted({row['batch_id'] for row in occurrences}),
                           'parents': sorted({row['parent_id'] for row in occurrences if row['parent_id']}),
                           'groups': sorted({row['group_key'] for row in related}),
-                          'derived': any(row['parent_id'] for row in occurrences)})
+                          'derived': any(row['parent_id'] for row in occurrences) or external_frame})
         return facts
 
     def statistics(self):

@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-22T09:14:13.436+00:00",
+  "images_checked": 700,
+  "videos_fully_decoded": 300,
+  "video_duration_seconds": 900.0,
+  "decoded_video_frames": 13500,
+  "media_sha256_and_image_shapes": true,
+  "nonoverlapping_clips_per_source": true,
+  "same_original_video_and_known_scene_groups_never_cross_splits": true,
+  "draft_yolo_geometry_valid": true,
+  "unresolved_positive_images_not_negative_ground_truth": 29,
+  "annotation_status": "All labels are candidates; no student human approval fabricated",
+  "collection_rule": "Public material curation counted as self-collection only under user-reported teacher approval",
+  "coverage_status": "Indoor/outdoor, day/night/backlight, different distances, level/aerial views selected; literal early sparks and combustion-stage reference still require review",
+  "split_images": {
+    "train": 484,
+    "test": 76,
+    "val": 140
+  },
+  "split_videos": {
+    "train": 210,
+    "test": 66,
+    "val": 24
+  },
+  "source_original_videos": 46,
+  "human_approved_images": 0
+}

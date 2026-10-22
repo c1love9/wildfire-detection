@@ -6,6 +6,7 @@
 >
 > - [本地启动与重新安装](docs/quick_start.md)
 > - [完整使用指南](docs/user_guide.md)
+> - [最低数量数据集与筛选统计](docs/dataset_collection.md)
 > - [本次代码检查与修复](docs/code_review.md)
 > - [本轮功能说明与协议](docs/completion.md)
 > - [架构与流程](docs/architecture.md)

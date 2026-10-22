@@ -1,0 +1,27 @@
+{
+  "status": "review_package_ready; formal_annotation_and_scene_acceptance_pending",
+  "created_at": "2026-10-22T09:17:07.442186+00:00",
+  "package": "data/minimum_collection/最低数量数据集_700图_300视频_待复核.zip",
+  "bytes": 475220534,
+  "sha256": "d2f38f3091dd3113d0ec5ce41f6b25ea0a224e22ed978143626957c8e3de9426",
+  "files": 2240,
+  "images": 700,
+  "fire_scene_images": 500,
+  "normal_images": 200,
+  "video_clips": 300,
+  "video_seconds": 900.0,
+  "unresolved_positive_images": 29,
+  "human_approved_images": 0,
+  "source_base_commit": "9c831d47dac86331a6434e028eaff754417d34a3",
+  "regression_tests_passed": 165,
+  "all_package_members_crc_and_sha256_verified": true,
+  "all_videos_fully_decoded": true,
+  "browser_verified": true,
+  "pending": [
+    "All labels require student human review",
+    "Empty proposals in positive images require boxes, not negative approval",
+    "Literal early sparks and combustion-stage coverage need confirmation",
+    "Formal training and accuracy evaluation have not run"
+  ],
+  "raw_archives_and_media_excluded_from_git": true
+}

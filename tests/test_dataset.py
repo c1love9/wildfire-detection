@@ -79,6 +79,17 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(self.store.statistics()['total_images'], 1)
         self.assertEqual(len(self.store.snapshot()['occurrences']), 2)
 
+    def test_external_video_frames_are_counted_without_inventing_original_videos(self):
+        batch = self.batch(origin='public')
+        self.store.import_image(image_bytes(1), batch, frame_number=30, media_seconds=1.,
+                                metadata={'source_video': 'public/raw.mp4', 'source_sha256': 'a' * 64})
+        self.store.import_image(image_bytes(2), batch, frame_number=60, media_seconds=2.,
+                                metadata={'source_video': 'unverified/path.mp4'})
+        stats = self.store.statistics()
+        self.assertEqual(stats['derived_images'], 1)
+        self.assertEqual(stats['total_videos'], 0)
+        self.assertEqual(stats['own_assets'], 0)
+
     def test_demo_and_source_conflicts_are_not_claimed_as_own(self):
         self.store.import_image(image_bytes(1), self.batch(origin='demo'))
         self.assertEqual(self.store.statistics()['eligible_assets'], 0)
