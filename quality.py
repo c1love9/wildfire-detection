@@ -31,6 +31,13 @@ class WorkTimer:
         if self.last is not None and self.clock()-self.last>60:self.pause()
 
 
+def pause_work_timers(workspaces):
+    """End the current work interval before changing image, role or workspace."""
+    for workspace in workspaces:
+        if isinstance(workspace, dict) and isinstance(workspace.get('timer'), WorkTimer):
+            workspace['timer'].pause()
+
+
 def mask_metrics(reference,prediction):
     reference,prediction=np.asarray(reference),np.asarray(prediction)
     if reference.ndim!=2 or not reference.size or reference.shape!=prediction.shape:raise ValueError('两个掩码须为与原图一致的二维尺寸。')

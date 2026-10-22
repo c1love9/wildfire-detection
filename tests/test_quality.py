@@ -4,7 +4,7 @@ import uuid
 from pathlib import Path
 import numpy as np
 from test_training import seed
-from quality import QualityStore,WorkTimer,mask_metrics
+from quality import QualityStore,WorkTimer,mask_metrics,pause_work_timers
 
 
 class QualityTests(unittest.TestCase):
@@ -35,6 +35,15 @@ class QualityTests(unittest.TestCase):
         self.assertEqual(timer.seconds(),6)
         clock[0]=100;self.assertEqual(timer.seconds(),6)
         timer.start();clock[0]=200;timer.expire();self.assertIsNone(timer.last);self.assertEqual(timer.seconds(),66)
+
+    def test_switching_image_or_identity_pauses_previous_work(self):
+        clock=[0.];first=WorkTimer(lambda:clock[0]);second=WorkTimer(lambda:clock[0])
+        first.start();clock[0]=7
+        pause_work_timers([{'timer':first},{'timer':second},{'boxes':[]}])
+        second.start();clock[0]=12;second.pause()
+        self.assertIsNone(first.last)
+        self.assertEqual(first.seconds(),7)
+        self.assertEqual(second.seconds(),5)
 
     def test_invalid_access_and_same_person(self):
         store,key,tokens=self.store()

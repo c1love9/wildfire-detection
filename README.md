@@ -5,6 +5,8 @@
 > 本仓库在保留上游来源和许可证的基础上逐步改进。当前支持图片、逐帧视频与摄像头检测，可选SAM像素分割、面积趋势、连续确认、面积辅助分级、弹窗/可选声音、持久化日志和报警截图/片段。命名通道关联模拟位置与视角；提供数据导入/划分、GroundingDINO预标注、复核/YOLO导出、训练、统一模型对比、成对优化实验与独立标注质量工具。
 >
 > - [本地启动与重新安装](docs/quick_start.md)
+> - [完整使用指南](docs/user_guide.md)
+> - [本次代码检查与修复](docs/code_review.md)
 > - [本轮功能说明与协议](docs/completion.md)
 > - [架构与流程](docs/architecture.md)
 > - [报告 演示与交付清单](docs/delivery.md)

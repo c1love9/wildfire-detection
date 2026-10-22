@@ -8,6 +8,7 @@ import io
 from dataset_store import dataset_root
 from model_catalog import fire_models, general_models
 from inference_ui import load_detector, show_model, with_segmentation, show_segmentation
+from image_input import load_image
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 
@@ -201,7 +202,10 @@ def main():
         demo_images = sorted((PROJECT_ROOT / 'demo-images').glob('*.jpeg'))
         if demo_images:
             selected_demo = st.selectbox('Select demo image', [path.name for path in demo_images])
-            image = Image.open(PROJECT_ROOT / 'demo-images' / selected_demo).convert('RGB')
+            try:
+                image = load_image(PROJECT_ROOT / 'demo-images' / selected_demo)
+            except ValueError as exc:
+                st.error(str(exc))
         else:
             st.info('No demo images found. Upload an image or enter its URL.')
     elif image_source == "Upload from Computer":
@@ -209,7 +213,7 @@ def main():
         uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
         if uploaded_file is not None:
             try:
-                image = Image.open(uploaded_file).convert('RGB')
+                image = load_image(uploaded_file)
             except (OSError, ValueError) as exc:
                 st.error(f'Unable to read this image: {exc}')
         else:
@@ -222,7 +226,7 @@ def main():
             try:
                 with requests.get(url, timeout=15) as response:
                     response.raise_for_status()
-                    image = Image.open(io.BytesIO(response.content)).convert('RGB')
+                    image = load_image(io.BytesIO(response.content))
             except (requests.exceptions.RequestException, OSError, ValueError) as e:
                 st.error(f"Error loading image from URL: {e}")
                 image = None

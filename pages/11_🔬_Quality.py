@@ -9,13 +9,17 @@ import streamlit as st
 from dataset_store import DatasetStore,dataset_root
 from annotations import AnnotationStore,validate_boxes
 from annotation_ui import box_editor
-from quality import QualityStore,WorkTimer
+from quality import QualityStore,WorkTimer,pause_work_timers
 
 ROOT=Path(__file__).resolve().parents[1]
 st.set_page_config(page_title='标注质量与面积误差',page_icon='🔬',layout='wide');st.title('标注质量与面积误差')
 st.caption('独立工作区不向标注者显示模型候选或另一人的结果；访问码不是系统级账号认证。实际双人独立性需真人与操作规程保证。')
 dataset=DatasetStore(dataset_root(ROOT));store=QualityStore(dataset);catalog=store.annotations.catalog()
-mode=st.radio('质量工作区',['创建独立标注任务','独立标注','管理与仲裁','面积误差','工时对照'],horizontal=True)
+
+def pause_annotation_timers():
+    pause_work_timers([value for key,value in st.session_state.items() if key.startswith('blind_')])
+
+mode=st.radio('质量工作区',['创建独立标注任务','独立标注','管理与仲裁','面积误差','工时对照'],horizontal=True,on_change=pause_annotation_timers)
 try:
     if mode=='创建独立标注任务':
         assets=st.multiselect('独立标注图片',[r['id'] for r in catalog],format_func=lambda k:k[:16])
@@ -27,11 +31,11 @@ try:
             st.warning('访问码仅在创建者当前会话显示，请分别交给对应人员，不要公开管理员访问码。')
             st.json(st.session_state['new_quality_access'])
     elif mode=='独立标注':
-        token=st.text_input('独立标注访问码',type='password')
+        token=st.text_input('独立标注访问码',type='password',on_change=pause_annotation_timers)
         if token:
             access=store.access(token)
             if access['role']=='admin':raise ValueError('请使用A或B访问码。')
-            key=st.selectbox('本人的待标注图片',[i['asset']['id'] for i in access['snapshot']])
+            key=st.selectbox('本人的待标注图片',[i['asset']['id'] for i in access['snapshot']],on_change=pause_annotation_timers)
             asset=store.frozen_asset(access,key);submitted=store.own_submission(token,key)
             st.caption('当前身份：'+access['actor']+'；不载入预标注或另一位标注者的框。')
             if submitted:st.success('此图已独立提交并锁定。');st.json(submitted['boxes'])

@@ -8,6 +8,7 @@ from grounding_prelabel import GroundingPrelabeler, PrelabelConfig
 from dataset_store import DatasetStore,dataset_root,csv_bytes
 from model_catalog import fire_models
 from inference_ui import load_detector
+from image_input import load_image
 
 ROOT=Path(__file__).resolve().parents[1]
 st.set_page_config(page_title='模型统一对比',page_icon='⚖️',layout='wide')
@@ -35,7 +36,7 @@ if mode=='图片并排检测':
     if st.button('运行并排检测'):
         try:
             with st.spinner('运行两个模型…'):
-                image=Image.open(upload if upload else ROOT/'demo-images'/demo).convert('RGB');left,right=predict_pair(image,*models())
+                image=load_image(upload if upload else ROOT/'demo-images'/demo);left,right=predict_pair(image,*models())
             a,b=st.columns(2);a.image(left,caption='YOLO · 置信度≥0.25',width=640);b.image(right,caption='GroundingDINO · 置信度≥0.25',width=640)
             st.success('并排推理完成；没有独立参考标注，不计算准确率。')
         except (OSError,ValueError,RuntimeError) as exc:st.error(str(exc))

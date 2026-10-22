@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-22T01:21:45.682950+00:00",
+  "base_commit": "fdf8c8da11d0da03e5ff1a91809a33305f56ffcc",
+  "scope": "Production modules, all 11 pages, canvas, configs, worker and delivery scripts; existing public demos and isolated synthetic fixtures only",
+  "fixed_issues": [
+    "EXIF orientation and bounded decoding for direct image inference",
+    "Pause independent annotation timing when switching image, identity or workspace"
+  ],
+  "unit_tests_passed": 164,
+  "dependency_check": "No broken requirements found.",
+  "static_checks": {
+    "python_files": 77,
+    "node_scripts": 15,
+    "configuration_json_valid": true,
+    "inline_canvas_javascript_valid": true
+  },
+  "browser_pages_checked": 11,
+  "targeted_browser_checks": "reports/code_review_browser.json",
+  "browser_regression": "reports/delivery_browser.json",
+  "real_yolo_sam_alignment": {
+    "device": "cuda:0",
+    "image_size": [
+      360,
+      640
+    ],
+    "mask_shape": [
+      640,
+      360
+    ],
+    "status": "ready",
+    "counts": {
+      "fire": 1,
+      "smoke": 0
+    },
+    "scope": "Existing public demo with EXIF metadata; functional alignment, not accuracy evidence"
+  },
+  "guide": {
+    "path": "artifacts/release/智能火灾报警系统完整使用指南.docx",
+    "sha256": "8f683d595b6a7a0174c0043904b8db1ccdedf6a02a1e826ba6a8750d91c04307",
+    "pages": 17,
+    "all_pages_visually_reviewed": true,
+    "editable_paragraphs": 306,
+    "editable_tables": 5,
+    "chapters": 15
+  },
+  "official_workspace": {
+    "assets": 0,
+    "training_jobs": 0
+  },
+  "limitations": [
+    "Does not prove absence of all bugs",
+    "No new formal data, convergence training or real double annotations",
+    "No new physical camera capture; controlled lifecycle regression and previous hardware evidence retained",
+    "No one-click cross-machine data migration"
+  ]
+}

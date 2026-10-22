@@ -8,6 +8,7 @@
 |---|---|---|
 |源代码与小型验证摘要|GitHub的main分支|按阶段独立提交，保留上游来源；模型和个人画面不提交|
 |可编辑设计报告|artifacts/release/智能火灾报警系统设计报告.docx|教师模板版；正文、表格、公式可编辑；源稿docs/template_report.md|
+|完整使用指南|artifacts/release/智能火灾报警系统完整使用指南.docx|17页可编辑操作手册；源稿docs/user_guide.md|
 |系统演示视频|artifacts/release/智能火灾报警系统演示.mp4|约3～5分钟，实际浏览器操作，字幕说明，静音|
 |交付包和校验清单|artifacts/release/智能火灾报警系统交付包.zip、manifest.json|包含报告、视频及安装/操作文档，不包含权重和数据|
 |源码附录|交付包内source_code.zip|与manifest中提交一致的代码、配置、测试和说明；过滤模型/数据/演示媒体|
@@ -30,8 +31,11 @@
 
 ## 生成和检查
 
+2026年10月22日补充全代码复核、两项操作问题修复与完整使用指南；164项回归及实际浏览器检查通过。记录见docs/code_review.md和reports/code_review.json，原设计报告与演示视频保持原交付版本。
+
 - scripts/record_delivery_demo.mjs：录制实际浏览器操作，需已启动隔离服务、Edge、Playwright及其FFmpeg；ALARM_APP_URL可改地址，PLAYWRIGHT_MODULE可改模块路径。当前电脑复用已安装FFmpeg 8.0.1作为录制编码器。
 - scripts/build_template_report.py --template <教师模板路径>：按docs/report_template_contract.md套版，需python-docx/Pillow/lxml；先用scripts/render_report_figures.mjs渲染可编辑SVG流程图。原始模板不提交Git；同SHA模板方可直接重建。通用稿另由scripts/build_design_report.py生成，避免覆盖模板版。
+- scripts/build_user_guide.py：从docs/user_guide.md生成完整使用指南，使用已配置的文档运行环境；与报告分别输出，生成后同样逐页渲染检查。
 - scripts/render_design_report.py：调用文档技能的render_docx.py逐页输出PNG。无LibreOffice时可显式指定--word，使用本机Word只读导出PDF再复用渲染管线。PDF/PNG仅用于排版检查。
 - scripts/check_delivery.py：核对模型/历史完整性、生产数据隔离、视频时长/编码、报告可编辑结构及交付文件SHA-256。
 - scripts/verify_delivery_browser.mjs：重启后检查生产11个页面、正式实验待补状态及隔离历史回放/CSV；scripts/check_delivery.py --snapshot在重启前保存内容摘要，重启后不加参数执行比对。

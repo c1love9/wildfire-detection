@@ -19,12 +19,12 @@ def main():
     with ZipFile(source) as archive:
         assert archive.testzip() is None
         assert all(not name.startswith(('artifacts/','data/','.venv/','fire-models/','demo-images/','demo-videos/')) for name in archive.namelist())
-    files={p.name:p for p in [RELEASE/'智能火灾报警系统设计报告.docx',RELEASE/'智能火灾报警系统演示.mp4']}
+    files={p.name:p for p in [RELEASE/'智能火灾报警系统设计报告.docx',RELEASE/'智能火灾报警系统演示.mp4',RELEASE/'智能火灾报警系统完整使用指南.docx']}
     files['source_code.zip']=source
-    for name in ('quick_start','completion','architecture','delivery','template_report','report_reference_check','report_template_contract','requirements_audit','environment','upstream'):
+    for name in ('user_guide','code_review','quick_start','completion','architecture','delivery','template_report','report_reference_check','report_template_contract','requirements_audit','environment','upstream'):
         files['docs/'+name+'.md']=ROOT/'docs'/(name+'.md')
     files['requirements-lock.txt']=ROOT/'requirements-lock.txt'
-    for name in ('delivery_checks','delivery_demo','delivery_browser','template_report'):
+    for name in ('code_review','code_review_browser','delivery_checks','delivery_demo','delivery_browser','template_report'):
         files['reports/'+name+'.json']=ROOT/'reports'/(name+'.json')
     manifest={'status':'System features, experiment tools and material framework completed; formal experiments pending',
               'repository':'https://github.com/c1love9/wildfire-detection','source_commit':commit,

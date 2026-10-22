@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-22T01:18:30.064Z",
+  "phone_orientation_and_prediction_png": true,
+  "corrupt_upload_handled": true,
+  "image_switch_pauses_previous_timer": true,
+  "paused_timer_seconds": 2,
+  "official_data_modified": false,
+  "page_errors": []
+}
