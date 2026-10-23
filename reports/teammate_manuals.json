@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-23T09:00:10.007222+00:00",
+  "audience": "Beginner teammate learning architecture and performing human annotation",
+  "application_code_base": "317a26e0da374df5c659f6723ad83dd8f2c143d0",
+  "documents": [
+    {
+      "file": "artifacts/release/智能火灾报警系统项目入门手册.docx",
+      "pages": 9,
+      "figures": 1,
+      "tables": 7,
+      "bytes": 144237,
+      "sha256": "ea294b208aa43a214f177f65a1acf27fefcfc61523d8cfb5aef2353046235c68",
+      "docx_crc_valid": true,
+      "rendered_with": "Microsoft Word via document skill renderer",
+      "all_pages_visually_reviewed": true
+    },
+    {
+      "file": "artifacts/release/火焰烟雾数据标注操作手册.docx",
+      "pages": 10,
+      "figures": 3,
+      "tables": 4,
+      "bytes": 337563,
+      "sha256": "6f2a90a958e9e2f853fa0120d890c7e1af6a7efb4a7244a15ba5ccd9339c3386",
+      "docx_crc_valid": true,
+      "rendered_with": "Microsoft Word via document skill renderer",
+      "all_pages_visually_reviewed": true
+    }
+  ],
+  "screenshots": "Isolated synthetic teaching workspace only; no formal data or access codes",
+  "formal_data_untouched": {
+    "images": 700,
+    "assets": 1000,
+    "human_approved_images": 0
+  },
+  "coverage": [
+    "YOLO GroundingDINO SAM roles",
+    "Area and temporal alarms",
+    "Implementation and source modules",
+    "Startup and collaboration",
+    "Class rules and box boundaries",
+    "Actual Annotations canvas",
+    "Explicit negatives and unresolved positives",
+    "Quality independent two-human workflow",
+    "YOLO coordinate example",
+    "Exports backups and handover"
+  ]
+}
