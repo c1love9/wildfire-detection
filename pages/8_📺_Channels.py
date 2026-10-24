@@ -20,5 +20,5 @@ try:
         if st.form_submit_button('保存通道配置'):
             rows[selected]={**row,'name':name,'kind':kind,'source':video if kind=='video' else int(camera),'point_id':point}
             save_channels(rows);st.success('已保存，下次开始检测时生效。')
-    st.dataframe(rows,hide_index=True)
+    st.dataframe([{**item,'source':str(item['source'])} for item in rows],hide_index=True)
 except (OSError,ValueError,TypeError) as exc:st.error(str(exc))

@@ -108,7 +108,8 @@
     "Expose signed image coverage change rate and history chart",
     "Replace obsolete empty-production-catalog assertion with fixture isolation check",
     "Update template report and delivery text to actual collected-candidate status",
-    "Add 48-clause source audit and disclose actual preannotation prompt/parameter history"
+    "Add 48-clause source audit and disclose actual preannotation prompt/parameter history",
+    "Normalize channel table display source cells without changing integer USB configuration"
   ],
   "remaining_formal_gates": [
     "逐图复核与场景/小火星确认",
@@ -124,5 +125,18 @@
     "Literal early sparks and real combustion-stage coverage still need source/scene review",
     "Image coverage change is a visual proxy, not physically calibrated spread speed",
     "The current ZIP is a functional review package; final reviewed data and own trained weights must be delivered separately"
-  ]
+  ],
+  "channel_display_followup": {
+    "app_test_passed": true,
+    "source_cells_text_only": true,
+    "usb_configuration_integer_preserved": true,
+    "browser": {
+      "status": "passed",
+      "verified_at": "2026-10-24T08:51:50.519Z",
+      "page": "Channels",
+      "page_errors": [],
+      "table_visible": true
+    },
+    "server_arrow_conversion_warnings": 0
+  }
 }
