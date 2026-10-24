@@ -1,7 +1,7 @@
 {
   "status": "NOT_ALL_COMPLETE",
   "formal_acceptance_complete": false,
-  "audited_at": "2026-10-24T08:45:30.545010+00:00",
+  "audited_at": "2026-10-24T09:24:31.682713+00:00",
   "source_document": "第4题-智能火灾报警系统.pdf",
   "source_sha256": "46919025b0bcbce225c675d85071338d128a4232630e69367d8bbc0f1a2d4af5",
   "source_pages_visually_inspected": [
@@ -10,14 +10,14 @@
     3,
     4
   ],
-  "code_base_commit": "d457ae641e5132918a3cb5f5252b9a2ef9f7de32",
+  "code_base_commit": "de0755b0212fd3f3b6bbd3925b9e5bfc7553f6fa",
   "evidence_scope": "Official data catalog only; isolated synthetic tests are software evidence, never formal experiments",
   "facts": {
     "exists": true,
     "images": 700,
     "videos": 300,
     "video_seconds": 900.0,
-    "proposals": 700,
+    "proposals": 740,
     "review_versions": 0,
     "latest_approved_images": 0,
     "approved_negative_images": 0,
@@ -31,9 +31,9 @@
     "integrity": "ok",
     "tables": {
       "annotation_exports": 0,
-      "annotation_proposals": 700,
+      "annotation_proposals": 740,
       "annotation_reviews": 0,
-      "annotation_runs": 8,
+      "annotation_runs": 9,
       "assets": 1000,
       "batches": 153,
       "comparisons": 0,
@@ -42,7 +42,8 @@
       "quality_masks": 0,
       "quality_references": 0,
       "quality_submissions": 0,
-      "quality_tasks": 0,
+      "quality_task_preparations": 1,
+      "quality_tasks": 1,
       "quality_worktime": 0,
       "splits": 1,
       "training_jobs": 0
@@ -127,7 +128,7 @@
       "clause": "子任务2① 采用开放域模型完成预标注",
       "scope": "基本",
       "status": "已实际执行",
-      "evidence": "500幅来源帧使用未微调GroundingDINO；正式库有700项候选，包括200幅来源空标签",
+      "evidence": "500幅来源帧使用未微调GroundingDINO；正式库有740项候选，包括200幅来源空标签",
       "remaining": "GroundingDINO直接输出框为原文允许方案，预标注不强制必须同时使用SAM"
     },
     {
@@ -154,7 +155,7 @@
       "clause": "子任务2③ 同一批至少200幅由两人独立标注",
       "scope": "基本",
       "status": "待真人执行",
-      "evidence": "正式库双人提交齐全的不同图片0幅",
+      "evidence": "正式库独立任务1项；双人提交齐全的不同图片0幅",
       "remaining": "两名真人从空白画布各标同一批至少200幅；提前看过候选的情况须披露"
     },
     {

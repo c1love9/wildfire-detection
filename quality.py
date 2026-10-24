@@ -62,6 +62,7 @@ class QualityStore:
             CREATE TABLE IF NOT EXISTS quality_references(seq INTEGER PRIMARY KEY AUTOINCREMENT,task_id TEXT NOT NULL,asset_id TEXT NOT NULL,boxes_json TEXT NOT NULL,actor TEXT NOT NULL,note TEXT NOT NULL,created_at TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS quality_masks(id TEXT PRIMARY KEY,record_json TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS quality_worktime(id TEXT PRIMARY KEY,group_id TEXT NOT NULL,actor TEXT NOT NULL,condition TEXT NOT NULL,seconds REAL NOT NULL,note TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(group_id,actor,condition));
+            CREATE TABLE IF NOT EXISTS quality_task_preparations(seq INTEGER PRIMARY KEY AUTOINCREMENT,task_id TEXT NOT NULL,before_snapshot_json TEXT NOT NULL,after_snapshot_json TEXT NOT NULL,actor TEXT NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL);
             ''')
 
     def create(self,assets,actor_a,actor_b,admin):
@@ -92,6 +93,61 @@ class QualityStore:
         with self.dataset.connection() as db:
             row=db.execute('SELECT * FROM quality_submissions WHERE task_id=? AND asset_id=? AND role=?',(access['task_id'],asset_id,access['role'])).fetchone()
         return {**dict(row),'boxes':json.loads(row['boxes_json'])} if row else None
+
+    def progress(self,token):
+        access=self.access(token)
+        keys=[item['asset']['id'] for item in access['snapshot']]
+        with self.dataset.connection() as db:
+            if access['role']=='admin':
+                counts=dict(db.execute('SELECT role,COUNT(*) FROM quality_submissions WHERE task_id=? GROUP BY role',(access['task_id'],)).fetchall())
+                references=db.execute('SELECT COUNT(DISTINCT asset_id) FROM quality_references WHERE task_id=?',(access['task_id'],)).fetchone()[0]
+                return {'total':len(keys),'A':counts.get('A',0),'B':counts.get('B',0),'references':references}
+            done={row[0] for row in db.execute('SELECT asset_id FROM quality_submissions WHERE task_id=? AND role=?',(access['task_id'],access['role']))}
+        return {'total':len(keys),'submitted':len(done),'submitted_asset_ids':[key for key in keys if key in done],
+                'remaining_asset_ids':[key for key in keys if key not in done]}
+
+    def reference(self,admin_token,asset_id):
+        access=self.access(admin_token,True);self.submissions(admin_token)
+        self.frozen_asset(access,asset_id)
+        with self.dataset.connection() as db:
+            row=db.execute('SELECT * FROM quality_references WHERE task_id=? AND asset_id=? ORDER BY seq DESC LIMIT 1',(access['task_id'],asset_id)).fetchone()
+        return {**dict(row),'boxes':json.loads(row['boxes_json'])} if row else None
+
+    def approve_reference(self,admin_token,asset_id,reference_seq,expected_review=None,negative_confirmed=False):
+        """An explicit human action publishes saved arbitration, retaining A/B."""
+        access=self.access(admin_token,True)
+        reference=self.reference(admin_token,asset_id)
+        if reference is None or reference['seq']!=reference_seq:
+            raise ValueError('人工参考版本已变化，请重新载入后再确认用于训练。')
+        item=next(item for item in access['snapshot'] if item['asset']['id']==asset_id)
+        proposal=item['proposal']
+        return self.annotations.save_review(asset_id,reference['boxes'],access['actor'],
+            f"独立标注任务 {access['task_id']}，人工仲裁参考版本 {reference_seq}；{reference['note']}",
+            decision='approved',expected_revision=expected_review,proposal_id=proposal['id'] if proposal else None,
+            negative_confirmed=negative_confirmed,elapsed_seconds=0)
+
+    def refresh_proposals_before_start(self,admin_token,reason):
+        """Explicit preparation revision, forbidden once either person submitted."""
+        access=self.access(admin_token,True)
+        if not reason.strip():raise ValueError('请记录准备阶段重冻结的实际原因。')
+        refreshed=[]
+        for item in access['snapshot']:
+            asset=self.frozen_asset(access,item['asset']['id'])
+            proposal=next((row for row in self.annotations.proposals(asset['id']) if row['status']=='ready' and row['input_sha256']==asset['sha256']),None)
+            refreshed.append({'asset':item['asset'],'proposal':proposal})
+        after=json.dumps(refreshed)
+        with self.dataset.connection() as db:
+            db.execute('BEGIN IMMEDIATE')
+            submitted=db.execute('SELECT COUNT(*) FROM quality_submissions WHERE task_id=?',(access['task_id'],)).fetchone()[0]
+            references=db.execute('SELECT COUNT(*) FROM quality_references WHERE task_id=?',(access['task_id'],)).fetchone()[0]
+            if submitted or references:raise ValueError('已有独立提交或人工参考，不能改写冻结候选；须保留原任务版本。')
+            before=db.execute('SELECT snapshot_json FROM quality_tasks WHERE id=?',(access['task_id'],)).fetchone()[0]
+            if before!=access['snapshot_json']:raise ValueError('任务准备版本已变化，请重新载入。')
+            if before==after:return 0
+            db.execute('INSERT INTO quality_task_preparations(task_id,before_snapshot_json,after_snapshot_json,actor,reason,created_at) VALUES(?,?,?,?,?,?)',
+                       (access['task_id'],before,after,access['actor'],reason,now()))
+            db.execute('UPDATE quality_tasks SET snapshot_json=? WHERE id=?',(after,access['task_id']))
+        return sum((old['proposal']['id'] if old['proposal'] else None)!=(new['proposal']['id'] if new['proposal'] else None) for old,new in zip(access['snapshot'],refreshed))
 
     def frozen_asset(self,access,asset_id):
         item=next((i for i in access['snapshot'] if i['asset']['id']==asset_id),None)
@@ -146,7 +202,10 @@ class QualityStore:
             if item['proposal'] is not None:
                 predictions[key]=item['proposal']['boxes'];provenance[key]=item['proposal']['id']
         reference_with_proposal={key:references[key] for key in predictions}
+        with self.dataset.connection() as db:
+            preparation=[dict(row) for row in db.execute('SELECT seq,actor,reason,created_at FROM quality_task_preparations WHERE task_id=? ORDER BY seq',(access['task_id'],))]
         return {'task_id':access['task_id'],'images':len(references),'at_least_200_images':len(references)>=200,
+                'task_preparation_revisions':preparation,
                 'agreement':agreement,'preannotation_quality':evaluate_predictions(reference_with_proposal,predictions) if predictions else None,
                 'images_with_frozen_proposal':len(predictions),'proposal_versions':provenance,'adjudication_history':refs,
                 'independent_submissions':submissions,'image_sha256':{i['asset']['id']:i['asset']['sha256'] for i in access['snapshot']},

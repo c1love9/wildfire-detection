@@ -98,7 +98,7 @@ def requirements(facts):
     add('T2-03', 2, '子任务2③ 自动标注后人工复核修正', '基本', '待真人执行',
         f"annotation_reviews共{facts['review_versions']}条，最新通过{facts['latest_approved_images']}幅", '两名成员按分工完成真实复核、补框、删误检和说明，不由程序伪造人工通过')
     add('T2-04', 2, '子任务2③ 同一批至少200幅由两人独立标注', '基本', '待真人执行',
-        f"正式库双人提交齐全的不同图片{facts['independently_double_submitted_images']}幅", '两名真人从空白画布各标同一批至少200幅；提前看过候选的情况须披露')
+        f"正式库独立任务{facts.get('tables',{}).get('quality_tasks',0)}项；双人提交齐全的不同图片{facts['independently_double_submitted_images']}幅", '两名真人从空白画布各标同一批至少200幅；提前看过候选的情况须披露')
     add('T2-05', 2, '子任务2③ 自动标注准确率 召回率和一致性IoU', '基本', '待正式结果',
         f"质量工具已验证；正式仲裁图片{facts['adjudicated_images']}幅", '双提交后保存人工仲裁参考，报告P/R/F1、框IoU及未匹配目标，不能用模拟角色充数')
     add('T2-06', 2, '子任务2③ 预标注节省人力工时估算', '基本', '待实测',

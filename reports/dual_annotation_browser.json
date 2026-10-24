@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-24T09:24:14.225Z",
+  "formal_task_read_only": true,
+  "formal_roles_blank_and_no_submissions": true,
+  "credential_cleared_on_logout": true,
+  "admin_locked_before_completion": true,
+  "synthetic_two_role_two_image_submissions": true,
+  "pending_filter_auto_advances": true,
+  "visual_arbitration_and_explicit_review_approval": true,
+  "empty_reference_requires_confirmation": true,
+  "quality_report_download": true,
+  "scope": "Formal task inspected without writes; all annotation/approval actions are isolated synthetic automation, never human evidence",
+  "page_errors": []
+}

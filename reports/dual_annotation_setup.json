@@ -1,0 +1,92 @@
+{
+  "status": "task_ready_no_human_work_fabricated",
+  "created_at": "2026-10-24T09:09:28.034+00:00",
+  "task_id": "quality_6146eb5a5ab24f5ebc6961d07e392ad2",
+  "seed": 20261024,
+  "selection": {
+    "images": 200,
+    "split_counts": {
+      "train": 200
+    },
+    "source_counts": {
+      "kmu": 100,
+      "firesense": 60,
+      "dfire": 40
+    },
+    "source_declared_content_counts": {
+      "fire+smoke": 53,
+      "smoke": 49,
+      "fire": 58,
+      "normal": 40
+    },
+    "positive_scene_declarations": {
+      "setting": {
+        "室外": 129,
+        "室内": 31
+      },
+      "lighting": {
+        "夜间": 50,
+        "白天": 91,
+        "逆光": 15,
+        "未说明": 4
+      },
+      "distance": {
+        "近景": 76,
+        "中景": 51,
+        "远景": 33
+      },
+      "view": {
+        "平视": 160
+      }
+    },
+    "positive_original_videos": 38,
+    "unique_asset_ids": 200,
+    "note": "Source declarations are not human ground truth; normal scenes remain individually unverified. Test/val not sampled; no per-image answers distributed to A/B."
+  },
+  "frozen_image_hashes_verified": true,
+  "total_expected_independent_submissions": 400,
+  "current_submissions": 0,
+  "current_references": 0,
+  "current_human_approved_images": 0,
+  "normal_data_catalog": true,
+  "credential_files_excluded_from_git": true,
+  "private_directory_relative_to_project": "data/fire_dataset/quality_assignments/dual_200_20261024",
+  "blind_manifest_sha256": "c842de82c7b5f80bd85102ca780b4a37620da539126fedd81ddc9d08d859549c",
+  "backup_before_setup_sha256": "00867f395d626197dfef02d1268fe09df5a049ea38fe28840ee02a5cfb7e338c",
+  "limitations": [
+    "Two actual people must follow the blind protocol; access codes are not OS account isolation",
+    "Prior human exposure to model labels must be disclosed; source declarations do not establish truth",
+    "Training-only quality subset is not an independent test set or a population accuracy estimate"
+  ],
+  "actual_grounding_candidates_frozen": 200,
+  "new_grounding_inferences": 40,
+  "proposal_versions_replaced_before_human_work": 40,
+  "verified_at": "2026-10-24T09:27:54.751313+00:00",
+  "final_database_counts": {
+    "quality_tasks": 1,
+    "quality_submissions": 0,
+    "quality_references": 0,
+    "annotation_reviews": 0
+  },
+  "task_preparation_revisions": [
+    {
+      "seq": 1,
+      "actor": "成员A（仲裁管理者）",
+      "reason": "补跑来源空标签的正常候选，使本任务200幅均有实际DINO候选；人工提交仍为0，图像与次序不变。",
+      "created_at": "2026-10-24T09:22:35.540+00:00"
+    }
+  ],
+  "private_role_files_verified_without_exporting_codes": true,
+  "credentials_absent_from_unignored_changes": true,
+  "existing_task_preserved_on_repeat": true,
+  "unfinished_export_refused_exit_code": 2,
+  "software_validation": {
+    "regression_tests_passed": 178,
+    "full_regression_log_sha256": "6bd64e40d7a0b67b1b3d7bbf5747a72fc64d089fef3596395afa53536ceae38c",
+    "export_and_quality_targeted_checks_after_audit_additions": 16,
+    "browser_status": "passed",
+    "synthetic_export_preserved_originals_and_excluded_credentials": true,
+    "formal_task_not_submitted_by_automation": true
+  },
+  "private_handoff_instructions": "A uses only A card, B uses only B card; administrator after both 200/200; no credentials in public report"
+}

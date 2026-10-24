@@ -8,6 +8,7 @@
 > - [完整使用指南](docs/user_guide.md)
 > - [队友项目入门手册](docs/teammate_project_guide.md)
 > - [火焰烟雾数据标注操作手册](docs/teammate_annotation_manual.md)
+> - [已建立的200幅双人独立任务与交接操作](docs/dual_annotation_200_guide.md)
 > - [最低数量数据集与筛选统计](docs/dataset_collection.md)
 > - [本次代码检查与修复](docs/code_review.md)
 > - [本轮功能说明与协议](docs/completion.md)

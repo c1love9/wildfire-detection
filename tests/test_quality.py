@@ -30,6 +30,51 @@ class QualityTests(unittest.TestCase):
         store,key,tokens=self.store()
         with self.assertRaises(ValueError):store.submit(tokens['A'],key,[],1)
 
+    def test_progress_exposes_only_own_answers_and_admin_counts(self):
+        store,key,tokens=self.store()
+        store.submit(tokens['A'],key,[],1,True)
+        self.assertEqual(store.progress(tokens['A'])['remaining_asset_ids'],[])
+        self.assertEqual(store.progress(tokens['B'])['submitted'],0)
+        self.assertEqual(store.progress(tokens['B'])['remaining_asset_ids'],[key])
+        self.assertEqual(store.progress(tokens['admin']),{'total':1,'A':1,'B':0,'references':0})
+        with self.assertRaises(ValueError):store.reference(tokens['admin'],key)
+
+    def test_candidate_refreeze_rejects_any_existing_human_submission(self):
+        store,key,tokens=self.store()
+        original=store.access(tokens['admin'])['snapshot_json']
+        store.submit(tokens['A'],key,[],1,True)
+        with self.assertRaises(ValueError):store.refresh_proposals_before_start(tokens['admin'],'Synthetic attempt after work started')
+        self.assertEqual(store.access(tokens['admin'])['snapshot_json'],original)
+
+    def test_reference_approval_requires_saved_current_version_and_negative_confirmation(self):
+        store,key,tokens=self.store()
+        for role in ['A','B']:store.submit(tokens[role],key,[],2,True)
+        store.arbitrate(tokens['admin'],key,[],'Synthetic reviewed empty reference')
+        reference=store.reference(tokens['admin'],key)
+        with self.assertRaises(ValueError):store.approve_reference(tokens['admin'],key,reference['seq']+1,negative_confirmed=True)
+        with self.assertRaises(ValueError):store.approve_reference(tokens['admin'],key,reference['seq'])
+        previous=store.annotations.latest(key)['id']
+        review=store.approve_reference(tokens['admin'],key,reference['seq'],expected_review=previous,negative_confirmed=True)
+        self.assertEqual(store.annotations.latest(key)['id'],review)
+        self.assertEqual(store.annotations.latest(key)['decision'],'approved')
+        self.assertEqual(len(store.submissions(tokens['admin'])),2)
+        with self.assertRaises(ValueError):store.approve_reference(tokens['admin'],key,reference['seq'],expected_review=None,negative_confirmed=True)
+
+    def test_reference_approval_preserves_original_independent_boxes(self):
+        store,key,tokens=self.store()
+        a=[{'class':'fire','xyxy':[1,1,8,8]}]
+        b=[{'class':'smoke','xyxy':[2,2,9,9]}]
+        store.submit(tokens['A'],key,a,3)
+        store.submit(tokens['B'],key,b,4)
+        original_a=store.own_submission(tokens['A'],key)['boxes']
+        original_b=store.own_submission(tokens['B'],key)['boxes']
+        store.arbitrate(tokens['admin'],key,a+b,'Synthetic manual reconciliation')
+        reference=store.reference(tokens['admin'],key)
+        store.approve_reference(tokens['admin'],key,reference['seq'],expected_review=store.annotations.latest(key)['id'])
+        self.assertEqual(store.own_submission(tokens['A'],key)['boxes'],original_a)
+        self.assertEqual(store.own_submission(tokens['B'],key)['boxes'],original_b)
+        self.assertEqual([{k:box[k] for k in ('class','xyxy')} for box in store.annotations.latest(key)['boxes']],a+b)
+
     def test_timer_pauses_and_expires(self):
         clock=[0.];timer=WorkTimer(lambda:clock[0]);timer.start();clock[0]=4;timer.activity();clock[0]=6;timer.pause()
         self.assertEqual(timer.seconds(),6)
