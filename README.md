@@ -23,10 +23,11 @@
 > - [第四题要求对照与未完成项](docs/requirements_audit.md)
 > - [数据采集、导入、统计与划分](docs/dataset.md)
 > - [GroundingDINO预标注、人工复核与YOLO导出](docs/annotations.md)
+> - [预标注提示词依据、实际参数与待补调参记录](docs/annotation_protocol.md)
 > - [YOLO训练、损失曲线与独立评估](docs/training.md)
 > - [自训模型接入图片、视频与摄像头](docs/model_inference.md)
 >
-> Windows 本机双击 `启动项目.cmd`，打开 http://127.0.0.1:8501 。`Home`检测图片；`Demo Videos`检测视频/摄像头，支持模型与分割选择；`Alarm History`查看历史地图、媒体、趋势及CSV；`Dataset`、`Annotations`、`Training`管理数据/标注/训练；`Channels`、`Comparison`、`Experiments`、`Quality`提供通道、统一对比与质量实验。停止后可切换输入和模型，历史保留快照。当前状态为“系统功能、实验工具和材料框架完成”；实际数据、200幅真人双标、充分收敛训练及正式评测仍待补，详见要求对照表。下方英文研究结果属于上游项目，不能作为本人实验成果。
+> Windows 本机双击 `启动项目.cmd`，打开 http://127.0.0.1:8501 。`Home`检测图片；`Demo Videos`检测视频/摄像头，支持模型与分割选择；`Alarm History`查看历史地图、媒体、趋势及CSV；`Dataset`、`Annotations`、`Training`管理数据/标注/训练；`Channels`、`Comparison`、`Experiments`、`Quality`提供通道、统一对比与质量实验。停止后可切换输入和模型，历史保留快照。当前状态为“系统功能、实验工具和材料框架完成”；700幅候选图像和300段视频已入库，人工复核、200幅真人双标、充分收敛训练及正式评测仍待补，原题尚未全部完成，详见要求对照表。下方英文研究结果属于上游项目，不能作为本人实验成果。
 
 Welcome to the Wildfire Detection Research repository! This repository hosts the code and resources related to our research on leveraging computer vision for fire detection. Our aim is to contribute to wildfire prevention efforts by developing and training an object detection model to accurately identify instances of fire and smoke in images.
 

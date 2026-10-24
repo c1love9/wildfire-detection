@@ -17,6 +17,8 @@ try{
  await page.getByText(/待评测：请先选择本人成功训练的模型/).waitFor();
  await page.goto(base+'/Experiments');await idle();await page.getByText('待实验：尚无已复核训练数据。',{exact:true}).waitFor();
  await page.goto(fixture+'/Alarm_History');await page.getByRole('heading',{name:'报警日志',exact:true}).waitFor();await idle();
+ await page.getByTestId('stMetric').filter({has:page.getByText('火烟占比变化率',{exact:true})}).first().waitFor();
+ await page.locator('svg[aria-label="画面占比变化率趋势"]').first().waitFor();
  const video=page.locator('video').first();await video.waitFor();
  await video.evaluate(async e=>{e.muted=true;await e.play();});await page.waitForTimeout(1500);
  const playback=await video.evaluate(e=>({duration:e.duration,played:e.currentTime,error:e.error?.message||null}));
@@ -29,6 +31,6 @@ try{
  await page.goto(fixture+'/Experiments');await page.getByRole('heading',{name:'优化对照实验',exact:true}).waitFor();await idle();await page.getByRole('button',{name:'下载成对实验结果',exact:true}).waitFor();
  assert.deepEqual(errors,[]);
  const result={status:'passed',verified_at:new Date().toISOString(),normal_workspace_pages:routes,formal_actions_pending_without_real_data:true,
-  restarted_fixture_history_playback:playback,trend_csv_download:true,history_map_and_snapshot:true,comparison_and_pair_history_after_restart:true,page_errors:errors};
+  restarted_fixture_history_playback:playback,trend_csv_download:true,coverage_rate_metric_and_chart:true,history_map_and_snapshot:true,comparison_and_pair_history_after_restart:true,page_errors:errors};
  await fs.writeFile(path.join(root,'reports/delivery_browser.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
 }catch(error){await page.screenshot({path:path.join(root,'artifacts/release/screenshots/final_browser_failure.png')});throw error;}finally{await browser.close();}

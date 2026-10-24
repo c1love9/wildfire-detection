@@ -9,7 +9,8 @@
   "native_word_equations": 2,
   "bibliography_items": 9,
   "added_figures": 5,
-  "output_sha256": "ecbb3e204b1bba7d66194a8640fe185d27e5a7ea2ab77ebd984ab7ddddeb46df",
-  "rendered_pages": 15,
-  "all_pages_visually_inspected": true
+  "output_sha256": "13465a72668fbfda0460981d970b600b6858d0e85818ec60de4b9c9bca42f18b",
+  "rendered_pages": 16,
+  "all_pages_visually_inspected": true,
+  "visual_review": "All 16 pages inspected; final changed pages 10, 11, 13 inspected again, remaining final PNGs are pixel-identical to inspected pages"
 }

@@ -1,0 +1,128 @@
+{
+  "status": "Software and file checks passed; formal all-subtask acceptance NOT complete",
+  "verified_at": "2026-10-24T08:48:07.616033+00:00",
+  "code_base_commit": "d457ae641e5132918a3cb5f5252b9a2ef9f7de32",
+  "source_document_sha256": "46919025b0bcbce225c675d85071338d128a4232630e69367d8bbc0f1a2d4af5",
+  "original_pages_reviewed": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "requirements_checked": 48,
+  "formal_acceptance_complete": false,
+  "strict_acceptance_exit_code": 2,
+  "strict_exit_meaning": "Expected rejection of complete acceptance because real human work and formal experiments are missing",
+  "regression": {
+    "passed": 171,
+    "seconds": 26.212,
+    "log_sha256": "5cc8ea74388299fdf58635c09137ed394306d9189d749f7ab4954d6cead3a0da",
+    "new_cases": [
+      "Signed coverage-rate axes and unknown/duplicate-time gaps",
+      "Allow real nonempty catalog, reject isolated-fixture identity overlap",
+      "Read-only audit does not initialize missing tables",
+      "Double annotation counts distinct images with A and B in the same task"
+    ]
+  },
+  "browser": {
+    "pages": 11,
+    "page_errors": [],
+    "rate_metric_and_chart": true,
+    "history_video_playback": {
+      "duration": 1.333333,
+      "played": 1.333333,
+      "error": null
+    },
+    "map_snapshot_csv": true,
+    "comparison_and_paired_experiment_history": true
+  },
+  "restart": {
+    "actual_isolated_service_restart": true,
+    "complete_database_logical_content_unchanged": true,
+    "baseline_sha256": "82228f68f78ea955c8d092c8798a10883d66ce1ac62048f02373bc88544820aa",
+    "baseline_scope": "Existing isolated synthetic catalog and alarm database; no synthetic assets inserted in normal catalog"
+  },
+  "collected_files": {
+    "images": 700,
+    "fire_scene_candidates": 500,
+    "normal_candidates": 200,
+    "clips_fully_decoded": 300,
+    "decoded_frames": 13500,
+    "seconds": 900,
+    "draft_yolo_geometry_valid": true,
+    "known_source_groups_disjoint": true,
+    "unresolved_positive_empty_candidates": 29,
+    "labels_and_scene_declarations_human_verified": false
+  },
+  "formal_catalog": {
+    "exists": true,
+    "images": 700,
+    "videos": 300,
+    "video_seconds": 900.0,
+    "proposals": 700,
+    "review_versions": 0,
+    "latest_approved_images": 0,
+    "approved_negative_images": 0,
+    "reviewed_exports": 0,
+    "completed_training_jobs": 0,
+    "completed_comparisons": 0,
+    "independently_double_submitted_images": 0,
+    "adjudicated_images": 0,
+    "reference_mask_records": 0,
+    "worktime_records": 0,
+    "integrity": "ok",
+    "tables": {
+      "annotation_exports": 0,
+      "annotation_proposals": 700,
+      "annotation_reviews": 0,
+      "annotation_runs": 8,
+      "assets": 1000,
+      "batches": 153,
+      "comparisons": 0,
+      "experiments": 0,
+      "occurrences": 1000,
+      "quality_masks": 0,
+      "quality_references": 0,
+      "quality_submissions": 0,
+      "quality_tasks": 0,
+      "quality_worktime": 0,
+      "splits": 1,
+      "training_jobs": 0
+    }
+  },
+  "report": {
+    "pages": 16,
+    "editable_docx": true,
+    "template_parts_preserved": true,
+    "all_pages_visually_inspected": true,
+    "sha256": "13465a72668fbfda0460981d970b600b6858d0e85818ec60de4b9c9bca42f18b",
+    "personal_identity_and_formal_results_pending": true
+  },
+  "video": {
+    "duration_seconds": 211.88,
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "scope": "Existing functional demonstration; no new formal experiments claimed"
+  },
+  "fixes": [
+    "Expose signed image coverage change rate and history chart",
+    "Replace obsolete empty-production-catalog assertion with fixture isolation check",
+    "Update template report and delivery text to actual collected-candidate status",
+    "Add 48-clause source audit and disclose actual preannotation prompt/parameter history"
+  ],
+  "remaining_formal_gates": [
+    "逐图复核与场景/小火星确认",
+    "同一批至少200幅的两名真人独立标注与仲裁",
+    "实际预标注P/R/IoU和人工工时",
+    "已复核真实数据收敛训练与本人best",
+    "独立test正式评估和YOLO/DINO/优化对比",
+    "独立人工掩码与面积误差",
+    "补齐个人信息与正式实验报告/权重并现场演示"
+  ],
+  "limitations": [
+    "Software tests and synthetic workflow records are not human annotations or formal performance",
+    "Literal early sparks and real combustion-stage coverage still need source/scene review",
+    "Image coverage change is a visual proxy, not physically calibrated spread speed",
+    "The current ZIP is a functional review package; final reviewed data and own trained weights must be delivered separately"
+  ]
+}

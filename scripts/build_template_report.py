@@ -77,7 +77,7 @@ def build(reference,output,source):
         replace_text(paragraphs[0],value)
         for p in paragraphs[1:]:replace_text(p,'')
     for t in cover_table.xpath('.//w:t',namespaces=NS):
-        if '20xx' in (t.text or ''):t.text='2026年10月21日'
+        if '20xx' in (t.text or ''):t.text='2026年10月24日'
     section=deepcopy(original[-1])
     for n in list(body):body.remove(n)
     for n in cover:body.append(n)

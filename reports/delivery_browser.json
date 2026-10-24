@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "verified_at": "2026-10-22T01:13:58.715Z",
+  "verified_at": "2026-10-24T08:45:13.191Z",
   "normal_workspace_pages": [
     "",
     "Demo_Images",
@@ -21,6 +21,7 @@
     "error": null
   },
   "trend_csv_download": true,
+  "coverage_rate_metric_and_chart": true,
   "history_map_and_snapshot": true,
   "comparison_and_pair_history_after_restart": true,
   "page_errors": []

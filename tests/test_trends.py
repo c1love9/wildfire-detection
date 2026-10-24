@@ -7,6 +7,8 @@ from alarm import AlarmConfig
 from alarm_log import AlarmLog
 from inference_result import FrameResult
 from trends import TrendRecorder, trend_rows
+from trends import trend_svg
+from xml.etree import ElementTree as ET
 
 
 class TrendTests(unittest.TestCase):
@@ -41,6 +43,30 @@ class TrendTests(unittest.TestCase):
         recorder=TrendRecorder(None,'test')
         for index in range(350): recorder.add(self.frame(index+1,index),0)
         self.assertEqual(len(recorder.recent),300)
+
+    def test_rate_chart_keeps_growth_and_decline_inside_axes(self):
+        samples=[dict(frame=i+1,media_seconds=i,fire=x,smoke=0,combined=x,level=0,status='ready',elapsed_ms=1)
+                 for i,x in enumerate([.10,.30,.05])]
+        rows=trend_rows(samples)
+        self.assertAlmostEqual(rows[1]['画面占比变化率（百分点/秒）'],20.)
+        self.assertAlmostEqual(rows[2]['画面占比变化率（百分点/秒）'],-25.)
+        tree=ET.fromstring(trend_svg(rows,rates=True))
+        dots=tree.findall('circle')
+        self.assertEqual(len(dots),2)
+        self.assertTrue(all(35 <= float(dot.attrib['cy']) <= 175 for dot in dots))
+        self.assertLess(float(dots[0].attrib['cy']),float(dots[1].attrib['cy']))
+
+    def test_rate_chart_does_not_bridge_unknown_or_duplicate_time(self):
+        samples=[dict(frame=i+1,media_seconds=t,fire=x,smoke=0,combined=x,level=0,status='ready',elapsed_ms=1)
+                 for i,(t,x) in enumerate([(0,.1),(1,.2),(2,None),(3,.3),(4,.4),(4,.5)])]
+        rows=trend_rows(samples)
+        self.assertIsNone(rows[-1]['画面占比变化率（百分点/秒）'])
+        tree=ET.fromstring(trend_svg(rows,rates=True))
+        colored=[p for p in tree.findall('path') if p.attrib.get('stroke')=='#ce93d8']
+        self.assertEqual(len(tree.findall('circle')),2)
+        self.assertEqual(colored[0].attrib['d'].count('M'),2)
+        unknown=ET.fromstring(trend_svg([rows[0]],rates=True))
+        self.assertEqual(len(unknown.findall('circle')),0)
 
 
 if __name__ == '__main__': unittest.main()

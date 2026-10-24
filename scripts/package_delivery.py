@@ -12,8 +12,9 @@ def main():
     commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     names=subprocess.check_output(['git','ls-tree','-r','-z','--name-only','HEAD'],cwd=ROOT).decode('utf-8').split('\0')
     code=[name for name in names if name and (Path(name).suffix in ('.py','.mjs','.js','.html','.ps1','.cmd','.toml','.svg') or
-          name in ('LICENSE','.gitignore','requirements.txt','requirements-lock.txt') or
-          name.startswith(('docs/','configs/','reports/')) and Path(name).suffix in ('.md','.json'))]
+          name in ('README.md','LICENSE','.gitignore','requirements.txt','requirements-lock.txt') or
+          name.startswith(('docs/','configs/','reports/')) and Path(name).suffix in ('.md','.json') or
+          name.startswith('docs/teammate_assets/') and Path(name).suffix == '.png')]
     source=RELEASE/'source_code.zip'
     subprocess.run(['git','archive','--format=zip','-o',str(source),'HEAD','--',*code],cwd=ROOT,check=True)
     with ZipFile(source) as archive:
@@ -21,12 +22,17 @@ def main():
         assert all(not name.startswith(('artifacts/','data/','.venv/','fire-models/','demo-images/','demo-videos/')) for name in archive.namelist())
     files={p.name:p for p in [RELEASE/'智能火灾报警系统设计报告.docx',RELEASE/'智能火灾报警系统演示.mp4',RELEASE/'智能火灾报警系统完整使用指南.docx']}
     files['source_code.zip']=source
-    for name in ('user_guide','code_review','quick_start','completion','architecture','delivery','template_report','report_reference_check','report_template_contract','requirements_audit','environment','upstream'):
+    for name in ('智能火灾报警系统项目入门手册.docx','火焰烟雾数据标注操作手册.docx'):
+        if (RELEASE/name).is_file():files[name]=RELEASE/name
+    for name in ('user_guide','code_review','quick_start','completion','architecture','delivery','template_report','report_reference_check','report_template_contract','requirements_audit','environment','upstream','dataset_collection','collection_sources','annotation_protocol'):
         files['docs/'+name+'.md']=ROOT/'docs'/(name+'.md')
     files['requirements-lock.txt']=ROOT/'requirements-lock.txt'
-    for name in ('code_review','code_review_browser','delivery_checks','delivery_demo','delivery_browser','template_report'):
+    for name in ('code_review','code_review_browser','delivery_checks','delivery_demo','delivery_browser','template_report','requirements_acceptance','requirements_verification'):
         files['reports/'+name+'.json']=ROOT/'reports'/(name+'.json')
-    manifest={'status':'System features, experiment tools and material framework completed; formal experiments pending',
+    acceptance=json.loads((ROOT/'reports/requirements_acceptance.json').read_text(encoding='utf-8'))
+    manifest={'status':'Functional review package; all-subtask formal acceptance is NOT complete',
+              'formal_acceptance_complete':acceptance['formal_acceptance_complete'],
+              'remaining_formal_gates':acceptance['human_and_formal_gates'],
               'repository':'https://github.com/c1love9/wildfire-detection','source_commit':commit,
               'content':{name:{'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()} for name,path in files.items()},
               'excluded':'Models, datasets, physical camera images, annotation access codes, environments, temporary renders and synthetic fixtures'}
