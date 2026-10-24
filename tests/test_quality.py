@@ -30,6 +30,24 @@ class QualityTests(unittest.TestCase):
         store,key,tokens=self.store()
         with self.assertRaises(ValueError):store.submit(tokens['A'],key,[],1)
 
+    def test_timed_submit_pauses_active_interval_and_keeps_elapsed_seconds(self):
+        store,key,tokens=self.store();clock=[0.];timer=WorkTimer(lambda:clock[0])
+        timer.start();clock[0]=4.;timer.activity();clock[0]=7.
+        store.submit_timed(tokens['A'],key,[{'class':'fire','xyxy':[1,1,8,8]}],timer)
+        self.assertIsNone(timer.last)
+        self.assertEqual(store.own_submission(tokens['A'],key)['seconds'],7.)
+        clock[0]=12.;self.assertEqual(timer.seconds(),7.)
+        with self.assertRaises(ValueError):store.submit_timed(tokens['A'],key,[],timer,True)
+
+    def test_timed_submit_still_requires_measured_work_and_empty_confirmation(self):
+        store,key,tokens=self.store();clock=[0.];timer=WorkTimer(lambda:clock[0])
+        with self.assertRaises(ValueError):store.submit_timed(tokens['A'],key,[],timer,True)
+        timer.start();clock[0]=3.
+        with self.assertRaises(ValueError):store.submit_timed(tokens['A'],key,[],timer)
+        self.assertIsNone(store.own_submission(tokens['A'],key))
+        store.submit_timed(tokens['A'],key,[],timer,True)
+        self.assertEqual(store.own_submission(tokens['A'],key)['seconds'],3.)
+
     def test_progress_exposes_only_own_answers_and_admin_counts(self):
         store,key,tokens=self.store()
         store.submit(tokens['A'],key,[],1,True)

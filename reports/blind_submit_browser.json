@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-24T10:06:34.462Z",
+  "scope": "Old/new browser reproduction on isolated synthetic two-image task; no real user task submitted or altered",
+  "old_active_timer_disabled_submit": true,
+  "old_switch_away_and_back_enabled_submit": true,
+  "active_timer_direct_submit_without_pause_or_navigation": true,
+  "empty_image_confirmation_still_required": true,
+  "never_started_timer_still_blocked_with_reason": true,
+  "next_image_progress": true,
+  "other_role_stays_blank": true,
+  "page_errors": []
+}

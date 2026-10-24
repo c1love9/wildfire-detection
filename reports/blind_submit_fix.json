@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-24T10:08:49.084526+00:00",
+  "code_base_commit": "eeadf1ed70d9d7f7548946dcad6d9771c1825be7",
+  "cause": "Old button was disabled while timer.last was active; image change callback paused timers, so returning enabled submission",
+  "change": "Explicit submit now pauses the current timer atomically before validating and saving; disabled reasons are shown",
+  "regression_tests_passed": 180,
+  "regression_log_sha256": "888ab6e722e526b2973789755de80e1fe2067693533b7dd8757b5f0724bc1772",
+  "old_new_browser_reproduction": true,
+  "browser_report": "reports/blind_submit_browser.json",
+  "original_saved_user_submissions_checked": 2,
+  "original_saved_user_submissions_unchanged": true,
+  "production_counts_at_verification": {
+    "A": 2
+  },
+  "production_catalog_integrity": "ok",
+  "real_task_not_submitted_by_automation": true,
+  "real_task_credentials_unchanged": true,
+  "live_annotation_service_not_restarted": true,
+  "limitations": "Existing unsaved work remains browser-session state; finish current image before refreshing the old page"
+}

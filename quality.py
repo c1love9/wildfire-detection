@@ -166,6 +166,11 @@ class QualityStore:
             if db.execute('SELECT 1 FROM quality_submissions WHERE task_id=? AND asset_id=? AND role=?',(access['task_id'],asset_id,access['role'])).fetchone():raise ValueError('该独立标注已经提交并锁定。')
             db.execute('INSERT INTO quality_submissions VALUES(?,?,?,?,?,?)',(access['task_id'],asset_id,access['role'],json.dumps(boxes),seconds,now()))
 
+    def submit_timed(self,token,asset_id,boxes,timer,negative_confirmed=False):
+        """Finish the active work interval when explicitly locking an image."""
+        timer.pause()
+        return self.submit(token,asset_id,boxes,timer.seconds(),negative_confirmed)
+
     def completed(self,access):
         with self.dataset.connection() as db:
             count=db.execute('SELECT count(*) FROM quality_submissions WHERE task_id=?',(access['task_id'],)).fetchone()[0]

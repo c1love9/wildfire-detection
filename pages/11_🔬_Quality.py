@@ -72,10 +72,15 @@ try:
                     work['boxes']=validate_boxes(payload['boxes'],asset['width'],asset['height'])
                     stamp=payload.get('activity_stamp_ms')
                     if stamp is not None and stamp!=work['activity']:timer.activity();work['activity']=stamp
-                st.caption(f'已记录工作计时 {timer.seconds():.1f} 秒；空闲超过60秒停止累加，提交前暂停。未保存计时随服务重启丢弃。')
+                st.caption(f'已记录工作计时 {timer.seconds():.1f} 秒；空闲超过60秒停止累加。提交会自动暂停计时，休息时也可手动暂停。未保存计时随服务重启丢弃。')
                 negative=st.checkbox('独立检查后确认整图无fire/smoke') if not work['boxes'] else False
-                if st.button('提交并锁定本图独立标注',disabled=timer.last is not None or timer.seconds()<=0 or not work['boxes'] and not negative):
-                    store.submit(token,key,work['boxes'],timer.seconds(),negative)
+                blockers=[]
+                if timer.seconds()<=0:blockers.append('请先点击“开始或继续工作计时”，开展本图标注')
+                if not work['boxes'] and not negative:blockers.append('请画出目标框；确实无火烟时勾选整图无目标确认')
+                if blockers:st.info('暂不能提交：'+'；'.join(blockers)+'。')
+                else:st.caption('本图可以提交：点击后自动暂停计时、保存并锁定；待办筛选会转到下一幅。')
+                if st.button('提交并锁定本图独立标注',disabled=bool(blockers)):
+                    store.submit_timed(token,key,work['boxes'],timer,negative)
                     st.session_state['blind_feedback']=(access['task_id'],access['role']);st.rerun()
     elif mode=='管理与仲裁':
         token=st.text_input('管理访问码',type='password')

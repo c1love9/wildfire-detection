@@ -150,7 +150,7 @@ def prepare(output,preview=False,refresh_before_start=False):
         text=(f"任务编号：{task}\n身份：{role}\n图片数：200\n访问码（不要转发给另一标注者）：\n{tokens[role]}\n\n"
               "项目启动：在项目根目录双击‘开始双人标注.cmd’。\n网址：http://127.0.0.1:8506/Quality\n")
         if role=='admin':text+="选择‘管理与仲裁’；A/B各200幅提交完成前不查看结果。\n"
-        else:text+="选择‘独立标注’，粘贴本人访问码。不要进入Annotations查看本批模型候选。\n开始计时→检查并画框→暂停计时→提交并锁定；退出后再交接电脑。\n"
+        else:text+="选择‘独立标注’，粘贴本人访问码。不要进入Annotations查看本批模型候选。\n开始计时→检查并画框→提交并锁定（自动暂停计时）；退出后再交接电脑。\n"
         text+="详细操作见项目docs/dual_annotation_200_guide.md。\n访问码只保存在本机，不提交Git。\n"
         (output/name).write_text(text,encoding='utf-8-sig')
     for role in ['A','B']:
