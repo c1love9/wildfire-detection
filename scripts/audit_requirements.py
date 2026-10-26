@@ -93,8 +93,9 @@ def requirements(facts):
         'dataset_statistics.json及CSV；图片484/140/76，视频210/24/66；按已知同源组隔离', '类别数量目前为来源声明和候选统计，完成人工标注后更新为最终类别统计')
     add('T2-01', 2, '子任务2① 采用开放域模型完成预标注', '基本', '已实际执行',
         f"500幅来源帧使用未微调GroundingDINO；正式库有{facts['proposals']}项候选，包括200幅来源空标签", 'GroundingDINO直接输出框为原文允许方案，预标注不强制必须同时使用SAM')
-    add('T2-02', 2, '子任务2② 说明提示词选择依据及调参过程', '基本', '依据与实际初值已说明',
-        'annotation_protocol.md；保留火烟同义词、0.30框阈值、0.25文本阈值及实际运行参数', '当前未完成带人工参考的系统调参对照，不宣称初值最优；后续只在train/val上调参')
+    add('T2-02', 2, '子任务2② 说明提示词选择依据及调参过程', '基本', '已记录初步实际对照',
+        'preannotation_diagnosis.md与同名JSON；200幅训练样本阈值筛选、40幅三套提示词对照、13幅原配置复跑',
+        '保留原配置；未证明正式优化有效，未调参数如实标固定，不以训练子集代替独立test')
     add('T2-03', 2, '子任务2③ 自动标注后人工复核修正', '基本', '待真人执行',
         f"annotation_reviews共{facts['review_versions']}条，最新通过{facts['latest_approved_images']}幅", '两名成员按分工完成真实复核、补框、删误检和说明，不由程序伪造人工通过')
     add('T2-04', 2, '子任务2③ 同一批至少200幅由两人独立标注', '基本', '双提交已齐 待协议核验' if facts['independently_double_submitted_images']>=200 else '待真人执行',

@@ -1,0 +1,2902 @@
+{
+  "generated_at_utc": "2026-10-26T15:56:56.026962+00:00",
+  "status": "completed",
+  "protocol": "Same class, confidence descending, one-to-one IoU>=0.5; matched IoU excludes unmatched. A and B reported separately.",
+  "threshold_sweep_note": "Filters cached candidates from the original threshold 0.30. It cannot recover candidates below 0.30.",
+  "trial_note": "Prompt tuning on a seeded class-stratified training subset only, not independent test performance; human references retain disagreements.",
+  "sample_size": 40,
+  "model": {
+    "model_id": "IDEA-Research/grounding-dino-tiny",
+    "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+    "files_sha256": {
+      "config.json": "eec82c5ab66e16df12a9a212e68ac011779927c2536cf9078658e35d85f0c67a",
+      "preprocessor_config.json": "8454179ba95e2ad22947835aad7b45862a601fc0055ab88bf1ee70892d3aea60",
+      "tokenizer_config.json": "d40ab645b68211910b9170d22433d43186a6ec8ee6fd10ba170524b25bf4fb56",
+      "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+      "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "model.safetensors": "1a2412ef99bd74bcd3c2a246fa1e48581f8889a1300c9051974741314fc042f3"
+    },
+    "transformers": "4.57.1",
+    "torch": "2.9.1+cu128",
+    "device": "cuda:0",
+    "hardware": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "dtype": "float32",
+    "disable_custom_kernels": true,
+    "fine_tuned": false
+  },
+  "baseline_200": {
+    "A": {
+      "overall": {
+        "tp": 122,
+        "fp": 273,
+        "fn": 148,
+        "precision": 0.30886075949367087,
+        "recall": 0.45185185185185184,
+        "f1": 0.3669172932330827
+      },
+      "per_class": [
+        {
+          "class": "fire",
+          "instances": 133,
+          "tp": 82,
+          "fp": 144,
+          "fn": 51,
+          "precision": 0.36283185840707965,
+          "recall": 0.6165413533834586,
+          "f1": 0.4568245125348189
+        },
+        {
+          "class": "smoke",
+          "instances": 137,
+          "tp": 40,
+          "fp": 129,
+          "fn": 97,
+          "precision": 0.23668639053254437,
+          "recall": 0.291970802919708,
+          "f1": 0.26143790849673204
+        }
+      ],
+      "negative_images": 40,
+      "negative_images_with_false_detection": 36,
+      "negative_image_false_positive_rate": 0.9,
+      "matched_mean_iou": 0.7353105714687116,
+      "fp_screening_categories_not_adjudicated": {
+        "no_matching_reference_object": 163,
+        "other_class_at_same_location": 62,
+        "same_class_partial_overlap_below_0.5": 47,
+        "duplicate_relative_to_reference": 1
+      }
+    },
+    "B": {
+      "overall": {
+        "tp": 110,
+        "fp": 285,
+        "fn": 179,
+        "precision": 0.27848101265822783,
+        "recall": 0.3806228373702422,
+        "f1": 0.3216374269005848
+      },
+      "per_class": [
+        {
+          "class": "fire",
+          "instances": 140,
+          "tp": 75,
+          "fp": 151,
+          "fn": 65,
+          "precision": 0.33185840707964603,
+          "recall": 0.5357142857142857,
+          "f1": 0.4098360655737705
+        },
+        {
+          "class": "smoke",
+          "instances": 149,
+          "tp": 35,
+          "fp": 134,
+          "fn": 114,
+          "precision": 0.20710059171597633,
+          "recall": 0.2348993288590604,
+          "f1": 0.22012578616352202
+        }
+      ],
+      "negative_images": 41,
+      "negative_images_with_false_detection": 37,
+      "negative_image_false_positive_rate": 0.9024390243902439,
+      "matched_mean_iou": 0.7517691674543048,
+      "fp_screening_categories_not_adjudicated": {
+        "no_matching_reference_object": 168,
+        "other_class_at_same_location": 59,
+        "same_class_partial_overlap_below_0.5": 57,
+        "duplicate_relative_to_reference": 1
+      }
+    }
+  },
+  "threshold_sweep_200": {
+    "0.3": {
+      "A": {
+        "overall": {
+          "tp": 122,
+          "fp": 273,
+          "fn": 148,
+          "precision": 0.30886075949367087,
+          "recall": 0.45185185185185184,
+          "f1": 0.3669172932330827
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 133,
+            "tp": 82,
+            "fp": 144,
+            "fn": 51,
+            "precision": 0.36283185840707965,
+            "recall": 0.6165413533834586,
+            "f1": 0.4568245125348189
+          },
+          {
+            "class": "smoke",
+            "instances": 137,
+            "tp": 40,
+            "fp": 129,
+            "fn": 97,
+            "precision": 0.23668639053254437,
+            "recall": 0.291970802919708,
+            "f1": 0.26143790849673204
+          }
+        ],
+        "negative_images": 40,
+        "negative_images_with_false_detection": 36,
+        "negative_image_false_positive_rate": 0.9,
+        "matched_mean_iou": 0.7353105714687116,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 163,
+          "other_class_at_same_location": 62,
+          "same_class_partial_overlap_below_0.5": 47,
+          "duplicate_relative_to_reference": 1
+        }
+      },
+      "B": {
+        "overall": {
+          "tp": 110,
+          "fp": 285,
+          "fn": 179,
+          "precision": 0.27848101265822783,
+          "recall": 0.3806228373702422,
+          "f1": 0.3216374269005848
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 140,
+            "tp": 75,
+            "fp": 151,
+            "fn": 65,
+            "precision": 0.33185840707964603,
+            "recall": 0.5357142857142857,
+            "f1": 0.4098360655737705
+          },
+          {
+            "class": "smoke",
+            "instances": 149,
+            "tp": 35,
+            "fp": 134,
+            "fn": 114,
+            "precision": 0.20710059171597633,
+            "recall": 0.2348993288590604,
+            "f1": 0.22012578616352202
+          }
+        ],
+        "negative_images": 41,
+        "negative_images_with_false_detection": 37,
+        "negative_image_false_positive_rate": 0.9024390243902439,
+        "matched_mean_iou": 0.7517691674543048,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 168,
+          "other_class_at_same_location": 59,
+          "same_class_partial_overlap_below_0.5": 57,
+          "duplicate_relative_to_reference": 1
+        }
+      }
+    },
+    "0.35": {
+      "A": {
+        "overall": {
+          "tp": 88,
+          "fp": 160,
+          "fn": 182,
+          "precision": 0.3548387096774194,
+          "recall": 0.32592592592592595,
+          "f1": 0.33976833976833976
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 133,
+            "tp": 59,
+            "fp": 91,
+            "fn": 74,
+            "precision": 0.3933333333333333,
+            "recall": 0.44360902255639095,
+            "f1": 0.4169611307420495
+          },
+          {
+            "class": "smoke",
+            "instances": 137,
+            "tp": 29,
+            "fp": 69,
+            "fn": 108,
+            "precision": 0.29591836734693877,
+            "recall": 0.2116788321167883,
+            "f1": 0.24680851063829787
+          }
+        ],
+        "negative_images": 40,
+        "negative_images_with_false_detection": 31,
+        "negative_image_false_positive_rate": 0.775,
+        "matched_mean_iou": 0.7575870385996228,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 92,
+          "other_class_at_same_location": 39,
+          "same_class_partial_overlap_below_0.5": 29
+        }
+      },
+      "B": {
+        "overall": {
+          "tp": 82,
+          "fp": 166,
+          "fn": 207,
+          "precision": 0.33064516129032256,
+          "recall": 0.2837370242214533,
+          "f1": 0.3054003724394786
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 140,
+            "tp": 58,
+            "fp": 92,
+            "fn": 82,
+            "precision": 0.38666666666666666,
+            "recall": 0.4142857142857143,
+            "f1": 0.4
+          },
+          {
+            "class": "smoke",
+            "instances": 149,
+            "tp": 24,
+            "fp": 74,
+            "fn": 125,
+            "precision": 0.24489795918367346,
+            "recall": 0.1610738255033557,
+            "f1": 0.19433198380566802
+          }
+        ],
+        "negative_images": 41,
+        "negative_images_with_false_detection": 32,
+        "negative_image_false_positive_rate": 0.7804878048780488,
+        "matched_mean_iou": 0.7665973647448232,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 93,
+          "other_class_at_same_location": 39,
+          "same_class_partial_overlap_below_0.5": 34
+        }
+      }
+    },
+    "0.4": {
+      "A": {
+        "overall": {
+          "tp": 52,
+          "fp": 86,
+          "fn": 218,
+          "precision": 0.37681159420289856,
+          "recall": 0.1925925925925926,
+          "f1": 0.2549019607843137
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 133,
+            "tp": 31,
+            "fp": 48,
+            "fn": 102,
+            "precision": 0.3924050632911392,
+            "recall": 0.23308270676691728,
+            "f1": 0.29245283018867924
+          },
+          {
+            "class": "smoke",
+            "instances": 137,
+            "tp": 21,
+            "fp": 38,
+            "fn": 116,
+            "precision": 0.3559322033898305,
+            "recall": 0.15328467153284672,
+            "f1": 0.21428571428571427
+          }
+        ],
+        "negative_images": 40,
+        "negative_images_with_false_detection": 17,
+        "negative_image_false_positive_rate": 0.425,
+        "matched_mean_iou": 0.765493630915295,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 43,
+          "other_class_at_same_location": 25,
+          "same_class_partial_overlap_below_0.5": 18
+        }
+      },
+      "B": {
+        "overall": {
+          "tp": 48,
+          "fp": 90,
+          "fn": 241,
+          "precision": 0.34782608695652173,
+          "recall": 0.16608996539792387,
+          "f1": 0.22482435597189696
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 140,
+            "tp": 29,
+            "fp": 50,
+            "fn": 111,
+            "precision": 0.3670886075949367,
+            "recall": 0.20714285714285716,
+            "f1": 0.2648401826484018
+          },
+          {
+            "class": "smoke",
+            "instances": 149,
+            "tp": 19,
+            "fp": 40,
+            "fn": 130,
+            "precision": 0.3220338983050847,
+            "recall": 0.12751677852348994,
+            "f1": 0.18269230769230768
+          }
+        ],
+        "negative_images": 41,
+        "negative_images_with_false_detection": 18,
+        "negative_image_false_positive_rate": 0.43902439024390244,
+        "matched_mean_iou": 0.7888004178420732,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 44,
+          "other_class_at_same_location": 26,
+          "same_class_partial_overlap_below_0.5": 20
+        }
+      }
+    },
+    "0.45": {
+      "A": {
+        "overall": {
+          "tp": 11,
+          "fp": 36,
+          "fn": 259,
+          "precision": 0.23404255319148937,
+          "recall": 0.040740740740740744,
+          "f1": 0.0694006309148265
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 133,
+            "tp": 6,
+            "fp": 26,
+            "fn": 127,
+            "precision": 0.1875,
+            "recall": 0.045112781954887216,
+            "f1": 0.07272727272727272
+          },
+          {
+            "class": "smoke",
+            "instances": 137,
+            "tp": 5,
+            "fp": 10,
+            "fn": 132,
+            "precision": 0.3333333333333333,
+            "recall": 0.0364963503649635,
+            "f1": 0.06578947368421052
+          }
+        ],
+        "negative_images": 40,
+        "negative_images_with_false_detection": 7,
+        "negative_image_false_positive_rate": 0.175,
+        "matched_mean_iou": 0.7994404480517626,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 15,
+          "other_class_at_same_location": 14,
+          "same_class_partial_overlap_below_0.5": 7
+        }
+      },
+      "B": {
+        "overall": {
+          "tp": 11,
+          "fp": 36,
+          "fn": 278,
+          "precision": 0.23404255319148937,
+          "recall": 0.03806228373702422,
+          "f1": 0.06547619047619048
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 140,
+            "tp": 6,
+            "fp": 26,
+            "fn": 134,
+            "precision": 0.1875,
+            "recall": 0.04285714285714286,
+            "f1": 0.06976744186046512
+          },
+          {
+            "class": "smoke",
+            "instances": 149,
+            "tp": 5,
+            "fp": 10,
+            "fn": 144,
+            "precision": 0.3333333333333333,
+            "recall": 0.03355704697986577,
+            "f1": 0.06097560975609756
+          }
+        ],
+        "negative_images": 41,
+        "negative_images_with_false_detection": 7,
+        "negative_image_false_positive_rate": 0.17073170731707318,
+        "matched_mean_iou": 0.8428226187712015,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 15,
+          "other_class_at_same_location": 15,
+          "same_class_partial_overlap_below_0.5": 6
+        }
+      }
+    },
+    "0.5": {
+      "A": {
+        "overall": {
+          "tp": 0,
+          "fp": 21,
+          "fn": 270,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 133,
+            "tp": 0,
+            "fp": 17,
+            "fn": 133,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "class": "smoke",
+            "instances": 137,
+            "tp": 0,
+            "fp": 4,
+            "fn": 137,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "negative_images": 40,
+        "negative_images_with_false_detection": 5,
+        "negative_image_false_positive_rate": 0.125,
+        "matched_mean_iou": null,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 8,
+          "other_class_at_same_location": 9,
+          "same_class_partial_overlap_below_0.5": 4
+        }
+      },
+      "B": {
+        "overall": {
+          "tp": 0,
+          "fp": 21,
+          "fn": 289,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 140,
+            "tp": 0,
+            "fp": 17,
+            "fn": 140,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "class": "smoke",
+            "instances": 149,
+            "tp": 0,
+            "fp": 4,
+            "fn": 149,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "negative_images": 41,
+        "negative_images_with_false_detection": 5,
+        "negative_image_false_positive_rate": 0.12195121951219512,
+        "matched_mean_iou": null,
+        "fp_screening_categories_not_adjudicated": {
+          "no_matching_reference_object": 9,
+          "other_class_at_same_location": 8,
+          "same_class_partial_overlap_below_0.5": 4
+        }
+      }
+    },
+    "0.55": {
+      "A": {
+        "overall": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 270,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 133,
+            "tp": 0,
+            "fp": 7,
+            "fn": 133,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "class": "smoke",
+            "instances": 137,
+            "tp": 0,
+            "fp": 0,
+            "fn": 137,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "negative_images": 40,
+        "negative_images_with_false_detection": 0,
+        "negative_image_false_positive_rate": 0.0,
+        "matched_mean_iou": null,
+        "fp_screening_categories_not_adjudicated": {
+          "other_class_at_same_location": 4,
+          "no_matching_reference_object": 1,
+          "same_class_partial_overlap_below_0.5": 2
+        }
+      },
+      "B": {
+        "overall": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 289,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 140,
+            "tp": 0,
+            "fp": 7,
+            "fn": 140,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "class": "smoke",
+            "instances": 149,
+            "tp": 0,
+            "fp": 0,
+            "fn": 149,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "negative_images": 41,
+        "negative_images_with_false_detection": 0,
+        "negative_image_false_positive_rate": 0.0,
+        "matched_mean_iou": null,
+        "fp_screening_categories_not_adjudicated": {
+          "other_class_at_same_location": 3,
+          "no_matching_reference_object": 2,
+          "same_class_partial_overlap_below_0.5": 2
+        }
+      }
+    },
+    "0.6": {
+      "A": {
+        "overall": {
+          "tp": 0,
+          "fp": 3,
+          "fn": 270,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 133,
+            "tp": 0,
+            "fp": 3,
+            "fn": 133,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "class": "smoke",
+            "instances": 137,
+            "tp": 0,
+            "fp": 0,
+            "fn": 137,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "negative_images": 40,
+        "negative_images_with_false_detection": 0,
+        "negative_image_false_positive_rate": 0.0,
+        "matched_mean_iou": null,
+        "fp_screening_categories_not_adjudicated": {
+          "other_class_at_same_location": 1,
+          "no_matching_reference_object": 1,
+          "same_class_partial_overlap_below_0.5": 1
+        }
+      },
+      "B": {
+        "overall": {
+          "tp": 0,
+          "fp": 3,
+          "fn": 289,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 140,
+            "tp": 0,
+            "fp": 3,
+            "fn": 140,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "class": "smoke",
+            "instances": 149,
+            "tp": 0,
+            "fp": 0,
+            "fn": 149,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "negative_images": 41,
+        "negative_images_with_false_detection": 0,
+        "negative_image_false_positive_rate": 0.0,
+        "matched_mean_iou": null,
+        "fp_screening_categories_not_adjudicated": {
+          "other_class_at_same_location": 1,
+          "no_matching_reference_object": 1,
+          "same_class_partial_overlap_below_0.5": 1
+        }
+      }
+    },
+    "0.7": {
+      "A": {
+        "overall": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 270,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 133,
+            "tp": 0,
+            "fp": 0,
+            "fn": 133,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "class": "smoke",
+            "instances": 137,
+            "tp": 0,
+            "fp": 0,
+            "fn": 137,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "negative_images": 40,
+        "negative_images_with_false_detection": 0,
+        "negative_image_false_positive_rate": 0.0,
+        "matched_mean_iou": null,
+        "fp_screening_categories_not_adjudicated": {}
+      },
+      "B": {
+        "overall": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 289,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "per_class": [
+          {
+            "class": "fire",
+            "instances": 140,
+            "tp": 0,
+            "fp": 0,
+            "fn": 140,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "class": "smoke",
+            "instances": 149,
+            "tp": 0,
+            "fp": 0,
+            "fn": 149,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "negative_images": 41,
+        "negative_images_with_false_detection": 0,
+        "negative_image_false_positive_rate": 0.0,
+        "matched_mean_iou": null,
+        "fp_screening_categories_not_adjudicated": {}
+      }
+    }
+  },
+  "trial_metrics": {
+    "baseline_cached": {
+      "0.3": {
+        "A": {
+          "overall": {
+            "tp": 21,
+            "fp": 46,
+            "fn": 27,
+            "precision": 0.31343283582089554,
+            "recall": 0.4375,
+            "f1": 0.3652173913043478
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 15,
+              "fp": 24,
+              "fn": 9,
+              "precision": 0.38461538461538464,
+              "recall": 0.625,
+              "f1": 0.47619047619047616
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 6,
+              "fp": 22,
+              "fn": 18,
+              "precision": 0.21428571428571427,
+              "recall": 0.25,
+              "f1": 0.23076923076923078
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 8,
+          "negative_image_false_positive_rate": 0.8,
+          "matched_mean_iou": 0.7259829428827422,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 28,
+            "other_class_at_same_location": 10,
+            "same_class_partial_overlap_below_0.5": 8
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 19,
+            "fp": 48,
+            "fn": 30,
+            "precision": 0.2835820895522388,
+            "recall": 0.3877551020408163,
+            "f1": 0.3275862068965517
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 13,
+              "fp": 26,
+              "fn": 13,
+              "precision": 0.3333333333333333,
+              "recall": 0.5,
+              "f1": 0.4
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 6,
+              "fp": 22,
+              "fn": 17,
+              "precision": 0.21428571428571427,
+              "recall": 0.2608695652173913,
+              "f1": 0.23529411764705882
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 8,
+          "negative_image_false_positive_rate": 0.8,
+          "matched_mean_iou": 0.773072716538664,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 29,
+            "other_class_at_same_location": 11,
+            "same_class_partial_overlap_below_0.5": 8
+          }
+        }
+      },
+      "0.35": {
+        "A": {
+          "overall": {
+            "tp": 16,
+            "fp": 33,
+            "fn": 32,
+            "precision": 0.32653061224489793,
+            "recall": 0.3333333333333333,
+            "f1": 0.32989690721649484
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 10,
+              "fp": 17,
+              "fn": 14,
+              "precision": 0.37037037037037035,
+              "recall": 0.4166666666666667,
+              "f1": 0.39215686274509803
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 6,
+              "fp": 16,
+              "fn": 18,
+              "precision": 0.2727272727272727,
+              "recall": 0.25,
+              "f1": 0.2608695652173913
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 8,
+          "negative_image_false_positive_rate": 0.8,
+          "matched_mean_iou": 0.7565362478419448,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 22,
+            "other_class_at_same_location": 8,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 14,
+            "fp": 35,
+            "fn": 35,
+            "precision": 0.2857142857142857,
+            "recall": 0.2857142857142857,
+            "f1": 0.2857142857142857
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 9,
+              "fp": 18,
+              "fn": 17,
+              "precision": 0.3333333333333333,
+              "recall": 0.34615384615384615,
+              "f1": 0.33962264150943394
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 5,
+              "fp": 17,
+              "fn": 18,
+              "precision": 0.22727272727272727,
+              "recall": 0.21739130434782608,
+              "f1": 0.2222222222222222
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 8,
+          "negative_image_false_positive_rate": 0.8,
+          "matched_mean_iou": 0.8008154448794864,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 21,
+            "other_class_at_same_location": 10,
+            "same_class_partial_overlap_below_0.5": 4
+          }
+        }
+      },
+      "0.4": {
+        "A": {
+          "overall": {
+            "tp": 8,
+            "fp": 23,
+            "fn": 40,
+            "precision": 0.25806451612903225,
+            "recall": 0.16666666666666666,
+            "f1": 0.20253164556962025
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 4,
+              "fp": 12,
+              "fn": 20,
+              "precision": 0.25,
+              "recall": 0.16666666666666666,
+              "f1": 0.2
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 4,
+              "fp": 11,
+              "fn": 20,
+              "precision": 0.26666666666666666,
+              "recall": 0.16666666666666666,
+              "f1": 0.20512820512820512
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 6,
+          "negative_image_false_positive_rate": 0.6,
+          "matched_mean_iou": 0.7591915872412318,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 14,
+            "other_class_at_same_location": 6,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 7,
+            "fp": 24,
+            "fn": 42,
+            "precision": 0.22580645161290322,
+            "recall": 0.14285714285714285,
+            "f1": 0.175
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 3,
+              "fp": 13,
+              "fn": 23,
+              "precision": 0.1875,
+              "recall": 0.11538461538461539,
+              "f1": 0.14285714285714285
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 4,
+              "fp": 11,
+              "fn": 19,
+              "precision": 0.26666666666666666,
+              "recall": 0.17391304347826086,
+              "f1": 0.21052631578947367
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 6,
+          "negative_image_false_positive_rate": 0.6,
+          "matched_mean_iou": 0.7772922943124494,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 13,
+            "other_class_at_same_location": 8,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        }
+      },
+      "0.45": {
+        "A": {
+          "overall": {
+            "tp": 1,
+            "fp": 10,
+            "fn": 47,
+            "precision": 0.09090909090909091,
+            "recall": 0.020833333333333332,
+            "f1": 0.03389830508474576
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 6,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 1,
+              "fp": 4,
+              "fn": 23,
+              "precision": 0.2,
+              "recall": 0.041666666666666664,
+              "f1": 0.06896551724137931
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 2,
+          "negative_image_false_positive_rate": 0.2,
+          "matched_mean_iou": 0.8990490453057901,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 6,
+            "same_class_partial_overlap_below_0.5": 1,
+            "other_class_at_same_location": 3
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 1,
+            "fp": 10,
+            "fn": 48,
+            "precision": 0.09090909090909091,
+            "recall": 0.02040816326530612,
+            "f1": 0.03333333333333333
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 6,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 1,
+              "fp": 4,
+              "fn": 22,
+              "precision": 0.2,
+              "recall": 0.043478260869565216,
+              "f1": 0.07142857142857142
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 2,
+          "negative_image_false_positive_rate": 0.2,
+          "matched_mean_iou": 0.9556677603305439,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 5,
+            "same_class_partial_overlap_below_0.5": 1,
+            "other_class_at_same_location": 4
+          }
+        }
+      },
+      "0.5": {
+        "A": {
+          "overall": {
+            "tp": 0,
+            "fp": 7,
+            "fn": 48,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 4,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 0,
+              "fp": 3,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 2,
+          "negative_image_false_positive_rate": 0.2,
+          "matched_mean_iou": null,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 5,
+            "same_class_partial_overlap_below_0.5": 1,
+            "other_class_at_same_location": 1
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 0,
+            "fp": 7,
+            "fn": 49,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 4,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 0,
+              "fp": 3,
+              "fn": 23,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 2,
+          "negative_image_false_positive_rate": 0.2,
+          "matched_mean_iou": null,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 4,
+            "same_class_partial_overlap_below_0.5": 1,
+            "other_class_at_same_location": 2
+          }
+        }
+      },
+      "0.55": {
+        "A": {
+          "overall": {
+            "tp": 0,
+            "fp": 2,
+            "fn": 48,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 2,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 0,
+              "fp": 0,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 0,
+          "negative_image_false_positive_rate": 0.0,
+          "matched_mean_iou": null,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 1,
+            "same_class_partial_overlap_below_0.5": 1
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 0,
+            "fp": 2,
+            "fn": 49,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 2,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 0,
+              "fp": 0,
+              "fn": 23,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 0,
+          "negative_image_false_positive_rate": 0.0,
+          "matched_mean_iou": null,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 1,
+            "same_class_partial_overlap_below_0.5": 1
+          }
+        }
+      },
+      "0.6": {
+        "A": {
+          "overall": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 48,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 1,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 0,
+              "fp": 0,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 0,
+          "negative_image_false_positive_rate": 0.0,
+          "matched_mean_iou": null,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 1
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 49,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 1,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 0,
+              "fp": 0,
+              "fn": 23,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 0,
+          "negative_image_false_positive_rate": 0.0,
+          "matched_mean_iou": null,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 1
+          }
+        }
+      },
+      "0.7": {
+        "A": {
+          "overall": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 48,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 0,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 0,
+              "fp": 0,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 0,
+          "negative_image_false_positive_rate": 0.0,
+          "matched_mean_iou": null,
+          "fp_screening_categories_not_adjudicated": {}
+        },
+        "B": {
+          "overall": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 49,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 0,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 0,
+              "fp": 0,
+              "fn": 23,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 0,
+          "negative_image_false_positive_rate": 0.0,
+          "matched_mean_iou": null,
+          "fp_screening_categories_not_adjudicated": {}
+        }
+      }
+    },
+    "single_names": {
+      "0.3": {
+        "A": {
+          "overall": {
+            "tp": 23,
+            "fp": 67,
+            "fn": 25,
+            "precision": 0.25555555555555554,
+            "recall": 0.4791666666666667,
+            "f1": 0.3333333333333333
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 17,
+              "fp": 28,
+              "fn": 7,
+              "precision": 0.37777777777777777,
+              "recall": 0.7083333333333334,
+              "f1": 0.4927536231884058
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 6,
+              "fp": 39,
+              "fn": 18,
+              "precision": 0.13333333333333333,
+              "recall": 0.25,
+              "f1": 0.17391304347826086
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 10,
+          "negative_image_false_positive_rate": 1.0,
+          "matched_mean_iou": 0.7142347906430813,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 41,
+            "other_class_at_same_location": 18,
+            "same_class_partial_overlap_below_0.5": 8
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 22,
+            "fp": 68,
+            "fn": 27,
+            "precision": 0.24444444444444444,
+            "recall": 0.4489795918367347,
+            "f1": 0.31654676258992803
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 15,
+              "fp": 30,
+              "fn": 11,
+              "precision": 0.3333333333333333,
+              "recall": 0.5769230769230769,
+              "f1": 0.4225352112676056
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 7,
+              "fp": 38,
+              "fn": 16,
+              "precision": 0.15555555555555556,
+              "recall": 0.30434782608695654,
+              "f1": 0.20588235294117646
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 10,
+          "negative_image_false_positive_rate": 1.0,
+          "matched_mean_iou": 0.7474430014532957,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 40,
+            "other_class_at_same_location": 18,
+            "same_class_partial_overlap_below_0.5": 10
+          }
+        }
+      },
+      "0.35": {
+        "A": {
+          "overall": {
+            "tp": 22,
+            "fp": 51,
+            "fn": 26,
+            "precision": 0.3013698630136986,
+            "recall": 0.4583333333333333,
+            "f1": 0.36363636363636365
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 16,
+              "fp": 22,
+              "fn": 8,
+              "precision": 0.42105263157894735,
+              "recall": 0.6666666666666666,
+              "f1": 0.5161290322580645
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 6,
+              "fp": 29,
+              "fn": 18,
+              "precision": 0.17142857142857143,
+              "recall": 0.25,
+              "f1": 0.2033898305084746
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 10,
+          "negative_image_false_positive_rate": 1.0,
+          "matched_mean_iou": 0.7173397134884959,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 30,
+            "other_class_at_same_location": 14,
+            "same_class_partial_overlap_below_0.5": 7
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 21,
+            "fp": 52,
+            "fn": 28,
+            "precision": 0.2876712328767123,
+            "recall": 0.42857142857142855,
+            "f1": 0.3442622950819672
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 14,
+              "fp": 24,
+              "fn": 12,
+              "precision": 0.3684210526315789,
+              "recall": 0.5384615384615384,
+              "f1": 0.4375
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 7,
+              "fp": 28,
+              "fn": 16,
+              "precision": 0.2,
+              "recall": 0.30434782608695654,
+              "f1": 0.2413793103448276
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 10,
+          "negative_image_false_positive_rate": 1.0,
+          "matched_mean_iou": 0.7565744415313971,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 29,
+            "other_class_at_same_location": 14,
+            "same_class_partial_overlap_below_0.5": 9
+          }
+        }
+      },
+      "0.4": {
+        "A": {
+          "overall": {
+            "tp": 19,
+            "fp": 33,
+            "fn": 29,
+            "precision": 0.36538461538461536,
+            "recall": 0.3958333333333333,
+            "f1": 0.38
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 13,
+              "fp": 14,
+              "fn": 11,
+              "precision": 0.48148148148148145,
+              "recall": 0.5416666666666666,
+              "f1": 0.5098039215686274
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 6,
+              "fp": 19,
+              "fn": 18,
+              "precision": 0.24,
+              "recall": 0.25,
+              "f1": 0.24489795918367346
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 9,
+          "negative_image_false_positive_rate": 0.9,
+          "matched_mean_iou": 0.714679028100505,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 18,
+            "other_class_at_same_location": 11,
+            "same_class_partial_overlap_below_0.5": 4
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 17,
+            "fp": 35,
+            "fn": 32,
+            "precision": 0.3269230769230769,
+            "recall": 0.3469387755102041,
+            "f1": 0.33663366336633666
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 11,
+              "fp": 16,
+              "fn": 15,
+              "precision": 0.4074074074074074,
+              "recall": 0.4230769230769231,
+              "f1": 0.41509433962264153
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 6,
+              "fp": 19,
+              "fn": 17,
+              "precision": 0.24,
+              "recall": 0.2608695652173913,
+              "f1": 0.25
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 9,
+          "negative_image_false_positive_rate": 0.9,
+          "matched_mean_iou": 0.7714654100836255,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 18,
+            "other_class_at_same_location": 12,
+            "same_class_partial_overlap_below_0.5": 5
+          }
+        }
+      },
+      "0.45": {
+        "A": {
+          "overall": {
+            "tp": 17,
+            "fp": 26,
+            "fn": 31,
+            "precision": 0.3953488372093023,
+            "recall": 0.3541666666666667,
+            "f1": 0.37362637362637363
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 11,
+              "fp": 11,
+              "fn": 13,
+              "precision": 0.5,
+              "recall": 0.4583333333333333,
+              "f1": 0.4782608695652174
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 6,
+              "fp": 15,
+              "fn": 18,
+              "precision": 0.2857142857142857,
+              "recall": 0.25,
+              "f1": 0.26666666666666666
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 6,
+          "negative_image_false_positive_rate": 0.6,
+          "matched_mean_iou": 0.7344647061531702,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 15,
+            "other_class_at_same_location": 8,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 15,
+            "fp": 28,
+            "fn": 34,
+            "precision": 0.3488372093023256,
+            "recall": 0.30612244897959184,
+            "f1": 0.32608695652173914
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 10,
+              "fp": 12,
+              "fn": 16,
+              "precision": 0.45454545454545453,
+              "recall": 0.38461538461538464,
+              "f1": 0.4166666666666667
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 5,
+              "fp": 16,
+              "fn": 18,
+              "precision": 0.23809523809523808,
+              "recall": 0.21739130434782608,
+              "f1": 0.22727272727272727
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 6,
+          "negative_image_false_positive_rate": 0.6,
+          "matched_mean_iou": 0.7899395171150906,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 13,
+            "other_class_at_same_location": 11,
+            "same_class_partial_overlap_below_0.5": 4
+          }
+        }
+      },
+      "0.5": {
+        "A": {
+          "overall": {
+            "tp": 15,
+            "fp": 18,
+            "fn": 33,
+            "precision": 0.45454545454545453,
+            "recall": 0.3125,
+            "f1": 0.37037037037037035
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 10,
+              "fp": 8,
+              "fn": 14,
+              "precision": 0.5555555555555556,
+              "recall": 0.4166666666666667,
+              "f1": 0.47619047619047616
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 5,
+              "fp": 10,
+              "fn": 19,
+              "precision": 0.3333333333333333,
+              "recall": 0.20833333333333334,
+              "f1": 0.2564102564102564
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 4,
+          "negative_image_false_positive_rate": 0.4,
+          "matched_mean_iou": 0.7295718517233867,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 11,
+            "other_class_at_same_location": 5,
+            "same_class_partial_overlap_below_0.5": 2
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 14,
+            "fp": 19,
+            "fn": 35,
+            "precision": 0.42424242424242425,
+            "recall": 0.2857142857142857,
+            "f1": 0.34146341463414637
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 10,
+              "fp": 8,
+              "fn": 16,
+              "precision": 0.5555555555555556,
+              "recall": 0.38461538461538464,
+              "f1": 0.45454545454545453
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 4,
+              "fp": 11,
+              "fn": 19,
+              "precision": 0.26666666666666666,
+              "recall": 0.17391304347826086,
+              "f1": 0.21052631578947367
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 4,
+          "negative_image_false_positive_rate": 0.4,
+          "matched_mean_iou": 0.7923681861711155,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 10,
+            "other_class_at_same_location": 6,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        }
+      },
+      "0.55": {
+        "A": {
+          "overall": {
+            "tp": 13,
+            "fp": 11,
+            "fn": 35,
+            "precision": 0.5416666666666666,
+            "recall": 0.2708333333333333,
+            "f1": 0.3611111111111111
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 8,
+              "fp": 4,
+              "fn": 16,
+              "precision": 0.6666666666666666,
+              "recall": 0.3333333333333333,
+              "f1": 0.4444444444444444
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 5,
+              "fp": 7,
+              "fn": 19,
+              "precision": 0.4166666666666667,
+              "recall": 0.20833333333333334,
+              "f1": 0.2777777777777778
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 3,
+          "negative_image_false_positive_rate": 0.3,
+          "matched_mean_iou": 0.7384942352301517,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 5,
+            "other_class_at_same_location": 5,
+            "same_class_partial_overlap_below_0.5": 1
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 11,
+            "fp": 13,
+            "fn": 38,
+            "precision": 0.4583333333333333,
+            "recall": 0.22448979591836735,
+            "f1": 0.3013698630136986
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 8,
+              "fp": 4,
+              "fn": 18,
+              "precision": 0.6666666666666666,
+              "recall": 0.3076923076923077,
+              "f1": 0.42105263157894735
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 3,
+              "fp": 9,
+              "fn": 20,
+              "precision": 0.25,
+              "recall": 0.13043478260869565,
+              "f1": 0.17142857142857143
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 3,
+          "negative_image_false_positive_rate": 0.3,
+          "matched_mean_iou": 0.8365355569021571,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 4,
+            "other_class_at_same_location": 6,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        }
+      },
+      "0.6": {
+        "A": {
+          "overall": {
+            "tp": 9,
+            "fp": 9,
+            "fn": 39,
+            "precision": 0.5,
+            "recall": 0.1875,
+            "f1": 0.2727272727272727
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 4,
+              "fp": 3,
+              "fn": 20,
+              "precision": 0.5714285714285714,
+              "recall": 0.16666666666666666,
+              "f1": 0.25806451612903225
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 5,
+              "fp": 6,
+              "fn": 19,
+              "precision": 0.45454545454545453,
+              "recall": 0.20833333333333334,
+              "f1": 0.2857142857142857
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 2,
+          "negative_image_false_positive_rate": 0.2,
+          "matched_mean_iou": 0.7474617188253814,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 3,
+            "other_class_at_same_location": 5,
+            "same_class_partial_overlap_below_0.5": 1
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 7,
+            "fp": 11,
+            "fn": 42,
+            "precision": 0.3888888888888889,
+            "recall": 0.14285714285714285,
+            "f1": 0.208955223880597
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 4,
+              "fp": 3,
+              "fn": 22,
+              "precision": 0.5714285714285714,
+              "recall": 0.15384615384615385,
+              "f1": 0.24242424242424243
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 3,
+              "fp": 8,
+              "fn": 20,
+              "precision": 0.2727272727272727,
+              "recall": 0.13043478260869565,
+              "f1": 0.17647058823529413
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 2,
+          "negative_image_false_positive_rate": 0.2,
+          "matched_mean_iou": 0.8782598212805194,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 3,
+            "other_class_at_same_location": 5,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        }
+      },
+      "0.7": {
+        "A": {
+          "overall": {
+            "tp": 5,
+            "fp": 4,
+            "fn": 43,
+            "precision": 0.5555555555555556,
+            "recall": 0.10416666666666667,
+            "f1": 0.17543859649122806
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 1,
+              "fp": 1,
+              "fn": 23,
+              "precision": 0.5,
+              "recall": 0.041666666666666664,
+              "f1": 0.07692307692307693
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 4,
+              "fp": 3,
+              "fn": 20,
+              "precision": 0.5714285714285714,
+              "recall": 0.16666666666666666,
+              "f1": 0.25806451612903225
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 1,
+          "negative_image_false_positive_rate": 0.1,
+          "matched_mean_iou": 0.746166632483301,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 2,
+            "other_class_at_same_location": 2
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 4,
+            "fp": 5,
+            "fn": 45,
+            "precision": 0.4444444444444444,
+            "recall": 0.08163265306122448,
+            "f1": 0.13793103448275862
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 1,
+              "fp": 1,
+              "fn": 25,
+              "precision": 0.5,
+              "recall": 0.038461538461538464,
+              "f1": 0.07142857142857142
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 3,
+              "fp": 4,
+              "fn": 20,
+              "precision": 0.42857142857142855,
+              "recall": 0.13043478260869565,
+              "f1": 0.2
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 1,
+          "negative_image_false_positive_rate": 0.1,
+          "matched_mean_iou": 0.8925105507949712,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 2,
+            "other_class_at_same_location": 2,
+            "same_class_partial_overlap_below_0.5": 1
+          }
+        }
+      }
+    },
+    "concise_phrases": {
+      "0.3": {
+        "A": {
+          "overall": {
+            "tp": 22,
+            "fp": 56,
+            "fn": 26,
+            "precision": 0.28205128205128205,
+            "recall": 0.4583333333333333,
+            "f1": 0.3492063492063492
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 16,
+              "fp": 22,
+              "fn": 8,
+              "precision": 0.42105263157894735,
+              "recall": 0.6666666666666666,
+              "f1": 0.5161290322580645
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 6,
+              "fp": 34,
+              "fn": 18,
+              "precision": 0.15,
+              "recall": 0.25,
+              "f1": 0.1875
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 10,
+          "negative_image_false_positive_rate": 1.0,
+          "matched_mean_iou": 0.7076986878498587,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 35,
+            "other_class_at_same_location": 13,
+            "same_class_partial_overlap_below_0.5": 8
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 21,
+            "fp": 57,
+            "fn": 28,
+            "precision": 0.2692307692307692,
+            "recall": 0.42857142857142855,
+            "f1": 0.33070866141732286
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 14,
+              "fp": 24,
+              "fn": 12,
+              "precision": 0.3684210526315789,
+              "recall": 0.5384615384615384,
+              "f1": 0.4375
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 7,
+              "fp": 33,
+              "fn": 16,
+              "precision": 0.175,
+              "recall": 0.30434782608695654,
+              "f1": 0.2222222222222222
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 10,
+          "negative_image_false_positive_rate": 1.0,
+          "matched_mean_iou": 0.73901958804622,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 34,
+            "other_class_at_same_location": 14,
+            "same_class_partial_overlap_below_0.5": 9
+          }
+        }
+      },
+      "0.35": {
+        "A": {
+          "overall": {
+            "tp": 19,
+            "fp": 41,
+            "fn": 29,
+            "precision": 0.31666666666666665,
+            "recall": 0.3958333333333333,
+            "f1": 0.35185185185185186
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 13,
+              "fp": 16,
+              "fn": 11,
+              "precision": 0.4482758620689655,
+              "recall": 0.5416666666666666,
+              "f1": 0.49056603773584906
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 6,
+              "fp": 25,
+              "fn": 18,
+              "precision": 0.1935483870967742,
+              "recall": 0.25,
+              "f1": 0.21818181818181817
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 10,
+          "negative_image_false_positive_rate": 1.0,
+          "matched_mean_iou": 0.7269540940087744,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 20,
+            "other_class_at_same_location": 13,
+            "same_class_partial_overlap_below_0.5": 8
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 19,
+            "fp": 41,
+            "fn": 30,
+            "precision": 0.31666666666666665,
+            "recall": 0.3877551020408163,
+            "f1": 0.3486238532110092
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 12,
+              "fp": 17,
+              "fn": 14,
+              "precision": 0.41379310344827586,
+              "recall": 0.46153846153846156,
+              "f1": 0.43636363636363634
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 7,
+              "fp": 24,
+              "fn": 16,
+              "precision": 0.22580645161290322,
+              "recall": 0.30434782608695654,
+              "f1": 0.25925925925925924
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 10,
+          "negative_image_false_positive_rate": 1.0,
+          "matched_mean_iou": 0.7471727120918203,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 20,
+            "other_class_at_same_location": 14,
+            "same_class_partial_overlap_below_0.5": 7
+          }
+        }
+      },
+      "0.4": {
+        "A": {
+          "overall": {
+            "tp": 12,
+            "fp": 31,
+            "fn": 36,
+            "precision": 0.27906976744186046,
+            "recall": 0.25,
+            "f1": 0.26373626373626374
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 7,
+              "fp": 12,
+              "fn": 17,
+              "precision": 0.3684210526315789,
+              "recall": 0.2916666666666667,
+              "f1": 0.32558139534883723
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 5,
+              "fp": 19,
+              "fn": 19,
+              "precision": 0.20833333333333334,
+              "recall": 0.20833333333333334,
+              "f1": 0.20833333333333334
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 7,
+          "negative_image_false_positive_rate": 0.7,
+          "matched_mean_iou": 0.7279450908740692,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 15,
+            "other_class_at_same_location": 10,
+            "same_class_partial_overlap_below_0.5": 6
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 13,
+            "fp": 30,
+            "fn": 36,
+            "precision": 0.3023255813953488,
+            "recall": 0.2653061224489796,
+            "f1": 0.2826086956521739
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 6,
+              "fp": 13,
+              "fn": 20,
+              "precision": 0.3157894736842105,
+              "recall": 0.23076923076923078,
+              "f1": 0.26666666666666666
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 7,
+              "fp": 17,
+              "fn": 16,
+              "precision": 0.2916666666666667,
+              "recall": 0.30434782608695654,
+              "f1": 0.2978723404255319
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 7,
+          "negative_image_false_positive_rate": 0.7,
+          "matched_mean_iou": 0.761502745292264,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 15,
+            "other_class_at_same_location": 11,
+            "same_class_partial_overlap_below_0.5": 4
+          }
+        }
+      },
+      "0.45": {
+        "A": {
+          "overall": {
+            "tp": 7,
+            "fp": 23,
+            "fn": 41,
+            "precision": 0.23333333333333334,
+            "recall": 0.14583333333333334,
+            "f1": 0.1794871794871795
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 2,
+              "fp": 8,
+              "fn": 22,
+              "precision": 0.2,
+              "recall": 0.08333333333333333,
+              "f1": 0.11764705882352941
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 5,
+              "fp": 15,
+              "fn": 19,
+              "precision": 0.25,
+              "recall": 0.20833333333333334,
+              "f1": 0.22727272727272727
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 7,
+          "negative_image_false_positive_rate": 0.7,
+          "matched_mean_iou": 0.7166782192737002,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 13,
+            "other_class_at_same_location": 6,
+            "same_class_partial_overlap_below_0.5": 4
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 7,
+            "fp": 23,
+            "fn": 42,
+            "precision": 0.23333333333333334,
+            "recall": 0.14285714285714285,
+            "f1": 0.17721518987341772
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 2,
+              "fp": 8,
+              "fn": 24,
+              "precision": 0.2,
+              "recall": 0.07692307692307693,
+              "f1": 0.1111111111111111
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 5,
+              "fp": 15,
+              "fn": 18,
+              "precision": 0.25,
+              "recall": 0.21739130434782608,
+              "f1": 0.23255813953488372
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 7,
+          "negative_image_false_positive_rate": 0.7,
+          "matched_mean_iou": 0.7997697669940494,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 12,
+            "other_class_at_same_location": 7,
+            "same_class_partial_overlap_below_0.5": 4
+          }
+        }
+      },
+      "0.5": {
+        "A": {
+          "overall": {
+            "tp": 4,
+            "fp": 13,
+            "fn": 44,
+            "precision": 0.23529411764705882,
+            "recall": 0.08333333333333333,
+            "f1": 0.12307692307692308
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 3,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 4,
+              "fp": 10,
+              "fn": 20,
+              "precision": 0.2857142857142857,
+              "recall": 0.16666666666666666,
+              "f1": 0.21052631578947367
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 4,
+          "negative_image_false_positive_rate": 0.4,
+          "matched_mean_iou": 0.7730456282810186,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 5,
+            "other_class_at_same_location": 5,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 5,
+            "fp": 12,
+            "fn": 44,
+            "precision": 0.29411764705882354,
+            "recall": 0.10204081632653061,
+            "f1": 0.15151515151515152
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 3,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 5,
+              "fp": 9,
+              "fn": 18,
+              "precision": 0.35714285714285715,
+              "recall": 0.21739130434782608,
+              "f1": 0.2702702702702703
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 4,
+          "negative_image_false_positive_rate": 0.4,
+          "matched_mean_iou": 0.813829345228881,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 5,
+            "other_class_at_same_location": 5,
+            "same_class_partial_overlap_below_0.5": 2
+          }
+        }
+      },
+      "0.55": {
+        "A": {
+          "overall": {
+            "tp": 4,
+            "fp": 11,
+            "fn": 44,
+            "precision": 0.26666666666666666,
+            "recall": 0.08333333333333333,
+            "f1": 0.12698412698412698
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 2,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 4,
+              "fp": 9,
+              "fn": 20,
+              "precision": 0.3076923076923077,
+              "recall": 0.16666666666666666,
+              "f1": 0.21621621621621623
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 4,
+          "negative_image_false_positive_rate": 0.4,
+          "matched_mean_iou": 0.7730456282810186,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 4,
+            "other_class_at_same_location": 4,
+            "same_class_partial_overlap_below_0.5": 3
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 5,
+            "fp": 10,
+            "fn": 44,
+            "precision": 0.3333333333333333,
+            "recall": 0.10204081632653061,
+            "f1": 0.15625
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 2,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 5,
+              "fp": 8,
+              "fn": 18,
+              "precision": 0.38461538461538464,
+              "recall": 0.21739130434782608,
+              "f1": 0.2777777777777778
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 4,
+          "negative_image_false_positive_rate": 0.4,
+          "matched_mean_iou": 0.813829345228881,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 4,
+            "other_class_at_same_location": 4,
+            "same_class_partial_overlap_below_0.5": 2
+          }
+        }
+      },
+      "0.6": {
+        "A": {
+          "overall": {
+            "tp": 4,
+            "fp": 5,
+            "fn": 44,
+            "precision": 0.4444444444444444,
+            "recall": 0.08333333333333333,
+            "f1": 0.14035087719298245
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 0,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 4,
+              "fp": 5,
+              "fn": 20,
+              "precision": 0.4444444444444444,
+              "recall": 0.16666666666666666,
+              "f1": 0.24242424242424243
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 2,
+          "negative_image_false_positive_rate": 0.2,
+          "matched_mean_iou": 0.7730456282810186,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 2,
+            "other_class_at_same_location": 2,
+            "same_class_partial_overlap_below_0.5": 1
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 4,
+            "fp": 5,
+            "fn": 45,
+            "precision": 0.4444444444444444,
+            "recall": 0.08163265306122448,
+            "f1": 0.13793103448275862
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 0,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 4,
+              "fp": 5,
+              "fn": 19,
+              "precision": 0.4444444444444444,
+              "recall": 0.17391304347826086,
+              "f1": 0.25
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 2,
+          "negative_image_false_positive_rate": 0.2,
+          "matched_mean_iou": 0.8808226431308044,
+          "fp_screening_categories_not_adjudicated": {
+            "no_matching_reference_object": 2,
+            "other_class_at_same_location": 2,
+            "same_class_partial_overlap_below_0.5": 1
+          }
+        }
+      },
+      "0.7": {
+        "A": {
+          "overall": {
+            "tp": 1,
+            "fp": 2,
+            "fn": 47,
+            "precision": 0.3333333333333333,
+            "recall": 0.020833333333333332,
+            "f1": 0.0392156862745098
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 24,
+              "tp": 0,
+              "fp": 0,
+              "fn": 24,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 24,
+              "tp": 1,
+              "fp": 2,
+              "fn": 23,
+              "precision": 0.3333333333333333,
+              "recall": 0.041666666666666664,
+              "f1": 0.07407407407407407
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 0,
+          "negative_image_false_positive_rate": 0.0,
+          "matched_mean_iou": 0.8912314081625403,
+          "fp_screening_categories_not_adjudicated": {
+            "other_class_at_same_location": 1,
+            "same_class_partial_overlap_below_0.5": 1
+          }
+        },
+        "B": {
+          "overall": {
+            "tp": 2,
+            "fp": 1,
+            "fn": 47,
+            "precision": 0.6666666666666666,
+            "recall": 0.04081632653061224,
+            "f1": 0.07692307692307693
+          },
+          "per_class": [
+            {
+              "class": "fire",
+              "instances": 26,
+              "tp": 0,
+              "fp": 0,
+              "fn": 26,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            {
+              "class": "smoke",
+              "instances": 23,
+              "tp": 2,
+              "fp": 1,
+              "fn": 21,
+              "precision": 0.6666666666666666,
+              "recall": 0.08695652173913043,
+              "f1": 0.15384615384615385
+            }
+          ],
+          "negative_images": 10,
+          "negative_images_with_false_detection": 0,
+          "negative_image_false_positive_rate": 0.0,
+          "matched_mean_iou": 0.8555291733430616,
+          "fp_screening_categories_not_adjudicated": {
+            "other_class_at_same_location": 1
+          }
+        }
+      }
+    }
+  },
+  "normal_source_candidates_screening": {
+    "0.3": {
+      "source_normal_candidates": 200,
+      "images_with_candidate": 177,
+      "candidate_boxes": 333
+    },
+    "0.35": {
+      "source_normal_candidates": 200,
+      "images_with_candidate": 136,
+      "candidate_boxes": 201
+    },
+    "0.4": {
+      "source_normal_candidates": 200,
+      "images_with_candidate": 89,
+      "candidate_boxes": 104
+    },
+    "0.45": {
+      "source_normal_candidates": 200,
+      "images_with_candidate": 37,
+      "candidate_boxes": 39
+    },
+    "0.5": {
+      "source_normal_candidates": 200,
+      "images_with_candidate": 10,
+      "candidate_boxes": 10
+    },
+    "0.55": {
+      "source_normal_candidates": 200,
+      "images_with_candidate": 1,
+      "candidate_boxes": 1
+    },
+    "0.6": {
+      "source_normal_candidates": 200,
+      "images_with_candidate": 0,
+      "candidate_boxes": 0
+    },
+    "0.7": {
+      "source_normal_candidates": 200,
+      "images_with_candidate": 0,
+      "candidate_boxes": 0
+    }
+  },
+  "scope": "Actual training-set annotation diagnosis; not independent test performance, training accuracy, human accuracy, or labor saving.",
+  "prompt_trial_selection": {
+    "seed": 42,
+    "categories": {
+      "empty": 10,
+      "fire": 10,
+      "fire+smoke": 10,
+      "smoke": 10
+    },
+    "split": "train",
+    "asset_ids": [
+      "51092efdffabcde378516aa3bb91f10ceeb24e8625960741b480d37173caa2a7",
+      "3078f286dfad4ce48e9a9e787b9346afcace064ae75302e9536149b677ed9aa9",
+      "51bfd0265aad6f4180b47040f8f1159e1b1292c46b455cfdc4cc052b20430da8",
+      "ecd905b87d301149b21aac747e30d01ed66e7068bb9c2f00becebe011ee3bbc5",
+      "a29b792ff8b4db32b44d8a553aa834530e191748ac45f4057fa23df8ac29111e",
+      "8ea4dc8d7a86b5d58e9cbf406ffb0df5536638c3c5b1d9937c209406d06a42ee",
+      "ce6411a10c93ce59839ad11a0083d2c6f3738c4f6d5b11ca6b5d3c1dc922d893",
+      "524fbe9ccc45579701159832058ff5399c764bc48cbc908b05a275f0142cc1c4",
+      "34320794bf09c4c93c8601c28f246b21a59bc5399c329af63703365eaa344059",
+      "d22247d07279deef39efbaa5049aaa82814a7c70c486a50c8f71f04233c5c85a",
+      "8b071c1204078bfd4a95b396f803a851f5c3c0b82eb33208dafce78ec982044f",
+      "6f2f19ee5f983a5823bc376afc7049354645bb8935f02f3eb1c0a66e0cb3ff2e",
+      "335afbeaf97a136b225f809faa9a97741230f6e0365e6f28a6669ef4fb53c955",
+      "1df86110b60caf0195b1ef4e4b963ecfb59ac18862f857d9c9d85de70ce8293f",
+      "a6f07c19db3aa18f53639a1ab2635d32971daa73b38f199dfb4629475d9319df",
+      "855c26b14b406836bcc3eb59b4bd16a6c23c91da135d703b620d78429218abce",
+      "082e1ba0a3a19eb2468a19851bcab8b1ed2de067cbd74b440a99c26dcc5f0967",
+      "011541fc50812385673a17579597f4c27b25502a0224be83e2c567bad8bf2891",
+      "3a5424fb5c3f82dadf4cb3358cea6d6bab629993c0e61d1a66c96eb05d234551",
+      "e364c49dc4c6b6acdbc438647938fc52391ad141a27bf3539fcd364175a3cd1c",
+      "d6bf7369300b0d1973e9632a7a60ea05c92f2f3ebbc28b24c84a9939c290e354",
+      "9340f4fafdaff901d17770a39e6c40d67842871badb2499fbe740f83589080dd",
+      "b601c505496e1ee35c700db0bec12810bacc7b91f97a4f027faa33ea0157cbcd",
+      "2ac5b1b89af3d5214293c914a72804f396d84ad4fdcaef1e01b47cab590a084f",
+      "466f7c0f53c4a7f6a2be29f2132554718f0908abad4b9323fa8f76249e69c2a7",
+      "5e66371fea742dcbdc41e40c92590dfbd3fd190282e2e3ebef114c98130d3e40",
+      "155c0c45c1be7ad6898e214df82ec5141b4c951139062f42550016b96b17f970",
+      "5420dde2f090958cea442fbf47d77f2373990ab50ce0e14121adf2b70c015e4d",
+      "8a43e9b3d0329614ea7268ce899b83a52c7a9069ea6d0751c11d7e93d86f7df3",
+      "9abc51476293237a16bba95877a040cc7ea143b85b5a23f9ed11b1395e226035",
+      "f7d2d5c834c20b51048e8c95ebb5124c44f1dc1bda15352908e5073b15f977da",
+      "7d0bb599a1e43b3f03ea0778f4efd2519d2af11a54d70be1f87d1a1291deecda",
+      "0fa082aef7dca2515f3833879bfb6ba720cca2537d9fe502b058a9490082c5a6",
+      "467980256765f5a75562f44d5601e2cfad901f3905446b9d8c5d6b51e71a6cda",
+      "b7fb08f27309955527012852386fb94d7b809635693189cd5e2f1ed1680d672a",
+      "71f3195e5c3a185667747d790c3fb95a9a3bf9c01530ace89ce8019d1cf80adb",
+      "6e22b4efa48d178f36321390444801d4fa99d86f153b5a4d7f067f9080502587",
+      "c75aa5aa75840dbbf223ee6a984c43a37eaeab1ff742bd888596e303a6082db0",
+      "7b4e87ef8505a3d0f881a1411d5c7bf480b5ce4202f9118db195551a9edca0ab",
+      "531c44ea70749c14c481598387610959398cf0429b1377c65660afffd7b08886"
+    ]
+  },
+  "cache_reproduction": {
+    "status": "passed",
+    "verified_at_utc": "2026-10-26T15:59:40.941854+00:00",
+    "checked_images": 13,
+    "scope": "Selected training images only; comparison tolerance IoU>=0.999 and score delta<=0.0001"
+  },
+  "catalog_mutation": "None: read-only SQLite; new trial outputs saved under artifacts only. Active human reviews may continue independently.",
+  "current_production_config_changed": false,
+  "local_evidence_root": "artifacts/prelabel_diagnostics_20261026",
+  "evidence_files_sha256": {
+    "audit.json": "8d6b119d7ef88b20a541e80529777ce87da3ddf1ed02a9ac9bff325b084f577f",
+    "baseline_reproduction.json": "88a328d243c17b208dac02c8cb7830ece378594e9202ef1223b70c705379d28c",
+    "diagnose.py": "3cdd422e5a0658c94dfcc0999c80cbadcd65305fb7dcca7324dac31088de7f96",
+    "diagnosis.json": "e48a6c05c9cd35656bd2518e6047440c68e59edb0b5178189b7e47d57515ba4f",
+    "error_examples.png": "d0fbc0705ad28514e68f0142775901609bf7ea2ed4404cc13e49af82b8bd5a30",
+    "normal_high_score_examples.png": "eca7708064aa6ca66dce1d768785d93a32639a5bcb3f3d2b1fe34991fcb67b50",
+    "reproduce_baseline.py": "0b0970cf1af2417f2655ad122ce25ac22419784dd2bdce141e9e9bf6eda7ce92",
+    "trial_predictions.json": "97ff751470c4ffbdccc847d78f333993dbc4bf0c1434bbebca3dbf54f2cda60d"
+  }
+}
