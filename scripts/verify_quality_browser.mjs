@@ -21,10 +21,8 @@ try{
   await page.getByRole('button',{name:'暂停工作计时',exact:true}).click();await idle();
   await page.getByRole('button',{name:'提交并锁定本图独立标注',exact:true}).click();await page.getByText('此图已独立提交并锁定。',{exact:true}).waitFor();
  }
- await page.goto(base+'/Quality');await page.getByText('管理与仲裁',{exact:true}).click();await idle();
+ await page.goto(base+'/Quality');await page.getByText('报告与导出',{exact:true}).click();await idle();
  await page.getByRole('textbox',{name:'管理访问码',exact:true}).fill(fixture.tokens.admin);await page.getByRole('textbox',{name:'管理访问码',exact:true}).press('Tab');await idle();
- await page.getByRole('textbox',{name:'人工仲裁说明',exact:true}).fill('Automated synthetic UI workflow; not actual independent human annotations.');await page.getByRole('textbox',{name:'人工仲裁说明',exact:true}).press('Tab');await idle();
- await page.getByRole('button',{name:'保存人工参考版本',exact:true}).click();await idle();
  await page.getByRole('button',{name:'生成标注质量报告',exact:true}).click();await page.getByRole('button',{name:'下载标注质量报告',exact:true}).waitFor();
  await page.getByText('面积误差',{exact:true}).click();await idle();
  const imageControl=page.getByTestId('stSelectbox').filter({has:page.getByText('掩码对应图片',{exact:true})}).getByRole('combobox');
@@ -38,6 +36,6 @@ try{
  for(const [name,value] of [['工时对照组编号',fixture.task],['计时人员','Browser simulated actor'],['计时方法与任务说明','Automated fixture, not actual saved labor']])await page.getByRole('textbox',{name,exact:true}).fill(value);
  await page.getByRole('button',{name:'保存实测工时',exact:true}).click();await page.getByText('实测记录已保存。',{exact:true}).waitFor();
  assert.deepEqual(errors,[]);
- const report={status:'passed',scope:'Two automated simulated browser roles on one existing synthetic image; not human independence evidence',verified_at:new Date().toISOString(),separate_blank_canvases:true,activity_timing_pause_submit:true,adjudication_and_report:true,mask_upload_and_error_record:true,worktime_form_submission:true,page_errors:errors};
+ const report={status:'passed',scope:'Two automated simulated browser roles on one existing synthetic image; not human independence evidence',verified_at:new Date().toISOString(),separate_blank_canvases:true,activity_timing_pause_submit:true,separate_reference_report_without_adjudication:true,mask_upload_and_error_record:true,worktime_form_submission:true,page_errors:errors};
  await fs.writeFile(path.join(root,'reports/quality_browser.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
 }finally{await browser.close();}

@@ -10,6 +10,7 @@ from dataset_store import DatasetStore,dataset_root
 from annotations import AnnotationStore,validate_boxes
 from annotation_ui import box_editor,box_preview
 from quality import QualityStore,WorkTimer,pause_work_timers
+from quality_export import quality_archive
 
 ROOT=Path(__file__).resolve().parents[1]
 st.set_page_config(page_title='标注质量与面积误差',page_icon='🔬',layout='wide');st.title('标注质量与面积误差')
@@ -27,7 +28,7 @@ def leave_blind_workspace():
             del st.session_state[key]
     st.session_state['blind_token']=''
 
-mode=st.radio('质量工作区',['创建独立标注任务','独立标注','管理与仲裁','面积误差','工时对照'],horizontal=True,on_change=pause_annotation_timers)
+mode=st.radio('质量工作区',['创建独立标注任务','独立标注','报告与导出','面积误差','工时对照'],horizontal=True,on_change=pause_annotation_timers)
 try:
     if mode=='创建独立标注任务':
         assets=st.multiselect('独立标注图片',[r['id'] for r in catalog],format_func=lambda k:k[:16])
@@ -82,50 +83,44 @@ try:
                 if st.button('提交并锁定本图独立标注',disabled=bool(blockers)):
                     store.submit_timed(token,key,work['boxes'],timer,negative)
                     st.session_state['blind_feedback']=(access['task_id'],access['role']);st.rerun()
-    elif mode=='管理与仲裁':
+    elif mode=='报告与导出':
         token=st.text_input('管理访问码',type='password')
         if token:
             access=store.access(token,True)
             progress=store.progress(token)
-            st.caption(f"任务编号：{access['task_id']}；A已提交 {progress['A']}/{progress['total']}，B已提交 {progress['B']}/{progress['total']}，已仲裁 {progress['references']}/{progress['total']}")
+            st.caption(f"任务编号：{access['task_id']}；A已提交 {progress['A']}/{progress['total']}，B已提交 {progress['B']}/{progress['total']}")
             if not store.completed(access):st.info('等待两名标注者全部完成；此时不展示框或预标注。')
             else:
                 submissions=store.submissions(token)
-                keys=[item['asset']['id'] for item in access['snapshot']]
-                key=st.selectbox('仲裁图片',keys,format_func=lambda value:f"Q{keys.index(value)+1:03d} · {value[:12]}");asset=store.frozen_asset(access,key)
-                a,b=[next(r for r in submissions if r['asset_id']==key and r['role']==role) for role in ['A','B']]
-                st.image(str(dataset.asset_path(asset)),caption='人工仲裁参考原图',width=700)
-                c1,c2=st.columns(2)
-                for column,submission,label in [(c1,a,'A独立结果'),(c2,b,'B独立结果')]:
-                    column.image(box_preview(dataset.asset_path(asset),submission['boxes']),caption=label)
-                    with column.expander(label+'坐标'):st.json(submission['boxes'])
-                saved=store.reference(token,key)
-                work_key='arbitration_'+access['task_id']+key
-                work=st.session_state.setdefault(work_key,{'boxes':saved['boxes'] if saved else a['boxes'], 'editor':uuid.uuid4().hex})
-                st.subheader('人工仲裁参考画布')
-                st.caption('起始使用已保存参考或A的框，便于编辑；A与B都不是自动真值。请对照原图核查遗漏、误检、类别与边界。')
-                ca,cb=st.columns(2)
-                for column,label,boxes in [(ca,'从A载入参考画布',a['boxes']),(cb,'从B载入参考画布',b['boxes'])]:
-                    if column.button(label):
-                        work.update(boxes=boxes,editor=uuid.uuid4().hex);st.rerun()
-                payload=box_editor(dataset.asset_path(asset),asset['width'],asset['height'],work['boxes'],work['editor'])
-                if isinstance(payload,dict) and payload.get('document_key')==work['editor']:
-                    work['boxes']=validate_boxes(payload['boxes'],asset['width'],asset['height'])
-                with st.expander('查看当前人工参考框JSON'):
-                    st.code(json.dumps(work['boxes'],ensure_ascii=False,indent=2),language='json')
-                note=st.text_input('人工仲裁说明',key='arbitration_note_'+access['task_id']+key)
-                if st.button('保存人工参考版本',disabled=not note.strip()):
-                    store.arbitrate(token,key,work['boxes'],note);st.success('人工参考已追加保存。');saved=store.reference(token,key)
-                if saved:
-                    st.caption(f"已保存人工参考版本 {saved['seq']}；修改画布后须再次保存，才能将新结果用于训练。")
-                    confirmed=st.checkbox('我已核查已保存的仲裁参考，确认用于训练标签',key='approve_reference_'+access['task_id']+key)
-                    negative=st.checkbox('仲裁后确认整图无fire/smoke',key='approve_negative_'+access['task_id']+key) if not saved['boxes'] else False
-                    latest=store.annotations.latest(key)
-                    if st.button('确认此仲裁参考用于训练',disabled=not confirmed or work['boxes']!=saved['boxes'] or not saved['boxes'] and not negative):
-                        store.approve_reference(token,key,saved['seq'],latest['id'] if latest else None,negative)
-                        st.success('已保存为Annotations人工通过版本；A/B独立原始记录保持不变。')
+                st.caption('A/B原始标注分别保留；无需逐图仲裁。预标注分别与A、B比较，两套结果同时报告。导出不生成训练复核通过记录。')
+                options={'both':'A/B完整包（含质量报告）','A':'仅A原始标注','B':'仅B原始标注'}
+                selection=st.selectbox('导出内容',list(options),format_func=options.get)
+                if st.button('生成导出包'):
+                    content,summary=quality_archive(store,token,selection)
+                    st.session_state['quality_download']={'task':access['task_id'],'selection':selection,'content':content}
+                download=st.session_state.get('quality_download',{})
+                if download.get('task')==access['task_id'] and download.get('selection')==selection:
+                    st.download_button('下载标注ZIP',download['content'],f"{access['task_id']}_{selection}.zip",'application/zip',on_click='ignore')
                 if st.button('生成标注质量报告'):
-                    report=store.report(token);st.json(report);st.download_button('下载标注质量报告',json.dumps(report,ensure_ascii=False,indent=2),'annotation_quality.json','application/json')
+                    st.session_state['quality_report']=store.report(token)
+                report=st.session_state.get('quality_report',{})
+                if report.get('task_id')==access['task_id']:
+                    summary=report['agreement_summary']
+                    st.write({'匹配框平均IoU':summary['mean_iou_of_matched'],'匹配框对数':summary['matched_pairs'],
+                              'A未匹配框':summary['unmatched_A'],'B未匹配框':summary['unmatched_B']})
+                    rows=[{'人工参考':role,**result['overall']} for role,result in report['preannotation_quality'].items() if result is not None]
+                    if rows:st.dataframe(rows,hide_index=True)
+                    else:st.info('待评估：本任务未冻结可用预标注；仍可查看A/B一致性并导出原始标签。')
+                    st.caption('IoU均值仅针对匹配框；P/R为冻结预标注对各份人工参考的结果，不是正式测试精度。工时节省另需受控计时。')
+                    st.download_button('下载标注质量报告',json.dumps(report,ensure_ascii=False,indent=2),'annotation_quality.json','application/json',on_click='ignore')
+                    with st.expander('查看完整质量报告'):st.json(report)
+                if st.checkbox('查看原图与A/B标注'):
+                    keys=[item['asset']['id'] for item in access['snapshot']]
+                    key=st.selectbox('查看图片',keys,format_func=lambda value:f"Q{keys.index(value)+1:03d} · {value[:12]}");asset=store.frozen_asset(access,key)
+                    st.image(str(dataset.asset_path(asset)),caption='原图',width=700)
+                    for column,role in zip(st.columns(2),('A','B')):
+                        submission=next(row for row in submissions if row['asset_id']==key and row['role']==role)
+                        column.image(box_preview(dataset.asset_path(asset),submission['boxes']),caption=role+'独立结果（只读）')
     elif mode=='面积误差':
         if not catalog:st.info('待评测：没有图像及独立人工参考掩码。')
         else:

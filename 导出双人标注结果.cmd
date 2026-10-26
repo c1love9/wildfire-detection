@@ -11,7 +11,7 @@ if not exist ".venv\Scripts\python.exe" (
 ".venv\Scripts\python.exe" scripts\export_dual_annotation.py
 set "task_export_exit=%errorlevel%"
 if errorlevel 1 (
-    echo Not ready: finish A/B submissions, human adjudication and explicit reviewed-label approval first.
+    echo Export failed: check A/B completion, image integrity and the error above.
 ) else (
     echo Submission package is saved under data\fire_dataset\quality_deliveries.
 )

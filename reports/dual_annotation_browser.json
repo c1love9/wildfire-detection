@@ -1,15 +1,40 @@
 {
   "status": "passed",
-  "verified_at": "2026-10-24T09:24:14.225Z",
+  "verified_at": "2026-10-26T05:42:10.971Z",
   "formal_task_read_only": true,
-  "formal_roles_blank_and_no_submissions": true,
-  "credential_cleared_on_logout": true,
-  "admin_locked_before_completion": true,
   "synthetic_two_role_two_image_submissions": true,
-  "pending_filter_auto_advances": true,
-  "visual_arbitration_and_explicit_review_approval": true,
-  "empty_reference_requires_confirmation": true,
-  "quality_report_download": true,
-  "scope": "Formal task inspected without writes; all annotation/approval actions are isolated synthetic automation, never human evidence",
+  "blank_canvases_and_own_progress": true,
+  "logout_clears_credential": true,
+  "no_arbitration_controls": true,
+  "admin_locked_before_both_complete": true,
+  "submit_while_timer_active": true,
+  "separate_A_B_and_combined_export_files_verified": true,
+  "native_zip_downloads_verified": false,
+  "external_download_interceptions": [
+    {
+      "file": "synthetic_both.zip",
+      "native_browser_failure": "canceled",
+      "attachment_http_status": 200,
+      "transfer": "Exact generated attachment fetched via HTTP after UI click; not a successful native browser download",
+      "detected_download_manager": "IDMan"
+    },
+    {
+      "file": "synthetic_A.zip",
+      "native_browser_failure": "canceled",
+      "attachment_http_status": 200,
+      "transfer": "Exact generated attachment fetched via HTTP after UI click; not a successful native browser download",
+      "detected_download_manager": "IDMan"
+    },
+    {
+      "file": "synthetic_B.zip",
+      "native_browser_failure": "canceled",
+      "attachment_http_status": 200,
+      "transfer": "Exact generated attachment fetched via HTTP after UI click; not a successful native browser download",
+      "detected_download_manager": "IDMan"
+    }
+  ],
+  "quality_report_two_human_references": true,
+  "read_only_comparison": true,
+  "scope": "All annotation actions use an isolated synthetic task; formal task only read and exported, never modified",
   "page_errors": []
 }

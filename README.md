@@ -9,6 +9,7 @@
 > - [队友项目入门手册](docs/teammate_project_guide.md)
 > - [火焰烟雾数据标注操作手册](docs/teammate_annotation_manual.md)
 > - [已建立的200幅双人独立任务与交接操作](docs/dual_annotation_200_guide.md)
+> - Quality现已取消逐图仲裁：两人全部提交后，在“报告与导出”分别导出A/B原始YOLO标签，或直接生成双参考质量报告。命令行使用 `scripts/export_dual_annotation.py --role A|B|both`；导出不自动批准训练标签。
 > - [最低数量数据集与筛选统计](docs/dataset_collection.md)
 > - [本次代码检查与修复](docs/code_review.md)
 > - [本轮功能说明与协议](docs/completion.md)
@@ -28,7 +29,7 @@
 > - [YOLO训练、损失曲线与独立评估](docs/training.md)
 > - [自训模型接入图片、视频与摄像头](docs/model_inference.md)
 >
-> Windows 本机双击 `启动项目.cmd`，打开 http://127.0.0.1:8501 。`Home`检测图片；`Demo Videos`检测视频/摄像头，支持模型与分割选择；`Alarm History`查看历史地图、媒体、趋势及CSV；`Dataset`、`Annotations`、`Training`管理数据/标注/训练；`Channels`、`Comparison`、`Experiments`、`Quality`提供通道、统一对比与质量实验。停止后可切换输入和模型，历史保留快照。当前状态为“系统功能、实验工具和材料框架完成”；700幅候选图像和300段视频已入库，人工复核、200幅真人双标、充分收敛训练及正式评测仍待补，原题尚未全部完成，详见要求对照表。下方英文研究结果属于上游项目，不能作为本人实验成果。
+> Windows 本机双击 `启动项目.cmd`，打开 http://127.0.0.1:8501 。`Home`检测图片；`Demo Videos`检测视频/摄像头，支持模型与分割选择；`Alarm History`查看历史地图、媒体、趋势及CSV；`Dataset`、`Annotations`、`Training`管理数据/标注/训练；`Channels`、`Comparison`、`Experiments`、`Quality`提供通道、统一对比与质量实验。停止后可切换输入和模型，历史保留快照。当前状态为“系统功能、实验工具和材料框架完成”；700幅候选图像和300段视频已入库，本机同批200幅A/B提交已齐；全量人工复核、充分收敛训练及正式评测仍待补，原题尚未全部完成，详见要求对照表。下方英文研究结果属于上游项目，不能作为本人实验成果。
 
 Welcome to the Wildfire Detection Research repository! This repository hosts the code and resources related to our research on leveraging computer vision for fire detection. Our aim is to contribute to wildfire prevention efforts by developing and training an object detection model to accurately identify instances of fire and smoke in images.
 

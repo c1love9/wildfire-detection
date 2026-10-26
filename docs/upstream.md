@@ -39,3 +39,5 @@
 |SAM ViT-B|同帧检测框提示掩码；固定revision和SHA-256，未微调|https://huggingface.co/facebook/sam-vit-base|
 
 各依赖和数据沿用各自的许可与使用条件，根目录的 MIT 许可证描述上游项目代码。原模型类别及权重校验值由实测记录 `reports/reproduction.json` 给出。
+
+2026-10-26按原题简化质量工作区：删除逐图仲裁界面和写入接口，A/B原始标注分别导出，质量报告直接使用两份独立参考。旧参考历史保留但不参与门槛或指标。

@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "formal_task_id": "quality_6146eb5a5ab24f5ebc6961d07e392ad2",
+  "formal_images": 200,
+  "original_submissions_preserved": 400,
+  "formal_catalog_all_tables_unchanged": true,
+  "new_reference_or_training_approval_records": 0,
+  "actual_A_B_and_combined_exports_verified": true,
+  "zip_crc_and_all_file_checksums_verified": true,
+  "single_role_archives_exclude_other_role": true,
+  "access_codes_excluded": true,
+  "ui_generated_attachment_archives_verified": true,
+  "browser_download_transport": [
+    {
+      "file": "synthetic_both.zip",
+      "native_browser_failure": "canceled",
+      "attachment_http_status": 200,
+      "transfer": "Exact generated attachment fetched via HTTP after UI click; not a successful native browser download",
+      "detected_download_manager": "IDMan"
+    },
+    {
+      "file": "synthetic_A.zip",
+      "native_browser_failure": "canceled",
+      "attachment_http_status": 200,
+      "transfer": "Exact generated attachment fetched via HTTP after UI click; not a successful native browser download",
+      "detected_download_manager": "IDMan"
+    },
+    {
+      "file": "synthetic_B.zip",
+      "native_browser_failure": "canceled",
+      "attachment_http_status": 200,
+      "transfer": "Exact generated attachment fetched via HTTP after UI click; not a successful native browser download",
+      "detected_download_manager": "IDMan"
+    }
+  ],
+  "unit_and_regression_tests": 185,
+  "regression_log": "artifacts/dual_annotation_checks/simplified_regression_tests.txt",
+  "report_protocol": "IoU 0.5, saved candidates evaluated separately against A and B; matched-only mean IoU plus unmatched counts; no AP claim",
+  "deliveries": [
+    {
+      "folder": "data/fire_dataset/quality_deliveries/独立标注A_20261026_134249_1915d4",
+      "zip": "data/fire_dataset/quality_deliveries/独立标注A_20261026_134249_1915d4.zip",
+      "sha256": "6772d8eddc9f4c4e136259d9c8b330823e0fc352f50b6f2bbd2ac91d46666ac6",
+      "selection": "A",
+      "images": 200,
+      "submissions": 200
+    },
+    {
+      "folder": "data/fire_dataset/quality_deliveries/独立标注B_20261026_134252_27080f",
+      "zip": "data/fire_dataset/quality_deliveries/独立标注B_20261026_134252_27080f.zip",
+      "sha256": "5be7f4d7e8b626faf428b20fafb585d71f5d9684c1d5fe39b4b62bd107803c30",
+      "selection": "B",
+      "images": 200,
+      "submissions": 200
+    },
+    {
+      "folder": "data/fire_dataset/quality_deliveries/双人独立标注提交_20261026_134257_43fe87",
+      "zip": "data/fire_dataset/quality_deliveries/双人独立标注提交_20261026_134257_43fe87.zip",
+      "sha256": "cd75cedf06a2c451a53b2f6028b8e6ac2bd22d7a20a8311837b04eda27e21e76",
+      "selection": "both",
+      "images": 200,
+      "submissions": 400
+    }
+  ],
+  "scope": "Software verification and annotation-quality export, not formal independent-test accuracy, annotation correctness or labor savings."
+}

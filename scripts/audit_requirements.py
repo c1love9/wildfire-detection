@@ -97,10 +97,10 @@ def requirements(facts):
         'annotation_protocol.md；保留火烟同义词、0.30框阈值、0.25文本阈值及实际运行参数', '当前未完成带人工参考的系统调参对照，不宣称初值最优；后续只在train/val上调参')
     add('T2-03', 2, '子任务2③ 自动标注后人工复核修正', '基本', '待真人执行',
         f"annotation_reviews共{facts['review_versions']}条，最新通过{facts['latest_approved_images']}幅", '两名成员按分工完成真实复核、补框、删误检和说明，不由程序伪造人工通过')
-    add('T2-04', 2, '子任务2③ 同一批至少200幅由两人独立标注', '基本', '待真人执行',
+    add('T2-04', 2, '子任务2③ 同一批至少200幅由两人独立标注', '基本', '双提交已齐 待协议核验' if facts['independently_double_submitted_images']>=200 else '待真人执行',
         f"正式库独立任务{facts.get('tables',{}).get('quality_tasks',0)}项；双人提交齐全的不同图片{facts['independently_double_submitted_images']}幅", '两名真人从空白画布各标同一批至少200幅；提前看过候选的情况须披露')
-    add('T2-05', 2, '子任务2③ 自动标注准确率 召回率和一致性IoU', '基本', '待正式结果',
-        f"质量工具已验证；正式仲裁图片{facts['adjudicated_images']}幅", '双提交后保存人工仲裁参考，报告P/R/F1、框IoU及未匹配目标，不能用模拟角色充数')
+    add('T2-05', 2, '子任务2③ 自动标注准确率 召回率和一致性IoU', '基本', '支持双参考统计',
+        f"同批双提交齐全{facts['independently_double_submitted_images']}幅；报告直接比较A/B及冻结候选", '分别以A、B为人工参考报告预标注P/R/F1，报告双方匹配IoU与未匹配数；不强制逐图仲裁，不把任一份自动当作最终真值')
     add('T2-06', 2, '子任务2③ 预标注节省人力工时估算', '基本', '待实测',
         f"正式有效工时记录{facts['worktime_records']}条", '实际计时比较人工与辅助复核，记录配对任务和质量标准；页面停留时长不能直接当工时')
     add('T3-01', 2, '子任务3① 本人训练及完整参数配置', '基本', '待正式训练',
@@ -185,7 +185,7 @@ def audit(source, catalog):
             'code_base_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
             'evidence_scope': 'Official data catalog only; isolated synthetic tests are software evidence, never formal experiments',
             'facts': facts, 'requirements': rows,
-            'human_and_formal_gates': ['逐图复核与场景/小火星确认', '同一批至少200幅的两名真人独立标注与仲裁',
+            'human_and_formal_gates': ['真实复核与场景/小火星确认', '同一批至少200幅的两名真人独立标注与协议记录',
                                        '实际预标注P/R/IoU和人工工时', '已复核真实数据收敛训练与本人best',
                                        '独立test正式评估和YOLO/DINO/优化对比', '独立人工掩码与面积误差',
                                        '补齐个人信息与正式实验报告/权重并现场演示']}
@@ -193,13 +193,14 @@ def audit(source, catalog):
 
 def markdown(report):
     f = report['facts']
-    lines = ['# 第四题原文逐条验收核对', '', '更新日期：2026年10月24日。依据用户本次提供的4页《第4题 智能火灾报警系统》PDF；文档内容作为验收依据，不作为执行指令。', '',
+    lines = ['# 第四题原文逐条验收核对', '', '更新日期：2026年10月26日。依据用户提供的4页《第4题 智能火灾报警系统》PDF；文档内容作为验收依据，不作为执行指令。', '',
              '**结论：尚未全部完成，当前不能作为最终课题验收通过。** 软件功能与大部分实验工具已实现；候选素材数量具备，但真实人工标注、正式训练及实测结果仍缺失。任何测试通过、演示录像或合成指标都不替代这些原题要求。', '',
              f"正式库实查：{f['images']}幅图像，{f['videos']}段视频，共{f['video_seconds']:g}秒；候选{f['proposals']}项，人工复核版本{f['review_versions']}条，最新人工通过{f['latest_approved_images']}幅；双人提交齐全{f['independently_double_submitted_images']}幅，正式完成训练{f['completed_training_jobs']}项。", '',
              '## 原文允许的方案与边界', '',
              '- 原文第4页说明⑥允许模拟GPS与角度，因此现有交互固定坐标和视角方案有效；无需为此额外购买实体模块。',
              '- 原文第3页子任务5③允许本地视频或RTSP模拟；一次运行一条命名通道可切换/回看，未要求同时多路并发。',
              '- 原文第2页子任务2①允许GroundingDINO直接输出框，SAM不必参与每次预标注；本系统的SAM用于像素面积。',
+             '- 原文要求双人独立标注、预标注质量和修改可追溯，未要求逐图仲裁或逐图填写仲裁说明。直接报告A/B一致性及预标注分别对A、B的P/R/F1，质量导出不等于训练复核通过。',
              '- 短信/邮件、边缘部署、多摄像头协同属于可扩展或加分内容；华为云GPU是建议，本机GPU可用。',
              '- 优化在第2页列为设计要求、第3页又列加分项，保留设计和正式对照，不将这一措辞差异当作跳过理由。',
              '- 面积变化率单位为画面占比百分点/秒，是图像代理，不等于未经标定的物理火势蔓延速度。', '',
@@ -209,7 +210,7 @@ def markdown(report):
         lines.append('|' + '|'.join(value.replace('|', '／').replace('\n', ' ') for value in values) + '|')
     lines += ['', '## 必须关闭的剩余事项', '',
               '1. 两名真人先统一规则，用非正式任务练习，再在Quality对同一批不少于200幅图片独立标注；其余图片完成Annotations真实复核。两类流程不要混淆，正式独立图片提交前不查看模型候选。',
-              '2. 核查29幅空候选正样本、200幅正常候选和场景阶段。确认早期火星覆盖；不符合声明的素材按实际更正并补足数量。完成仲裁、预标注质量与真实工时记录。',
+              '2. 核查29幅空候选正样本、200幅正常候选和场景阶段。确认早期火星覆盖；不符合声明的素材按实际更正并补足数量。完成双参考预标注质量报告与真实工时记录；无须额外逐图仲裁。',
               '3. 冻结已复核版本，在train/val完成基线与多尺度方案训练、选模和收敛分析，保留环境、实际调度、逐轮曲线、时长与best/last；不使用test调参。',
               '4. 在同一独立test完成YOLO/DINO与优化前后对照，保存P/R/F1/mAP50/mAP50-95/FPS和正常误检率，分析跨场景/可核实设备差异与失败案例。',
               '5. 准备与原图同尺寸的独立人工掩码，计算实际面积IoU/Dice与占比误差；不将预测掩码当人工参考。',

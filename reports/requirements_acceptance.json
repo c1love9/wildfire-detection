@@ -1,7 +1,7 @@
 {
   "status": "NOT_ALL_COMPLETE",
   "formal_acceptance_complete": false,
-  "audited_at": "2026-10-24T09:24:31.682713+00:00",
+  "audited_at": "2026-10-26T05:33:05.150702+00:00",
   "source_document": "第4题-智能火灾报警系统.pdf",
   "source_sha256": "46919025b0bcbce225c675d85071338d128a4232630e69367d8bbc0f1a2d4af5",
   "source_pages_visually_inspected": [
@@ -10,7 +10,7 @@
     3,
     4
   ],
-  "code_base_commit": "de0755b0212fd3f3b6bbd3925b9e5bfc7553f6fa",
+  "code_base_commit": "44f55ed546b1e167ae931b514114f57f18d8c1dc",
   "evidence_scope": "Official data catalog only; isolated synthetic tests are software evidence, never formal experiments",
   "facts": {
     "exists": true,
@@ -24,7 +24,7 @@
     "reviewed_exports": 0,
     "completed_training_jobs": 0,
     "completed_comparisons": 0,
-    "independently_double_submitted_images": 0,
+    "independently_double_submitted_images": 200,
     "adjudicated_images": 0,
     "reference_mask_records": 0,
     "worktime_records": 0,
@@ -41,7 +41,7 @@
       "occurrences": 1000,
       "quality_masks": 0,
       "quality_references": 0,
-      "quality_submissions": 0,
+      "quality_submissions": 400,
       "quality_task_preparations": 1,
       "quality_tasks": 1,
       "quality_worktime": 0,
@@ -154,8 +154,8 @@
       "page": 2,
       "clause": "子任务2③ 同一批至少200幅由两人独立标注",
       "scope": "基本",
-      "status": "待真人执行",
-      "evidence": "正式库独立任务1项；双人提交齐全的不同图片0幅",
+      "status": "双提交已齐 待协议核验",
+      "evidence": "正式库独立任务1项；双人提交齐全的不同图片200幅",
       "remaining": "两名真人从空白画布各标同一批至少200幅；提前看过候选的情况须披露"
     },
     {
@@ -163,9 +163,9 @@
       "page": 2,
       "clause": "子任务2③ 自动标注准确率 召回率和一致性IoU",
       "scope": "基本",
-      "status": "待正式结果",
-      "evidence": "质量工具已验证；正式仲裁图片0幅",
-      "remaining": "双提交后保存人工仲裁参考，报告P/R/F1、框IoU及未匹配目标，不能用模拟角色充数"
+      "status": "支持双参考统计",
+      "evidence": "同批双提交齐全200幅；报告直接比较A/B及冻结候选",
+      "remaining": "分别以A、B为人工参考报告预标注P/R/F1，报告双方匹配IoU与未匹配数；不强制逐图仲裁，不把任一份自动当作最终真值"
     },
     {
       "id": "T2-06",
@@ -484,8 +484,8 @@
     }
   ],
   "human_and_formal_gates": [
-    "逐图复核与场景/小火星确认",
-    "同一批至少200幅的两名真人独立标注与仲裁",
+    "真实复核与场景/小火星确认",
+    "同一批至少200幅的两名真人独立标注与协议记录",
     "实际预标注P/R/IoU和人工工时",
     "已复核真实数据收敛训练与本人best",
     "独立test正式评估和YOLO/DINO/优化对比",

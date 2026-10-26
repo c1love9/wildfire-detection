@@ -69,7 +69,7 @@ def verify(test_log=None):
             assert file_sha(directory/'reference.png')==record['reference_sha256']
             assert file_sha(directory/'prediction.png')==record['prediction_sha256']
         assert db.execute('SELECT COUNT(*) FROM quality_submissions').fetchone()[0]>=2
-        assert db.execute('SELECT COUNT(*) FROM quality_references').fetchone()[0]>=1
+        assert db.execute("SELECT COUNT(*) FROM (SELECT task_id,asset_id FROM quality_submissions WHERE role IN ('A','B') GROUP BY task_id,asset_id HAVING COUNT(DISTINCT role)=2)").fetchone()[0]>=1
     alarm_path=ROOT/'artifacts/completion_checks/alarms.sqlite3'
     with closing(sqlite3.connect(alarm_path.resolve().as_uri()+'?mode=ro',uri=True)) as db:
         rows=db.execute("SELECT snapshot_path,clip_path FROM event_media WHERE status IN ('ready','partial') ORDER BY updated_at DESC LIMIT 5").fetchall()
