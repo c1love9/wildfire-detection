@@ -4,13 +4,13 @@
   "scope": "Public/synthetic fixtures in isolated catalogs; automated review simulation is not human GT or accuracy evaluation.",
   "unit_tests_passed": 95,
   "root": "artifacts\\annotation_checks\\integration_ae53c752e87f46c985aa7ce22e91597d\\catalog",
-  "browser_root": "artifacts\\annotation_checks\\browser_bac6612ba740434899b246b7b52bd572",
+  "browser_root": "artifacts\\annotation_checks\\browser_60928919ca0e4538a7d7b3f937266850",
   "browser_asset_ids": [
     "a184094057dfe49533c13bc886fe4b3a346ccaa37d83641cf8bd9a96e76725eb",
     "3e0f32206df34ca3066c9a05d20f31204d0d8243302f77a6dfc74c3479b61e99",
     "6e93a860e7156415533c06a14bf8eb90e4b03c20748ef509cbd35b89f5aa3173"
   ],
-  "browser_split": "split_20261020_094505_667cc20e",
+  "browser_split": "split_20261026_153517_af0ba945",
   "model": {
     "model_id": "IDEA-Research/grounding-dino-tiny",
     "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",

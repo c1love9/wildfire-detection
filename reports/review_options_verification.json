@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-26T15:37:36.790195+00:00",
+  "regression_tests": {
+    "passed": 185,
+    "elapsed_seconds": 22.236
+  },
+  "widget_checks": {
+    "status": "passed",
+    "isolated_root": "artifacts\\review_options_checks\\widget_e561767a031144aa9b024043e9239373",
+    "nothing_preselected": true,
+    "conflicting_actions_blocked": true,
+    "options_only_saved": true,
+    "options_reset_after_save": true,
+    "optional_text_only_saved": true,
+    "append_only_history": true,
+    "formal_catalog_touched": false
+  },
+  "browser_report": "reports/annotation_browser.json",
+  "browser_checks": {
+    "review_action_options_generate_notes": true,
+    "unchanged_and_negative_review_without_typing": true,
+    "review_actions_do_not_carry_between_images": true,
+    "empty_approval_requires_explicit_confirmation": true,
+    "draft_and_approval_append_only": true
+  },
+  "formal_catalog_all_tables_unchanged": true,
+  "formal_review_count": 0,
+  "formal_independent_submission_count": 400,
+  "download_validation": "Browser fetch/Blob of identical server ZIP bytes; native ZIP download canceled by local download manager. Native ZIP download not verified."
+}

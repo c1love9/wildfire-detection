@@ -38,9 +38,16 @@ async function choose(label, prefix) {
   await idle();
 }
 async function note(text) {
-  const input = page.getByRole('textbox', { name: '复核/修改说明', exact: true });
+  const input = page.getByRole('textbox', { name: '补充说明（选填）', exact: true });
   await input.fill(text);
   await input.press('Tab');
+  await idle();
+}
+async function reviewAction(text) {
+  const input = page.getByTestId('stMultiSelect').filter({ has: page.getByText('复核处理（可多选）', { exact: true }) }).getByRole('combobox');
+  await input.click();
+  await page.getByRole('option', { name: text, exact: true }).click();
+  await input.press('Escape');
   await idle();
 }
 async function actor(text) {
@@ -122,7 +129,11 @@ with zipfile.ZipFile(sys.argv[1]) as z:
  assert len(first['history'])==2 and first['history'][0]['decision']=='draft' and first['review']['decision']=='approved'
  diff=first['history'][0]['diff']; assert all(len(diff[k])>=1 for k in ['added','removed','changed'])
  assert first['history'][0]['reviewer']!=first['history'][1]['reviewer']
+ assert '补充漏标目标' in first['history'][0]['note'] and '删除误检或重复框' in first['history'][0]['note']
+ unchanged=next(r for r in a if r['asset']['id'] not in (sys.argv[2],sys.argv[3]))
+ assert unchanged['review']['note']=='核对无误，保留现有框'
  assert blank['review']['negative_confirmed'] and not blank['review']['boxes']
+ assert blank['review']['note']=='已检查整张图，确认没有 fire 或 smoke'
  assert z.read(next(n for n in labels if sys.argv[3] in n))==b''
  assert first['proposals'][0]['metadata']['runtime']['model_id']=='IDEA-Research/grounding-dino-tiny'
  if sys.argv[4]=='true':
@@ -178,6 +189,10 @@ try {
     await frame().getByRole('button', { name: '撤销', exact: true }).click();
     await expectCount(initial);
     await page.screenshot({ path: path.join(output, 'canvas_edits.png'), fullPage: true });
+    await reviewAction('补充漏标目标');
+    await reviewAction('删除误检或重复框');
+    await reviewAction('修改 fire/smoke 类别');
+    await reviewAction('调整框的位置或大小');
     await note('自动化功能验证：补框、改类、删框与调整；不是正式人工参考标签。');
     await button('保存草稿').click();
     await page.getByText('已保存草稿，尚未通过复核。', { exact: true }).waitFor();
@@ -188,7 +203,9 @@ try {
     await page.getByText('已保存人工复核版本。', { exact: true }).waitFor();
     await idle();
     await choose('复核图片', 'public_scene_1.jpeg');
-    await note('自动化功能测试，保留候选框供导出流程验证。');
+    assert.equal(await page.getByRole('textbox', { name: '补充说明（选填）', exact: true }).inputValue(), '');
+    assert(await button('确认复核通过').isDisabled(), 'Review actions must not carry over to another image');
+    await reviewAction('核对无误，保留现有框');
     await button('确认复核通过').click();
     await idle();
     console.log('Canvas edits, draft and approval saved; checking explicit negative');
@@ -197,7 +214,6 @@ try {
       await frame().getByRole('button', { name: '清空所有框', exact: true }).click();
       await expectCount(0);
     }
-    await note('合成空白图片：自动化验证明确负样本确认。');
     assert(await button('确认复核通过').isDisabled());
     await page.getByText('我已检查整张图，确认没有 fire 或 smoke', { exact: true }).click();
     await idle();
@@ -220,6 +236,8 @@ try {
       catalog_root: fixture.browser_root, real_model_batch_prelabel: true, original_proposal_boxes: initial,
       canvas_draw_class_change_pointer_resize_delete_numeric_move_undo: true,
       draft_and_approval_append_only: true, empty_approval_requires_explicit_confirmation: true,
+      review_action_options_generate_notes: true, unchanged_and_negative_review_without_typing: true,
+      review_actions_do_not_carry_between_images: true,
       labels_zip: labelCheck, training_zip: trainingCheck,
       labels_zip_sha256: labels.sha256, training_zip_sha256: training.sha256, download_transports: downloadTransports, page_errors: errors };
     await fs.writeFile(reportPath, JSON.stringify(report, null, 2) + '\n');

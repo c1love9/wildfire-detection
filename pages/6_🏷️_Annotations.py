@@ -136,10 +136,26 @@ elif mode == '人工复核' and catalog:
             work['boxes'] = validate_boxes(payload['boxes'], asset['width'], asset['height'])
         st.caption(f"当前画布 {len(work['boxes'])} 个框；下方保存后才写入修改记录。")
         negative = st.checkbox('我已检查整张图，确认没有 fire 或 smoke', key='negative_' + work['document_key']) if not work['boxes'] else False
-        note = st.text_area('复核/修改说明', key='note_' + work['document_key'], max_chars=2000, placeholder='例如：删除灯光误检、补充左下角烟雾；或核对无误。')
+        actions = st.multiselect('复核处理（可多选）',
+                                ['核对无误，保留现有框', '补充漏标目标', '删除误检或重复框',
+                                 '修改 fire/smoke 类别', '调整框的位置或大小'],
+                                key='actions_' + work['document_key'],
+                                placeholder='选择本图实际完成的处理，无需逐图写说明')
+        extra_note = st.text_area('补充说明（选填）', key='note_' + work['document_key'], max_chars=1800,
+                                  placeholder='特殊情况再填写，例如：删除右上角灯光误检。')
+        note_parts = list(actions)
+        if negative:
+            note_parts.append('已检查整张图，确认没有 fire 或 smoke')
+        if extra_note.strip():
+            note_parts.append(extra_note.strip())
+        note = '；'.join(note_parts)
+        conflicting_actions = '核对无误，保留现有框' in actions and len(actions) > 1
+        if conflicting_actions:
+            st.warning('已选择修改操作，请取消“核对无误，保留现有框”。')
+        st.caption('按原图检查并实际修改画布后，再勾选处理项；选项只记录说明，不会自动修改框。')
         draft_col, approve_col = st.columns(2)
-        draft = draft_col.button('保存草稿', disabled=not actor.strip() or not note.strip())
-        approve = approve_col.button('确认复核通过', type='primary', disabled=not actor.strip() or not note.strip() or (not work['boxes'] and not negative))
+        draft = draft_col.button('保存草稿', disabled=not actor.strip() or not note or conflicting_actions)
+        approve = approve_col.button('确认复核通过', type='primary', disabled=not actor.strip() or not note or conflicting_actions or (not work['boxes'] and not negative))
         if draft or approve:
             store.save_review(asset_id, work['boxes'], actor, note, decision='approved' if approve else 'draft',
                               expected_revision=work['base_revision'], proposal_id=work['proposal_id'], negative_confirmed=negative,
