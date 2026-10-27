@@ -1,8 +1,16 @@
 # GroundingDINO预标注、人工复核与YOLO导出
 
-侧边栏进入 `Annotations`，依次选择“自动预标注”“人工复核”“YOLO导出”。本阶段连接已有Dataset归档和分组划分，不改变视频报警使用的上游YOLO权重。
+侧边栏进入 `Annotations`，依次选择“自动预标注”“人工复核”“YOLO导出”。默认提供Base联合查询与上游火烟YOLO辅助的增强候选，也可选择原Tiny独立查询。已有700幅增强新版本；总体改善与局部退化、配置和实际调参过程见[优化记录](preannotation_optimization.md)。本阶段连接Dataset，不替换视频报警所选权重。
 
 ## 模型准备
+
+增强方案需准备额外官方Base固定快照（约0.93GB），并保留本次校验过的上游火烟辅助权重：
+
+```powershell
+.\.venv\Scripts\python.exe scripts\prepare_grounding_dino.py --base
+```
+
+Base使用`configs/preannotation_optimized.json`，固定revision为12bdfa3120f3e7ec7b434d90674b3396eccf88eb；DINO火/烟阈值0.30/0.35、辅助YOLO阈值0.15/0.50，融合IoU=0.50。增强方案不是纯零样本模型；所有结果仍是待人工复核候选。下表与原命令保留Tiny基线的复现方式。
 
 本机已下载、校验并实际运行官方 [GroundingDINO Tiny](https://huggingface.co/IDEA-Research/grounding-dino-tiny)，使用 [Transformers实现](https://huggingface.co/docs/transformers/model_doc/grounding-dino)。新电脑先按 [quick_start.md](quick_start.md) 安装固定依赖，再执行：
 

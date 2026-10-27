@@ -14,6 +14,7 @@ from annotation_ui import box_editor
 from annotations import AnnotationStore, validate_boxes
 from dataset_store import DatasetStore, dataset_root
 from grounding_prelabel import GroundingPrelabeler, PrelabelConfig, model_directory
+from optimized_prelabel import OptimizedPrelabeler, OptimizedPrelabelConfig, model_directory as optimized_model_directory
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,6 +39,11 @@ def load_grounder(device, directory):
     return GroundingPrelabeler(device, directory)
 
 
+@st.cache_resource
+def load_optimized_grounder(device, directory):
+    return OptimizedPrelabeler(device, directory)
+
+
 def new_work(asset, review, proposal=None):
     boxes = review['boxes'] if review else proposal['boxes'] if proposal else []
     return {'document_key': uuid.uuid4().hex, 'boxes': validate_boxes(boxes, asset['width'], asset['height']),
@@ -59,17 +65,29 @@ if not catalog:
     st.info('还没有图像，请先在Dataset导入图片或从视频抽帧。演示素材也可用于试用流程，但不计入正式数据。')
 
 if mode == '自动预标注':
-    defaults = PrelabelConfig.load()
+    profile = st.radio('预标注方案', ['增强候选：Base + 火烟YOLO', '原方案：Tiny独立查询'], horizontal=True)
+    enhanced = profile.startswith('增强')
+    defaults = OptimizedPrelabelConfig.load() if enhanced else PrelabelConfig.load()
+    if enhanced:
+        st.caption('默认增强配置在200幅训练样本上整体减少误检和漏检，部分薄烟仍有退化；结果须逐图复核。更改提示词或阈值后需重新验证。原方案与历史版本保留。')
     st.caption('按类别分别使用英文提示词；用句点分隔同义词。修改提示词可产生新预标注版本，已有人工复核不会被覆盖。')
     fire_prompt = st.text_input('火焰提示词', defaults.fire_prompt, max_chars=200)
     smoke_prompt = st.text_input('烟雾提示词', defaults.smoke_prompt, max_chars=200)
     with st.expander('模型与推理参数'):
-        st.caption(f'{defaults.model_id} · 固定版本 {defaults.revision[:12]} · 未进行火灾数据微调')
+        st.caption(f'{defaults.model_id} · 固定版本 {defaults.revision[:12]} · DINO未进行本项目火灾数据微调')
         devices = ['CPU'] + (['GPU (CUDA)'] if torch.cuda.is_available() else [])
         device_label = st.selectbox('预标注计算设备', devices, index=len(devices) - 1)
         box_col, text_col, nms_col = st.columns(3)
-        box_threshold = box_col.number_input('候选框阈值', 0.01, 0.99, defaults.box_threshold, 0.05)
-        text_threshold = text_col.number_input('文本匹配阈值', 0.01, 0.99, defaults.text_threshold, 0.05)
+        if enhanced:
+            fire_threshold = box_col.number_input('火焰候选阈值', 0.01, 0.99, defaults.fire_threshold, 0.05)
+            smoke_threshold = text_col.number_input('烟雾候选阈值', 0.01, 0.99, defaults.smoke_threshold, 0.05)
+            st.caption('辅助YOLO使用上游已训练火烟权重；先保留DINO框，再补充同类位置不重叠的辅助框。')
+            aux_fire_col, aux_smoke_col = st.columns(2)
+            aux_fire_threshold = aux_fire_col.number_input('辅助火焰阈值', 0.01, 0.99, defaults.auxiliary_fire_threshold, 0.05)
+            aux_smoke_threshold = aux_smoke_col.number_input('辅助烟雾阈值', 0.01, 0.99, defaults.auxiliary_smoke_threshold, 0.05)
+        else:
+            box_threshold = box_col.number_input('候选框阈值', 0.01, 0.99, defaults.box_threshold, 0.05)
+            text_threshold = text_col.number_input('文本匹配阈值', 0.01, 0.99, defaults.text_threshold, 0.05)
         nms_iou = nms_col.number_input('同类重叠框抑制IoU', 0.01, 0.99, defaults.nms_iou, 0.05)
         short_edge = st.selectbox('预处理短边尺寸', [480, 640, 800], index=1)
     scope = st.selectbox('预标注范围', ['尚无预标注的图片', '全部图片', '手动选择图片'])
@@ -82,11 +100,16 @@ if mode == '自动预标注':
     st.caption(f'本次将处理 {len(requested)} 幅；不向模型服务上传图像。模型文件首次准备见项目使用说明。')
     if st.button('开始自动预标注', type='primary', disabled=not requested or not actor.strip()):
         try:
-            config = replace(defaults, fire_prompt=fire_prompt, smoke_prompt=smoke_prompt, box_threshold=box_threshold,
-                             text_threshold=text_threshold, nms_iou=nms_iou, shortest_edge=short_edge,
-                             longest_edge=min(1333, round(short_edge * 1.666)))
+            common = dict(fire_prompt=fire_prompt, smoke_prompt=smoke_prompt, nms_iou=nms_iou,
+                          shortest_edge=short_edge, longest_edge=min(1333, round(short_edge * 1.666)))
+            if enhanced:
+                config = replace(defaults, **common, fire_threshold=fire_threshold, smoke_threshold=smoke_threshold,
+                                 auxiliary_fire_threshold=aux_fire_threshold, auxiliary_smoke_threshold=aux_smoke_threshold)
+            else:
+                config = replace(defaults, **common, box_threshold=box_threshold, text_threshold=text_threshold)
             progress = st.progress(0.0, text='正在加载本机模型…')
-            model = load_grounder('cuda:0' if device_label == 'GPU (CUDA)' else 'cpu', str(model_directory()))
+            device = 'cuda:0' if device_label == 'GPU (CUDA)' else 'cpu'
+            model = load_optimized_grounder(device, str(optimized_model_directory())) if enhanced else load_grounder(device, str(model_directory()))
             st.session_state['annotation_last_results'] = store.prelabel(
                 requested, model, config, actor, progress=lambda done, total: progress.progress(done / total, text=f'已处理 {done}/{total} 幅'))
             st.session_state['annotation_feedback'] = '预标注任务结束，请进入人工复核；候选框未自动批准。'
@@ -118,7 +141,8 @@ elif mode == '人工复核' and catalog:
                 st.rerun()
             with st.expander('查看该次模型与提示词记录'):
                 st.json(ready[proposal_id]['metadata'])
-                st.dataframe([{'类别': box['class'], '置信度': round(box.get('confidence', 0), 3), '匹配词': box.get('phrase', ''),
+                st.dataframe([{'类别': box['class'], '置信度': round(box.get('confidence', 0), 3),
+                               '候选来源': {'grounding_dino_base_joint': 'DINO Base', 'upstream_yolo_fire_n': '上游火烟YOLO'}.get(box.get('prelabel_source'), '原方案'), '匹配词': box.get('phrase', ''),
                                '原图坐标': box['xyxy']} for box in ready[proposal_id]['boxes']], hide_index=True)
         elif proposals:
             st.warning('此图最近预标注失败，可重新运行或手动画框；失败记录不会被当作无目标。')

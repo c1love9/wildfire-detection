@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-27T02:20:21.866Z",
+  "scope": "Isolated public/synthetic fixtures, no formal annotation writes",
+  "enhanced_profile_controls": true,
+  "real_base_and_auxiliary_inference": true,
+  "review_canvas_boxes": 2,
+  "legacy_profile_switch": true,
+  "checks": {
+    "ready_proposals": 3,
+    "no_human_approvals": true,
+    "actual_model_and_class_mapping_verified": true
+  },
+  "page_errors": [],
+  "formal_read_only_check": {
+    "status": "passed",
+    "formal_ui_latest_enhanced_visible": true,
+    "old_candidate_still_viewable": true,
+    "known_thin_smoke_empty_not_auto_confirmed": true,
+    "formal_save_buttons_not_clicked": true,
+    "page_errors": []
+  }
+}

@@ -1,0 +1,3781 @@
+{
+  "status": "completed_new_candidates_appended",
+  "generated_at_utc": "2026-10-27T02:29:54.758781+00:00",
+  "scope": "Actual training-sample preannotation optimization, not final independent test or labor savings. A/B references retained separately.",
+  "protocol": {
+    "created_at_utc": "2026-10-27T01:24:11.803908+00:00",
+    "task_id": "quality_6146eb5a5ab24f5ebc6961d07e392ad2",
+    "seed": 271027,
+    "batches": {
+      "tuning": [
+        "08d10bf6950270c969dc4a60322ddd60992f38fe7114fe26462de60939d045d8",
+        "aa5d39cfb13a297bb64ee1a019df8965e019aff29ae7f46e05fc8e8110fd0ef4",
+        "8120b8338abf58af46bcdc9dea0c3af16cea852cd6ffcda3a1b1cf30fa89cc2e",
+        "df2bd0a17505e4c315071a7ad8468364625a03289f07e909ec680b5ab463fe10",
+        "f209aece6108814807b0d0844e3a68710c0f5a237b455565c8ed441b34fc21b8",
+        "5e6b67091776275d13fe7d2bc94c09975aeda8daf9274809f3f04f9072565259",
+        "3d089c58adb18948a06bf41a19c530d59fdab068e5d31ff00a1307b45e8ff822",
+        "524fbe9ccc45579701159832058ff5399c764bc48cbc908b05a275f0142cc1c4",
+        "a29b792ff8b4db32b44d8a553aa834530e191748ac45f4057fa23df8ac29111e",
+        "f28bfbfd830e2ce2c65c47685de4ac51de26cb3e932fbff289c74a6919ae0d9a",
+        "73875e8d8cd7f6d2624afa5141ac2901b73a397a743fa9a5d8cc6c44c8ed27a7",
+        "4eee63e34b25ca3dbd30c0b212bcd88e334641c17191b68f59150464612be475",
+        "3a5424fb5c3f82dadf4cb3358cea6d6bab629993c0e61d1a66c96eb05d234551",
+        "27dcd18500c10f079502ce21e54372944603766d140488a26e7dc09681166126",
+        "cf4eed47d8f48c6825e0ddfeed3a3117912f4eec6df61c62979a7d94be38093e",
+        "d33f2a86c25fcbc1fda51de276031a0b8fc0937f2b151070d1a779c2fce0cb0a",
+        "36e4d6745a06b0c2fc468fd38dc5580c9dd9def849815d5cf95fc8c2f64b4278",
+        "0eb22a848f0c66a006506165a6138530acff3c0c232460779fff8078722ae51f",
+        "f11a1c43861cb649b0571bd3bfe756c7f5e8a938dd708a7ae3db40cfd8304d68",
+        "acc9d471909bed160cfdaad2fdd206dfa4be05aadf296472adab2c0e85d3a3c6",
+        "e91f1ea9fe3b4af1bfe569dbb1873279f091979113cdae72d49cfbe41f2f52f2",
+        "b1bc5ae6eb8c6d5c09bbb002d18bf9546244df7eda4842adc650111ca92452bf",
+        "9340f4fafdaff901d17770a39e6c40d67842871badb2499fbe740f83589080dd",
+        "b601c505496e1ee35c700db0bec12810bacc7b91f97a4f027faa33ea0157cbcd",
+        "3d7f5b2b5dc3eaebe06830790c65fae66ebe709017278a328aadff4a01d8eebe",
+        "2dcf1fc84c5e2854a6043f2ca7a4bae018223e05fd80fa8e998dfddaa9e33929",
+        "e0b08b6e7448db6819cef5553f45d31ea50b4e0ff450bee79f67c9e50b7cedf7",
+        "9be5ae59b0f28bb6e4a5c8e08336a07c17662478ec941549b760d76a7c30e370",
+        "d478f39b644f2884acd81f30e652170fe86b90818580a4665fe8fdae76c525fe",
+        "8a43e9b3d0329614ea7268ce899b83a52c7a9069ea6d0751c11d7e93d86f7df3",
+        "1ea4c241c860e72125a1f35706101abc283f25b4013ea875989c2e32f40da836",
+        "862a5cd275252547087375b669e2536446ff98b52cb6df314f11d831da6910c1",
+        "0c83ab69df65c9e3b3a0e3ba2dde7c194f8d16292951171d3f876d896928a668",
+        "a0eb5720b7bcaa161803219171238bafb9d2e646b744f08b31cee886dab8c380",
+        "dcd5b515a200dcd6b2267094c6d23d986f8498d1afc6a04df3b75f7a02faa377",
+        "47c760922c09ac833bdc635a5389b4161622ba6f22a046fa18fb7e7a67ab1d91",
+        "23f6311652792a1ff3435d1f1298d0a33fed2243d08b0c29d3b671ec7f2f1fd6",
+        "a081fa9154976d97d1e178398ca7e6511d07dbe33c72d9cae4f46769e851d2b0",
+        "531c44ea70749c14c481598387610959398cf0429b1377c65660afffd7b08886",
+        "4f9de74c1149582bc20ac4f151abddddeb4d98bbd9c83b0f085a75ce9fb71746"
+      ],
+      "confirmation": [
+        "6732f21a1de552b2770ee654b201586e813623b8516efc51af45f1afcd78c5f5",
+        "6b1bf5c17e01ffea7fd348e8405a2169938861917aacf7822922fef41ec35b46",
+        "51092efdffabcde378516aa3bb91f10ceeb24e8625960741b480d37173caa2a7",
+        "bb71e1d6bda4bf6dc394de6039b7748b5e429c41de035908bf15dcb61de630bc",
+        "35e9e0b5bd974ae0358d8012f2106be04aa4979b33144b1774a1fdc6615f43ce",
+        "acb1771f4ef60e1db3b1336adcb10d9bacdcfea966901f8a2e2dcf1a5d848636",
+        "85865ff852102efe9606c8796b5d062508e4b05c37565b65fdb8975baca1f6c8",
+        "809903efb538bcaaa5c18988cb3727610811b29ff649cc282ad724b1f4eb48ca",
+        "3fd81b0cd179ba98545624c8036ba37cc844061a7a6d45141ca447dc8a7c0744",
+        "6c5fe93d776a883a33b5bc8cb6bfac363c83fba3341ce6c59a754d8e5fe4bd34",
+        "7c30c5fcf271df3cbbc5c9d8bb10a67621905e7fdf2af33921c46b864ca4493a",
+        "955bc3b6bd7b9d763461e11d0dcd0938ceb79b9c4dd775f478642351bcda7123",
+        "082e1ba0a3a19eb2468a19851bcab8b1ed2de067cbd74b440a99c26dcc5f0967",
+        "df079afd59c5a8569c9a4f35e16ca0bf4eaf65705a6af14f8b3e7343992d011c",
+        "1df86110b60caf0195b1ef4e4b963ecfb59ac18862f857d9c9d85de70ce8293f",
+        "dd9318527eff45cbf67456f97532aea6de299d640da3f653a4168598017e7292",
+        "335afbeaf97a136b225f809faa9a97741230f6e0365e6f28a6669ef4fb53c955",
+        "e364c49dc4c6b6acdbc438647938fc52391ad141a27bf3539fcd364175a3cd1c",
+        "18be52e0b8b2e51733d67c022dc44cab162bb13adceb3dc0199115d86e939a75",
+        "5b60a3bdbb9cbfcbbae2b6038e8c430a24fd1347b7976d43a7fdc2287c85ac4a",
+        "3efe75089409ce66c8ef65642ff4e55dace9d0bcd69a5d0c9adc0a7f4f2d8e89",
+        "e34899a1807d75044fa8a1e0124892b0df057508bbbb5f40469d5b4575cf67cc",
+        "9583f6ae5490a08322f2d6763d81afcb4ff3e5d1e5e2101602ddcd3843d01127",
+        "275cce35a7b4b6ca2407c056181972dceabc915c849984829281a004cdcf1cf6",
+        "3f69877c846d97ca1276179863dcf1c32fc6cf072fc97c864b5177074794a9f0",
+        "08d89d5808aefea8d92c9e6078bd266b19d38029afc38ec4e20a7e3ed0ef97ed",
+        "0d55e19173a498b11facd5ca9752af9708ab06307b0c0f9fb82ac1f1905c8c96",
+        "004655f01d62faaa9c4d535d2896c526a462776290078b47b9bbb7de28583962",
+        "398a7f3b33ef46a49524a7585f100f05a282d4c4f3b44f2ee948479dab910a89",
+        "92fa316540296c4a879f8d6dc557c152f9ae50d540d88a91cb3a725de76cb7a6",
+        "467980256765f5a75562f44d5601e2cfad901f3905446b9d8c5d6b51e71a6cda",
+        "83483353d4da3cc3d86cab47d7e18e204178ed6494ce7475a73e65f9fdae92fb",
+        "d39d13173402ba29e00cdc82fd7eadaed070d26a3144b1767fa71de060d4e66c",
+        "7edbd8963ce3ebbf3f8470b401a25a628a10c5d8accd00f7ad6cd0c009162b24",
+        "5f7a9fcc5b6bbb586e16dbd795e6aab3eace4e51cadf2f9d693706722ac75188",
+        "c51f527d8f66471c86caa302e11eb1b793f8224d11008c1edaff590fd0a8cfc7",
+        "c385df8e6bd8f5b03f653ed42b03f0374a83b17f05fc346777adcdc80cdb5930",
+        "b7fb08f27309955527012852386fb94d7b809635693189cd5e2f1ed1680d672a",
+        "4a8968d21fe6936da9aa457c5931499d648dd3f7450aabaa4a41aeabc1870211",
+        "6132c4dbbf00c367f9da36f9650a0470ac9dbf10c5383313c8a7594eda55e795"
+      ]
+    },
+    "scope": "Train only. Previously explored data; this is a grouped reserved confirmation batch, not a never-used independent test.",
+    "gate": {
+      "both_human_references": true,
+      "precision_gain_min": 0.05,
+      "recall_not_lower": true,
+      "f1_gain_min": 0.05,
+      "fp_at_most_baseline_ratio": 0.8,
+      "per_class_tp_not_lower": true,
+      "per_class_fp_not_higher": true
+    },
+    "selection_rule": "Eligible on tuning first; rank by mean F1. Lock one choice, then run confirmation once. No bulk proposal writes before confirmation passes.",
+    "strata_counts": {
+      "tuning": {
+        "empty": 10,
+        "fire": 10,
+        "fire+smoke": 10,
+        "smoke": 10
+      },
+      "confirmation": {
+        "empty": 10,
+        "fire": 10,
+        "fire+smoke": 10,
+        "smoke": 10
+      }
+    }
+  },
+  "data_limitations": [
+    "All200 belong to original train split; previous diagnostic exposure and iterative reuse are disclosed.",
+    "Known source groups separated for initial40+40; D-FIRE original-event identity is incomplete.",
+    "The additional93 were not used for current parameter selection; some share tuning source groups."
+  ],
+  "stages": [
+    {
+      "record": "tuning_results.json",
+      "offline_parameter_combinations": 432,
+      "top_tuning_candidate": {
+        "spec_name": "joint_basic",
+        "parameters": {
+          "fire_threshold": 0.35,
+          "smoke_threshold": 0.3,
+          "margin": 0,
+          "nms_iou": 0.5
+        },
+        "metrics": {
+          "A": {
+            "overall": {
+              "tp": 26,
+              "fp": 18,
+              "fn": 27,
+              "precision": 0.5909090909090909,
+              "recall": 0.49056603773584906,
+              "f1": 0.5360824742268041
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 19,
+                "fp": 1,
+                "fn": 5,
+                "precision": 0.95,
+                "recall": 0.7916666666666666,
+                "f1": 0.8636363636363636
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 7,
+                "fp": 17,
+                "fn": 22,
+                "precision": 0.2916666666666667,
+                "recall": 0.2413793103448276,
+                "f1": 0.2641509433962264
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 7,
+            "negative_image_false_positive_rate": 0.7
+          },
+          "B": {
+            "overall": {
+              "tp": 23,
+              "fp": 21,
+              "fn": 19,
+              "precision": 0.5227272727272727,
+              "recall": 0.5476190476190477,
+              "f1": 0.5348837209302325
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 16,
+                "fp": 4,
+                "fn": 9,
+                "precision": 0.8,
+                "recall": 0.64,
+                "f1": 0.7111111111111111
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 17,
+                "fn": 10,
+                "precision": 0.2916666666666667,
+                "recall": 0.4117647058823529,
+                "f1": 0.34146341463414637
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 7,
+            "negative_image_false_positive_rate": 0.6363636363636364
+          }
+        },
+        "tuning_gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        },
+        "mean_f1": 0.5354830975785183
+      },
+      "file_sha256": "859f3cdc4ffa91d4754bb368c8e43fc8d424ce73c4347d08906ba83b34c6153f"
+    },
+    {
+      "record": "fusion_tuning_results.json",
+      "offline_parameter_combinations": 1440,
+      "top_tuning_candidate": {
+        "spec_name": "joint_basic",
+        "dino_parameters": {
+          "fire_threshold": 0.35,
+          "smoke_threshold": 0.35,
+          "margin": 0,
+          "nms_iou": 0.5
+        },
+        "yolo_parameters": {
+          "fire_threshold": 0.15,
+          "smoke_threshold": 0.5,
+          "order": "dino_first"
+        },
+        "metrics": {
+          "A": {
+            "overall": {
+              "tp": 28,
+              "fp": 14,
+              "fn": 25,
+              "precision": 0.6666666666666666,
+              "recall": 0.5283018867924528,
+              "f1": 0.5894736842105263
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 20,
+                "fp": 3,
+                "fn": 4,
+                "precision": 0.8695652173913043,
+                "recall": 0.8333333333333334,
+                "f1": 0.851063829787234
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 8,
+                "fp": 11,
+                "fn": 21,
+                "precision": 0.42105263157894735,
+                "recall": 0.27586206896551724,
+                "f1": 0.3333333333333333
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 7,
+            "negative_image_false_positive_rate": 0.7
+          },
+          "B": {
+            "overall": {
+              "tp": 23,
+              "fp": 19,
+              "fn": 19,
+              "precision": 0.5476190476190477,
+              "recall": 0.5476190476190477,
+              "f1": 0.5476190476190477
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 17,
+                "fp": 6,
+                "fn": 8,
+                "precision": 0.7391304347826086,
+                "recall": 0.68,
+                "f1": 0.7083333333333334
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 6,
+                "fp": 13,
+                "fn": 11,
+                "precision": 0.3157894736842105,
+                "recall": 0.35294117647058826,
+                "f1": 0.3333333333333333
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 7,
+            "negative_image_false_positive_rate": 0.6363636363636364
+          }
+        },
+        "gate": {
+          "passed": false,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": false
+            }
+          }
+        },
+        "recall_gain_at_least_3_boxes": false,
+        "eligible": false,
+        "mean_f1": 0.5685463659147869
+      },
+      "file_sha256": "2ac762a79b3fb8ae8fc219267d4ec837ee360cf0b99d26d535302ce41135a2be"
+    },
+    {
+      "record": "round2_tuning_results.json",
+      "offline_parameter_combinations": 1728,
+      "top_tuning_candidate": {
+        "spec_name": "joint_plume_background",
+        "dino_parameters": {
+          "fire_threshold": 0.25,
+          "smoke_threshold": 0.3,
+          "margin": 0,
+          "nms_iou": 0.5
+        },
+        "yolo_parameters": {
+          "fire_threshold": 0.15,
+          "smoke_threshold": 0.5,
+          "order": "dino_first"
+        },
+        "metrics": {
+          "A": {
+            "overall": {
+              "tp": 28,
+              "fp": 17,
+              "fn": 25,
+              "precision": 0.6222222222222222,
+              "recall": 0.5283018867924528,
+              "f1": 0.5714285714285714
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 19,
+                "fp": 11,
+                "fn": 5,
+                "precision": 0.6333333333333333,
+                "recall": 0.7916666666666666,
+                "f1": 0.7037037037037037
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 9,
+                "fp": 6,
+                "fn": 20,
+                "precision": 0.6,
+                "recall": 0.3103448275862069,
+                "f1": 0.4090909090909091
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.3
+          },
+          "B": {
+            "overall": {
+              "tp": 24,
+              "fp": 21,
+              "fn": 18,
+              "precision": 0.5333333333333333,
+              "recall": 0.5714285714285714,
+              "f1": 0.5517241379310345
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 17,
+                "fp": 13,
+                "fn": 8,
+                "precision": 0.5666666666666667,
+                "recall": 0.68,
+                "f1": 0.6181818181818182
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 8,
+                "fn": 10,
+                "precision": 0.4666666666666667,
+                "recall": 0.4117647058823529,
+                "f1": 0.4375
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 4,
+            "negative_image_false_positive_rate": 0.36363636363636365
+          }
+        },
+        "gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        },
+        "recall_gain_at_least_3_boxes": false,
+        "eligible": false,
+        "mean_f1": 0.5615763546798029
+      },
+      "file_sha256": "919448b7ec0f954e1860e503890056985fa9072be02acd8882396a20ef2534fc"
+    },
+    {
+      "record": "fallback_tuning_results.json",
+      "offline_parameter_combinations": 300,
+      "top_tuning_candidate": {
+        "parameters": {
+          "baseline_threshold": 0.3,
+          "support_threshold": 0.3,
+          "support_iou": 0.5,
+          "background_margin": -0.1
+        },
+        "metrics": {
+          "A": {
+            "overall": {
+              "tp": 28,
+              "fp": 17,
+              "fn": 25,
+              "precision": 0.6222222222222222,
+              "recall": 0.5283018867924528,
+              "f1": 0.5714285714285714
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 19,
+                "fp": 11,
+                "fn": 5,
+                "precision": 0.6333333333333333,
+                "recall": 0.7916666666666666,
+                "f1": 0.7037037037037037
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 9,
+                "fp": 6,
+                "fn": 20,
+                "precision": 0.6,
+                "recall": 0.3103448275862069,
+                "f1": 0.4090909090909091
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.3
+          },
+          "B": {
+            "overall": {
+              "tp": 24,
+              "fp": 21,
+              "fn": 18,
+              "precision": 0.5333333333333333,
+              "recall": 0.5714285714285714,
+              "f1": 0.5517241379310345
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 17,
+                "fp": 13,
+                "fn": 8,
+                "precision": 0.5666666666666667,
+                "recall": 0.68,
+                "f1": 0.6181818181818182
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 8,
+                "fn": 10,
+                "precision": 0.4666666666666667,
+                "recall": 0.4117647058823529,
+                "f1": 0.4375
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 4,
+            "negative_image_false_positive_rate": 0.36363636363636365
+          }
+        },
+        "gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        },
+        "mean_f1": 0.5615763546798029
+      },
+      "file_sha256": "3c892e60100afb1eeec1ca2258a256c62407d60245c71493f45097508845ff16"
+    },
+    {
+      "record": "multilabel_tuning_results.json",
+      "offline_parameter_combinations": 1944,
+      "top_tuning_candidate": {
+        "spec_name": "joint_plume_background",
+        "multilabel": true,
+        "dino_parameters": {
+          "fire_threshold": 0.25,
+          "smoke_threshold": 0.3,
+          "margin": 0.05,
+          "nms_iou": 0.5
+        },
+        "yolo_parameters": {
+          "fire_threshold": 0.15,
+          "smoke_threshold": 0.5,
+          "order": "dino_first"
+        },
+        "metrics": {
+          "A": {
+            "overall": {
+              "tp": 27,
+              "fp": 14,
+              "fn": 26,
+              "precision": 0.6585365853658537,
+              "recall": 0.5094339622641509,
+              "f1": 0.574468085106383
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 18,
+                "fp": 8,
+                "fn": 6,
+                "precision": 0.6923076923076923,
+                "recall": 0.75,
+                "f1": 0.72
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 9,
+                "fp": 6,
+                "fn": 20,
+                "precision": 0.6,
+                "recall": 0.3103448275862069,
+                "f1": 0.4090909090909091
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.3
+          },
+          "B": {
+            "overall": {
+              "tp": 24,
+              "fp": 17,
+              "fn": 18,
+              "precision": 0.5853658536585366,
+              "recall": 0.5714285714285714,
+              "f1": 0.5783132530120482
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 17,
+                "fp": 9,
+                "fn": 8,
+                "precision": 0.6538461538461539,
+                "recall": 0.68,
+                "f1": 0.6666666666666666
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 8,
+                "fn": 10,
+                "precision": 0.4666666666666667,
+                "recall": 0.4117647058823529,
+                "f1": 0.4375
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 4,
+            "negative_image_false_positive_rate": 0.36363636363636365
+          }
+        },
+        "gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        },
+        "mean_f1": 0.5763906690592155
+      },
+      "file_sha256": "40da7074e02a13ed3ad27e342c02347ba6de11795f73d16a48d386dacf35781b"
+    },
+    {
+      "record": "base_tuning_results.json",
+      "offline_parameter_combinations": 1024,
+      "top_tuning_candidate": {
+        "spec_name": "base_joint_basic",
+        "multilabel": true,
+        "dino_parameters": {
+          "fire_threshold": 0.3,
+          "smoke_threshold": 0.35,
+          "margin": 0,
+          "nms_iou": 0.5
+        },
+        "yolo_parameters": {
+          "fire_threshold": 0.15,
+          "smoke_threshold": 0.5,
+          "order": "dino_first"
+        },
+        "metrics": {
+          "A": {
+            "overall": {
+              "tp": 26,
+              "fp": 15,
+              "fn": 27,
+              "precision": 0.6341463414634146,
+              "recall": 0.49056603773584906,
+              "f1": 0.5531914893617021
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 18,
+                "fp": 6,
+                "fn": 6,
+                "precision": 0.75,
+                "recall": 0.75,
+                "f1": 0.75
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 8,
+                "fp": 9,
+                "fn": 21,
+                "precision": 0.47058823529411764,
+                "recall": 0.27586206896551724,
+                "f1": 0.34782608695652173
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.3
+          },
+          "B": {
+            "overall": {
+              "tp": 24,
+              "fp": 17,
+              "fn": 18,
+              "precision": 0.5853658536585366,
+              "recall": 0.5714285714285714,
+              "f1": 0.5783132530120482
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 17,
+                "fp": 7,
+                "fn": 8,
+                "precision": 0.7083333333333334,
+                "recall": 0.68,
+                "f1": 0.6938775510204082
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 10,
+                "fn": 10,
+                "precision": 0.4117647058823529,
+                "recall": 0.4117647058823529,
+                "f1": 0.4117647058823529
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.2727272727272727
+          }
+        },
+        "gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        },
+        "mean_f1": 0.5657523711868752
+      },
+      "file_sha256": "1b9a668f4e2a3003091f919a8c555e3a9c511d7e1749d7ef485a80a29e98b051"
+    }
+  ],
+  "tiny_candidate_validation": {
+    "scope": "All are existing training images; reserve groups/history disclosed. Final test remains untouched. No database changes.",
+    "adoption_gate": "All reserved checks must pass original strict per-class TP/FP criteria. Keep failures even when aggregate scores rise.",
+    "adoption_passed": false,
+    "results": {
+      "tuning40": {
+        "images": 40,
+        "baseline": {
+          "A": {
+            "overall": {
+              "tp": 25,
+              "fp": 47,
+              "fn": 28,
+              "precision": 0.3472222222222222,
+              "recall": 0.4716981132075472,
+              "f1": 0.4
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 18,
+                "fp": 21,
+                "fn": 6,
+                "precision": 0.46153846153846156,
+                "recall": 0.75,
+                "f1": 0.5714285714285714
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 7,
+                "fp": 26,
+                "fn": 22,
+                "precision": 0.21212121212121213,
+                "recall": 0.2413793103448276,
+                "f1": 0.22580645161290322
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 8,
+            "negative_image_false_positive_rate": 0.8
+          },
+          "B": {
+            "overall": {
+              "tp": 22,
+              "fp": 50,
+              "fn": 20,
+              "precision": 0.3055555555555556,
+              "recall": 0.5238095238095238,
+              "f1": 0.38596491228070173
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 15,
+                "fp": 24,
+                "fn": 10,
+                "precision": 0.38461538461538464,
+                "recall": 0.6,
+                "f1": 0.46875
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 26,
+                "fn": 10,
+                "precision": 0.21212121212121213,
+                "recall": 0.4117647058823529,
+                "f1": 0.28
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 9,
+            "negative_image_false_positive_rate": 0.8181818181818182
+          }
+        },
+        "candidate": {
+          "A": {
+            "overall": {
+              "tp": 27,
+              "fp": 14,
+              "fn": 26,
+              "precision": 0.6585365853658537,
+              "recall": 0.5094339622641509,
+              "f1": 0.574468085106383
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 18,
+                "fp": 8,
+                "fn": 6,
+                "precision": 0.6923076923076923,
+                "recall": 0.75,
+                "f1": 0.72
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 9,
+                "fp": 6,
+                "fn": 20,
+                "precision": 0.6,
+                "recall": 0.3103448275862069,
+                "f1": 0.4090909090909091
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.3
+          },
+          "B": {
+            "overall": {
+              "tp": 24,
+              "fp": 17,
+              "fn": 18,
+              "precision": 0.5853658536585366,
+              "recall": 0.5714285714285714,
+              "f1": 0.5783132530120482
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 17,
+                "fp": 9,
+                "fn": 8,
+                "precision": 0.6538461538461539,
+                "recall": 0.68,
+                "f1": 0.6666666666666666
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 8,
+                "fn": 10,
+                "precision": 0.4666666666666667,
+                "recall": 0.4117647058823529,
+                "f1": 0.4375
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 4,
+            "negative_image_false_positive_rate": 0.36363636363636365
+          }
+        },
+        "gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        }
+      },
+      "first_grouped40": {
+        "images": 40,
+        "baseline": {
+          "A": {
+            "overall": {
+              "tp": 23,
+              "fp": 69,
+              "fn": 44,
+              "precision": 0.25,
+              "recall": 0.34328358208955223,
+              "f1": 0.2893081761006289
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 37,
+                "tp": 12,
+                "fp": 39,
+                "fn": 25,
+                "precision": 0.23529411764705882,
+                "recall": 0.32432432432432434,
+                "f1": 0.2727272727272727
+              },
+              {
+                "class": "smoke",
+                "instances": 30,
+                "tp": 11,
+                "fp": 30,
+                "fn": 19,
+                "precision": 0.2682926829268293,
+                "recall": 0.36666666666666664,
+                "f1": 0.30985915492957744
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 10,
+            "negative_image_false_positive_rate": 1.0
+          },
+          "B": {
+            "overall": {
+              "tp": 20,
+              "fp": 72,
+              "fn": 64,
+              "precision": 0.21739130434782608,
+              "recall": 0.23809523809523808,
+              "f1": 0.22727272727272727
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 44,
+                "tp": 12,
+                "fp": 39,
+                "fn": 32,
+                "precision": 0.23529411764705882,
+                "recall": 0.2727272727272727,
+                "f1": 0.25263157894736843
+              },
+              {
+                "class": "smoke",
+                "instances": 40,
+                "tp": 8,
+                "fp": 33,
+                "fn": 32,
+                "precision": 0.1951219512195122,
+                "recall": 0.2,
+                "f1": 0.19753086419753085
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 10,
+            "negative_image_false_positive_rate": 1.0
+          }
+        },
+        "candidate": {
+          "A": {
+            "overall": {
+              "tp": 28,
+              "fp": 43,
+              "fn": 39,
+              "precision": 0.39436619718309857,
+              "recall": 0.417910447761194,
+              "f1": 0.4057971014492754
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 37,
+                "tp": 17,
+                "fp": 28,
+                "fn": 20,
+                "precision": 0.37777777777777777,
+                "recall": 0.4594594594594595,
+                "f1": 0.4146341463414634
+              },
+              {
+                "class": "smoke",
+                "instances": 30,
+                "tp": 11,
+                "fp": 15,
+                "fn": 19,
+                "precision": 0.4230769230769231,
+                "recall": 0.36666666666666664,
+                "f1": 0.39285714285714285
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 6,
+            "negative_image_false_positive_rate": 0.6
+          },
+          "B": {
+            "overall": {
+              "tp": 27,
+              "fp": 44,
+              "fn": 57,
+              "precision": 0.38028169014084506,
+              "recall": 0.32142857142857145,
+              "f1": 0.34838709677419355
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 44,
+                "tp": 19,
+                "fp": 26,
+                "fn": 25,
+                "precision": 0.4222222222222222,
+                "recall": 0.4318181818181818,
+                "f1": 0.42696629213483145
+              },
+              {
+                "class": "smoke",
+                "instances": 40,
+                "tp": 8,
+                "fp": 18,
+                "fn": 32,
+                "precision": 0.3076923076923077,
+                "recall": 0.2,
+                "f1": 0.24242424242424243
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 6,
+            "negative_image_false_positive_rate": 0.6
+          }
+        },
+        "gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        }
+      },
+      "reused27": {
+        "images": 27,
+        "baseline": {
+          "A": {
+            "overall": {
+              "tp": 9,
+              "fp": 53,
+              "fn": 18,
+              "precision": 0.14516129032258066,
+              "recall": 0.3333333333333333,
+              "f1": 0.20224719101123595
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 8,
+                "tp": 5,
+                "fp": 30,
+                "fn": 3,
+                "precision": 0.14285714285714285,
+                "recall": 0.625,
+                "f1": 0.23255813953488372
+              },
+              {
+                "class": "smoke",
+                "instances": 19,
+                "tp": 4,
+                "fp": 23,
+                "fn": 15,
+                "precision": 0.14814814814814814,
+                "recall": 0.21052631578947367,
+                "f1": 0.17391304347826086
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 9,
+            "negative_image_false_positive_rate": 0.9
+          },
+          "B": {
+            "overall": {
+              "tp": 10,
+              "fp": 52,
+              "fn": 20,
+              "precision": 0.16129032258064516,
+              "recall": 0.3333333333333333,
+              "f1": 0.21739130434782608
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 12,
+                "tp": 5,
+                "fp": 30,
+                "fn": 7,
+                "precision": 0.14285714285714285,
+                "recall": 0.4166666666666667,
+                "f1": 0.2127659574468085
+              },
+              {
+                "class": "smoke",
+                "instances": 18,
+                "tp": 5,
+                "fp": 22,
+                "fn": 13,
+                "precision": 0.18518518518518517,
+                "recall": 0.2777777777777778,
+                "f1": 0.2222222222222222
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 9,
+            "negative_image_false_positive_rate": 0.9
+          }
+        },
+        "candidate": {
+          "A": {
+            "overall": {
+              "tp": 10,
+              "fp": 19,
+              "fn": 17,
+              "precision": 0.3448275862068966,
+              "recall": 0.37037037037037035,
+              "f1": 0.35714285714285715
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 8,
+                "tp": 6,
+                "fp": 9,
+                "fn": 2,
+                "precision": 0.4,
+                "recall": 0.75,
+                "f1": 0.5217391304347826
+              },
+              {
+                "class": "smoke",
+                "instances": 19,
+                "tp": 4,
+                "fp": 10,
+                "fn": 15,
+                "precision": 0.2857142857142857,
+                "recall": 0.21052631578947367,
+                "f1": 0.24242424242424243
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 8,
+            "negative_image_false_positive_rate": 0.8
+          },
+          "B": {
+            "overall": {
+              "tp": 10,
+              "fp": 19,
+              "fn": 20,
+              "precision": 0.3448275862068966,
+              "recall": 0.3333333333333333,
+              "f1": 0.3389830508474576
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 12,
+                "tp": 6,
+                "fp": 9,
+                "fn": 6,
+                "precision": 0.4,
+                "recall": 0.5,
+                "f1": 0.4444444444444444
+              },
+              {
+                "class": "smoke",
+                "instances": 18,
+                "tp": 4,
+                "fp": 10,
+                "fn": 14,
+                "precision": 0.2857142857142857,
+                "recall": 0.2222222222222222,
+                "f1": 0.25
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 8,
+            "negative_image_false_positive_rate": 0.8
+          }
+        },
+        "gate": {
+          "passed": false,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": false
+            }
+          }
+        }
+      },
+      "unused93": {
+        "images": 93,
+        "baseline": {
+          "A": {
+            "overall": {
+              "tp": 65,
+              "fp": 104,
+              "fn": 58,
+              "precision": 0.38461538461538464,
+              "recall": 0.5284552845528455,
+              "f1": 0.4452054794520548
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 64,
+                "tp": 47,
+                "fp": 54,
+                "fn": 17,
+                "precision": 0.46534653465346537,
+                "recall": 0.734375,
+                "f1": 0.5696969696969697
+              },
+              {
+                "class": "smoke",
+                "instances": 59,
+                "tp": 18,
+                "fp": 50,
+                "fn": 41,
+                "precision": 0.2647058823529412,
+                "recall": 0.3050847457627119,
+                "f1": 0.28346456692913385
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 9,
+            "negative_image_false_positive_rate": 0.9
+          },
+          "B": {
+            "overall": {
+              "tp": 58,
+              "fp": 111,
+              "fn": 75,
+              "precision": 0.3431952662721893,
+              "recall": 0.43609022556390975,
+              "f1": 0.3841059602649007
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 59,
+                "tp": 43,
+                "fp": 58,
+                "fn": 16,
+                "precision": 0.42574257425742573,
+                "recall": 0.7288135593220338,
+                "f1": 0.5375
+              },
+              {
+                "class": "smoke",
+                "instances": 74,
+                "tp": 15,
+                "fp": 53,
+                "fn": 59,
+                "precision": 0.22058823529411764,
+                "recall": 0.20270270270270271,
+                "f1": 0.2112676056338028
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 9,
+            "negative_image_false_positive_rate": 0.9
+          }
+        },
+        "candidate": {
+          "A": {
+            "overall": {
+              "tp": 52,
+              "fp": 63,
+              "fn": 71,
+              "precision": 0.45217391304347826,
+              "recall": 0.42276422764227645,
+              "f1": 0.4369747899159664
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 64,
+                "tp": 33,
+                "fp": 36,
+                "fn": 31,
+                "precision": 0.4782608695652174,
+                "recall": 0.515625,
+                "f1": 0.49624060150375937
+              },
+              {
+                "class": "smoke",
+                "instances": 59,
+                "tp": 19,
+                "fp": 27,
+                "fn": 40,
+                "precision": 0.41304347826086957,
+                "recall": 0.3220338983050847,
+                "f1": 0.3619047619047619
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.3
+          },
+          "B": {
+            "overall": {
+              "tp": 50,
+              "fp": 65,
+              "fn": 83,
+              "precision": 0.43478260869565216,
+              "recall": 0.37593984962406013,
+              "f1": 0.4032258064516129
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 59,
+                "tp": 33,
+                "fp": 36,
+                "fn": 26,
+                "precision": 0.4782608695652174,
+                "recall": 0.559322033898305,
+                "f1": 0.515625
+              },
+              {
+                "class": "smoke",
+                "instances": 74,
+                "tp": 17,
+                "fp": 29,
+                "fn": 57,
+                "precision": 0.3695652173913043,
+                "recall": 0.22972972972972974,
+                "f1": 0.2833333333333333
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.3
+          }
+        },
+        "gate": {
+          "passed": false,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": false,
+              "f1": false,
+              "fp": true,
+              "per_class": false
+            },
+            "B": {
+              "precision": true,
+              "recall": false,
+              "f1": false,
+              "fp": true,
+              "per_class": false
+            }
+          }
+        }
+      },
+      "all200": {
+        "images": 200,
+        "baseline": {
+          "A": {
+            "overall": {
+              "tp": 122,
+              "fp": 273,
+              "fn": 148,
+              "precision": 0.30886075949367087,
+              "recall": 0.45185185185185184,
+              "f1": 0.3669172932330827
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 133,
+                "tp": 82,
+                "fp": 144,
+                "fn": 51,
+                "precision": 0.36283185840707965,
+                "recall": 0.6165413533834586,
+                "f1": 0.4568245125348189
+              },
+              {
+                "class": "smoke",
+                "instances": 137,
+                "tp": 40,
+                "fp": 129,
+                "fn": 97,
+                "precision": 0.23668639053254437,
+                "recall": 0.291970802919708,
+                "f1": 0.26143790849673204
+              }
+            ],
+            "negative_images": 40,
+            "negative_images_with_false_detection": 36,
+            "negative_image_false_positive_rate": 0.9
+          },
+          "B": {
+            "overall": {
+              "tp": 110,
+              "fp": 285,
+              "fn": 179,
+              "precision": 0.27848101265822783,
+              "recall": 0.3806228373702422,
+              "f1": 0.3216374269005848
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 140,
+                "tp": 75,
+                "fp": 151,
+                "fn": 65,
+                "precision": 0.33185840707964603,
+                "recall": 0.5357142857142857,
+                "f1": 0.4098360655737705
+              },
+              {
+                "class": "smoke",
+                "instances": 149,
+                "tp": 35,
+                "fp": 134,
+                "fn": 114,
+                "precision": 0.20710059171597633,
+                "recall": 0.2348993288590604,
+                "f1": 0.22012578616352202
+              }
+            ],
+            "negative_images": 41,
+            "negative_images_with_false_detection": 37,
+            "negative_image_false_positive_rate": 0.9024390243902439
+          }
+        },
+        "candidate": {
+          "A": {
+            "overall": {
+              "tp": 117,
+              "fp": 139,
+              "fn": 153,
+              "precision": 0.45703125,
+              "recall": 0.43333333333333335,
+              "f1": 0.4448669201520912
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 133,
+                "tp": 74,
+                "fp": 81,
+                "fn": 59,
+                "precision": 0.4774193548387097,
+                "recall": 0.556390977443609,
+                "f1": 0.5138888888888888
+              },
+              {
+                "class": "smoke",
+                "instances": 137,
+                "tp": 43,
+                "fp": 58,
+                "fn": 94,
+                "precision": 0.42574257425742573,
+                "recall": 0.31386861313868614,
+                "f1": 0.36134453781512604
+              }
+            ],
+            "negative_images": 40,
+            "negative_images_with_false_detection": 20,
+            "negative_image_false_positive_rate": 0.5
+          },
+          "B": {
+            "overall": {
+              "tp": 111,
+              "fp": 145,
+              "fn": 178,
+              "precision": 0.43359375,
+              "recall": 0.38408304498269896,
+              "f1": 0.4073394495412844
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 140,
+                "tp": 75,
+                "fp": 80,
+                "fn": 65,
+                "precision": 0.4838709677419355,
+                "recall": 0.5357142857142857,
+                "f1": 0.5084745762711864
+              },
+              {
+                "class": "smoke",
+                "instances": 149,
+                "tp": 36,
+                "fp": 65,
+                "fn": 113,
+                "precision": 0.3564356435643564,
+                "recall": 0.24161073825503357,
+                "f1": 0.288
+              }
+            ],
+            "negative_images": 41,
+            "negative_images_with_false_detection": 21,
+            "negative_image_false_positive_rate": 0.5121951219512195
+          }
+        },
+        "gate": {
+          "passed": false,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": false,
+              "f1": true,
+              "fp": true,
+              "per_class": false
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        }
+      }
+    },
+    "models": {
+      "grounding_dino": {
+        "model_id": "IDEA-Research/grounding-dino-tiny",
+        "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+        "files_sha256": {
+          "config.json": "eec82c5ab66e16df12a9a212e68ac011779927c2536cf9078658e35d85f0c67a",
+          "preprocessor_config.json": "8454179ba95e2ad22947835aad7b45862a601fc0055ab88bf1ee70892d3aea60",
+          "tokenizer_config.json": "d40ab645b68211910b9170d22433d43186a6ec8ee6fd10ba170524b25bf4fb56",
+          "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+          "special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+          "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+          "model.safetensors": "1a2412ef99bd74bcd3c2a246fa1e48581f8889a1300c9051974741314fc042f3"
+        },
+        "transformers": "4.57.1",
+        "torch": "2.9.1+cu128",
+        "device": "cuda:0",
+        "hardware": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "dtype": "float32",
+        "disable_custom_kernels": true,
+        "fine_tuned": false
+      },
+      "auxiliary_yolo": {
+        "path": "fire-models/fire_n.pt",
+        "sha256": "22364797523398115f67f43ff379c3d80c00dde9b4bc2e92e844bb357ca777e7",
+        "class_mapping": {
+          "0": "smoke",
+          "1": "fire"
+        },
+        "origin": "upstream specialist; not self-trained or zero-shot"
+      }
+    }
+  },
+  "base_candidates": {
+    "f1_priority": {
+      "selection": {
+        "spec_name": "base_joint_basic",
+        "model": {
+          "model_id": "IDEA-Research/grounding-dino-base",
+          "revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+          "files_sha256": {
+            "config.json": "eda416dae6f49419ff831b1c190ec430a060b19aae688dbaf2425a075b650608",
+            "preprocessor_config.json": "8454179ba95e2ad22947835aad7b45862a601fc0055ab88bf1ee70892d3aea60",
+            "tokenizer_config.json": "d40ab645b68211910b9170d22433d43186a6ec8ee6fd10ba170524b25bf4fb56",
+            "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+            "special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+            "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+            "model.safetensors": "5548f844c928c4b6f411fa8cbcc2bfa8dbbba437cb1d513975519f93c2a9ed21"
+          },
+          "device": "cuda:0",
+          "dtype": "float32",
+          "fine_tuned": false,
+          "disable_custom_kernels": true,
+          "hardware": "NVIDIA GeForce RTX 5060 Laptop GPU"
+        },
+        "multilabel": true,
+        "dino_parameters": {
+          "fire_threshold": 0.3,
+          "smoke_threshold": 0.35,
+          "margin": 0,
+          "nms_iou": 0.5
+        },
+        "yolo_parameters": {
+          "fire_threshold": 0.15,
+          "smoke_threshold": 0.5,
+          "order": "dino_first"
+        },
+        "metrics": {
+          "A": {
+            "overall": {
+              "tp": 26,
+              "fp": 15,
+              "fn": 27,
+              "precision": 0.6341463414634146,
+              "recall": 0.49056603773584906,
+              "f1": 0.5531914893617021
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 18,
+                "fp": 6,
+                "fn": 6,
+                "precision": 0.75,
+                "recall": 0.75,
+                "f1": 0.75
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 8,
+                "fp": 9,
+                "fn": 21,
+                "precision": 0.47058823529411764,
+                "recall": 0.27586206896551724,
+                "f1": 0.34782608695652173
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.3
+          },
+          "B": {
+            "overall": {
+              "tp": 24,
+              "fp": 17,
+              "fn": 18,
+              "precision": 0.5853658536585366,
+              "recall": 0.5714285714285714,
+              "f1": 0.5783132530120482
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 17,
+                "fp": 7,
+                "fn": 8,
+                "precision": 0.7083333333333334,
+                "recall": 0.68,
+                "f1": 0.6938775510204082
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 10,
+                "fn": 10,
+                "precision": 0.4117647058823529,
+                "recall": 0.4117647058823529,
+                "f1": 0.4117647058823529
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 3,
+            "negative_image_false_positive_rate": 0.2727272727272727
+          }
+        },
+        "gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        },
+        "mean_f1": 0.5657523711868752
+      },
+      "adoption_passed": false,
+      "results": {
+        "tuning40": {
+          "images": 40,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 25,
+                "fp": 47,
+                "fn": 28,
+                "precision": 0.3472222222222222,
+                "recall": 0.4716981132075472,
+                "f1": 0.4
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 24,
+                  "tp": 18,
+                  "fp": 21,
+                  "fn": 6,
+                  "precision": 0.46153846153846156,
+                  "recall": 0.75,
+                  "f1": 0.5714285714285714
+                },
+                {
+                  "class": "smoke",
+                  "instances": 29,
+                  "tp": 7,
+                  "fp": 26,
+                  "fn": 22,
+                  "precision": 0.21212121212121213,
+                  "recall": 0.2413793103448276,
+                  "f1": 0.22580645161290322
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 8,
+              "negative_image_false_positive_rate": 0.8
+            },
+            "B": {
+              "overall": {
+                "tp": 22,
+                "fp": 50,
+                "fn": 20,
+                "precision": 0.3055555555555556,
+                "recall": 0.5238095238095238,
+                "f1": 0.38596491228070173
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 25,
+                  "tp": 15,
+                  "fp": 24,
+                  "fn": 10,
+                  "precision": 0.38461538461538464,
+                  "recall": 0.6,
+                  "f1": 0.46875
+                },
+                {
+                  "class": "smoke",
+                  "instances": 17,
+                  "tp": 7,
+                  "fp": 26,
+                  "fn": 10,
+                  "precision": 0.21212121212121213,
+                  "recall": 0.4117647058823529,
+                  "f1": 0.28
+                }
+              ],
+              "negative_images": 11,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.8181818181818182
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 26,
+                "fp": 15,
+                "fn": 27,
+                "precision": 0.6341463414634146,
+                "recall": 0.49056603773584906,
+                "f1": 0.5531914893617021
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 24,
+                  "tp": 18,
+                  "fp": 6,
+                  "fn": 6,
+                  "precision": 0.75,
+                  "recall": 0.75,
+                  "f1": 0.75
+                },
+                {
+                  "class": "smoke",
+                  "instances": 29,
+                  "tp": 8,
+                  "fp": 9,
+                  "fn": 21,
+                  "precision": 0.47058823529411764,
+                  "recall": 0.27586206896551724,
+                  "f1": 0.34782608695652173
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 3,
+              "negative_image_false_positive_rate": 0.3
+            },
+            "B": {
+              "overall": {
+                "tp": 24,
+                "fp": 17,
+                "fn": 18,
+                "precision": 0.5853658536585366,
+                "recall": 0.5714285714285714,
+                "f1": 0.5783132530120482
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 25,
+                  "tp": 17,
+                  "fp": 7,
+                  "fn": 8,
+                  "precision": 0.7083333333333334,
+                  "recall": 0.68,
+                  "f1": 0.6938775510204082
+                },
+                {
+                  "class": "smoke",
+                  "instances": 17,
+                  "tp": 7,
+                  "fp": 10,
+                  "fn": 10,
+                  "precision": 0.4117647058823529,
+                  "recall": 0.4117647058823529,
+                  "f1": 0.4117647058823529
+                }
+              ],
+              "negative_images": 11,
+              "negative_images_with_false_detection": 3,
+              "negative_image_false_positive_rate": 0.2727272727272727
+            }
+          },
+          "gate": {
+            "passed": true,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              }
+            }
+          }
+        },
+        "grouped40": {
+          "images": 40,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 23,
+                "fp": 69,
+                "fn": 44,
+                "precision": 0.25,
+                "recall": 0.34328358208955223,
+                "f1": 0.2893081761006289
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 37,
+                  "tp": 12,
+                  "fp": 39,
+                  "fn": 25,
+                  "precision": 0.23529411764705882,
+                  "recall": 0.32432432432432434,
+                  "f1": 0.2727272727272727
+                },
+                {
+                  "class": "smoke",
+                  "instances": 30,
+                  "tp": 11,
+                  "fp": 30,
+                  "fn": 19,
+                  "precision": 0.2682926829268293,
+                  "recall": 0.36666666666666664,
+                  "f1": 0.30985915492957744
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 10,
+              "negative_image_false_positive_rate": 1.0
+            },
+            "B": {
+              "overall": {
+                "tp": 20,
+                "fp": 72,
+                "fn": 64,
+                "precision": 0.21739130434782608,
+                "recall": 0.23809523809523808,
+                "f1": 0.22727272727272727
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 44,
+                  "tp": 12,
+                  "fp": 39,
+                  "fn": 32,
+                  "precision": 0.23529411764705882,
+                  "recall": 0.2727272727272727,
+                  "f1": 0.25263157894736843
+                },
+                {
+                  "class": "smoke",
+                  "instances": 40,
+                  "tp": 8,
+                  "fp": 33,
+                  "fn": 32,
+                  "precision": 0.1951219512195122,
+                  "recall": 0.2,
+                  "f1": 0.19753086419753085
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 10,
+              "negative_image_false_positive_rate": 1.0
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 28,
+                "fp": 37,
+                "fn": 39,
+                "precision": 0.4307692307692308,
+                "recall": 0.417910447761194,
+                "f1": 0.42424242424242425
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 37,
+                  "tp": 17,
+                  "fp": 24,
+                  "fn": 20,
+                  "precision": 0.4146341463414634,
+                  "recall": 0.4594594594594595,
+                  "f1": 0.4358974358974359
+                },
+                {
+                  "class": "smoke",
+                  "instances": 30,
+                  "tp": 11,
+                  "fp": 13,
+                  "fn": 19,
+                  "precision": 0.4583333333333333,
+                  "recall": 0.36666666666666664,
+                  "f1": 0.4074074074074074
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 3,
+              "negative_image_false_positive_rate": 0.3
+            },
+            "B": {
+              "overall": {
+                "tp": 27,
+                "fp": 38,
+                "fn": 57,
+                "precision": 0.4153846153846154,
+                "recall": 0.32142857142857145,
+                "f1": 0.3624161073825503
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 44,
+                  "tp": 19,
+                  "fp": 22,
+                  "fn": 25,
+                  "precision": 0.4634146341463415,
+                  "recall": 0.4318181818181818,
+                  "f1": 0.4470588235294118
+                },
+                {
+                  "class": "smoke",
+                  "instances": 40,
+                  "tp": 8,
+                  "fp": 16,
+                  "fn": 32,
+                  "precision": 0.3333333333333333,
+                  "recall": 0.2,
+                  "f1": 0.25
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 3,
+              "negative_image_false_positive_rate": 0.3
+            }
+          },
+          "gate": {
+            "passed": true,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              }
+            }
+          }
+        },
+        "recheck27": {
+          "images": 27,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 9,
+                "fp": 53,
+                "fn": 18,
+                "precision": 0.14516129032258066,
+                "recall": 0.3333333333333333,
+                "f1": 0.20224719101123595
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 8,
+                  "tp": 5,
+                  "fp": 30,
+                  "fn": 3,
+                  "precision": 0.14285714285714285,
+                  "recall": 0.625,
+                  "f1": 0.23255813953488372
+                },
+                {
+                  "class": "smoke",
+                  "instances": 19,
+                  "tp": 4,
+                  "fp": 23,
+                  "fn": 15,
+                  "precision": 0.14814814814814814,
+                  "recall": 0.21052631578947367,
+                  "f1": 0.17391304347826086
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.9
+            },
+            "B": {
+              "overall": {
+                "tp": 10,
+                "fp": 52,
+                "fn": 20,
+                "precision": 0.16129032258064516,
+                "recall": 0.3333333333333333,
+                "f1": 0.21739130434782608
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 12,
+                  "tp": 5,
+                  "fp": 30,
+                  "fn": 7,
+                  "precision": 0.14285714285714285,
+                  "recall": 0.4166666666666667,
+                  "f1": 0.2127659574468085
+                },
+                {
+                  "class": "smoke",
+                  "instances": 18,
+                  "tp": 5,
+                  "fp": 22,
+                  "fn": 13,
+                  "precision": 0.18518518518518517,
+                  "recall": 0.2777777777777778,
+                  "f1": 0.2222222222222222
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.9
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 8,
+                "fp": 15,
+                "fn": 19,
+                "precision": 0.34782608695652173,
+                "recall": 0.2962962962962963,
+                "f1": 0.32
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 8,
+                  "tp": 4,
+                  "fp": 8,
+                  "fn": 4,
+                  "precision": 0.3333333333333333,
+                  "recall": 0.5,
+                  "f1": 0.4
+                },
+                {
+                  "class": "smoke",
+                  "instances": 19,
+                  "tp": 4,
+                  "fp": 7,
+                  "fn": 15,
+                  "precision": 0.36363636363636365,
+                  "recall": 0.21052631578947367,
+                  "f1": 0.26666666666666666
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 3,
+              "negative_image_false_positive_rate": 0.3
+            },
+            "B": {
+              "overall": {
+                "tp": 9,
+                "fp": 14,
+                "fn": 21,
+                "precision": 0.391304347826087,
+                "recall": 0.3,
+                "f1": 0.33962264150943394
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 12,
+                  "tp": 5,
+                  "fp": 7,
+                  "fn": 7,
+                  "precision": 0.4166666666666667,
+                  "recall": 0.4166666666666667,
+                  "f1": 0.4166666666666667
+                },
+                {
+                  "class": "smoke",
+                  "instances": 18,
+                  "tp": 4,
+                  "fp": 7,
+                  "fn": 14,
+                  "precision": 0.36363636363636365,
+                  "recall": 0.2222222222222222,
+                  "f1": 0.27586206896551724
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 3,
+              "negative_image_false_positive_rate": 0.3
+            }
+          },
+          "gate": {
+            "passed": false,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": false,
+                "f1": true,
+                "fp": true,
+                "per_class": false
+              },
+              "B": {
+                "precision": true,
+                "recall": false,
+                "f1": true,
+                "fp": true,
+                "per_class": false
+              }
+            }
+          }
+        },
+        "remaining93": {
+          "images": 93,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 65,
+                "fp": 104,
+                "fn": 58,
+                "precision": 0.38461538461538464,
+                "recall": 0.5284552845528455,
+                "f1": 0.4452054794520548
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 64,
+                  "tp": 47,
+                  "fp": 54,
+                  "fn": 17,
+                  "precision": 0.46534653465346537,
+                  "recall": 0.734375,
+                  "f1": 0.5696969696969697
+                },
+                {
+                  "class": "smoke",
+                  "instances": 59,
+                  "tp": 18,
+                  "fp": 50,
+                  "fn": 41,
+                  "precision": 0.2647058823529412,
+                  "recall": 0.3050847457627119,
+                  "f1": 0.28346456692913385
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.9
+            },
+            "B": {
+              "overall": {
+                "tp": 58,
+                "fp": 111,
+                "fn": 75,
+                "precision": 0.3431952662721893,
+                "recall": 0.43609022556390975,
+                "f1": 0.3841059602649007
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 59,
+                  "tp": 43,
+                  "fp": 58,
+                  "fn": 16,
+                  "precision": 0.42574257425742573,
+                  "recall": 0.7288135593220338,
+                  "f1": 0.5375
+                },
+                {
+                  "class": "smoke",
+                  "instances": 74,
+                  "tp": 15,
+                  "fp": 53,
+                  "fn": 59,
+                  "precision": 0.22058823529411764,
+                  "recall": 0.20270270270270271,
+                  "f1": 0.2112676056338028
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.9
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 66,
+                "fp": 47,
+                "fn": 57,
+                "precision": 0.584070796460177,
+                "recall": 0.5365853658536586,
+                "f1": 0.559322033898305
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 64,
+                  "tp": 46,
+                  "fp": 22,
+                  "fn": 18,
+                  "precision": 0.6764705882352942,
+                  "recall": 0.71875,
+                  "f1": 0.696969696969697
+                },
+                {
+                  "class": "smoke",
+                  "instances": 59,
+                  "tp": 20,
+                  "fp": 25,
+                  "fn": 39,
+                  "precision": 0.4444444444444444,
+                  "recall": 0.3389830508474576,
+                  "f1": 0.38461538461538464
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 2,
+              "negative_image_false_positive_rate": 0.2
+            },
+            "B": {
+              "overall": {
+                "tp": 63,
+                "fp": 50,
+                "fn": 70,
+                "precision": 0.5575221238938053,
+                "recall": 0.47368421052631576,
+                "f1": 0.5121951219512195
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 59,
+                  "tp": 45,
+                  "fp": 23,
+                  "fn": 14,
+                  "precision": 0.6617647058823529,
+                  "recall": 0.7627118644067796,
+                  "f1": 0.7086614173228346
+                },
+                {
+                  "class": "smoke",
+                  "instances": 74,
+                  "tp": 18,
+                  "fp": 27,
+                  "fn": 56,
+                  "precision": 0.4,
+                  "recall": 0.24324324324324326,
+                  "f1": 0.3025210084033613
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 2,
+              "negative_image_false_positive_rate": 0.2
+            }
+          },
+          "gate": {
+            "passed": false,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": false
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              }
+            }
+          }
+        },
+        "all200": {
+          "images": 200,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 122,
+                "fp": 273,
+                "fn": 148,
+                "precision": 0.30886075949367087,
+                "recall": 0.45185185185185184,
+                "f1": 0.3669172932330827
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 133,
+                  "tp": 82,
+                  "fp": 144,
+                  "fn": 51,
+                  "precision": 0.36283185840707965,
+                  "recall": 0.6165413533834586,
+                  "f1": 0.4568245125348189
+                },
+                {
+                  "class": "smoke",
+                  "instances": 137,
+                  "tp": 40,
+                  "fp": 129,
+                  "fn": 97,
+                  "precision": 0.23668639053254437,
+                  "recall": 0.291970802919708,
+                  "f1": 0.26143790849673204
+                }
+              ],
+              "negative_images": 40,
+              "negative_images_with_false_detection": 36,
+              "negative_image_false_positive_rate": 0.9
+            },
+            "B": {
+              "overall": {
+                "tp": 110,
+                "fp": 285,
+                "fn": 179,
+                "precision": 0.27848101265822783,
+                "recall": 0.3806228373702422,
+                "f1": 0.3216374269005848
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 140,
+                  "tp": 75,
+                  "fp": 151,
+                  "fn": 65,
+                  "precision": 0.33185840707964603,
+                  "recall": 0.5357142857142857,
+                  "f1": 0.4098360655737705
+                },
+                {
+                  "class": "smoke",
+                  "instances": 149,
+                  "tp": 35,
+                  "fp": 134,
+                  "fn": 114,
+                  "precision": 0.20710059171597633,
+                  "recall": 0.2348993288590604,
+                  "f1": 0.22012578616352202
+                }
+              ],
+              "negative_images": 41,
+              "negative_images_with_false_detection": 37,
+              "negative_image_false_positive_rate": 0.9024390243902439
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 128,
+                "fp": 114,
+                "fn": 142,
+                "precision": 0.5289256198347108,
+                "recall": 0.4740740740740741,
+                "f1": 0.5
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 133,
+                  "tp": 85,
+                  "fp": 60,
+                  "fn": 48,
+                  "precision": 0.5862068965517241,
+                  "recall": 0.6390977443609023,
+                  "f1": 0.6115107913669064
+                },
+                {
+                  "class": "smoke",
+                  "instances": 137,
+                  "tp": 43,
+                  "fp": 54,
+                  "fn": 94,
+                  "precision": 0.44329896907216493,
+                  "recall": 0.31386861313868614,
+                  "f1": 0.36752136752136755
+                }
+              ],
+              "negative_images": 40,
+              "negative_images_with_false_detection": 11,
+              "negative_image_false_positive_rate": 0.275
+            },
+            "B": {
+              "overall": {
+                "tp": 123,
+                "fp": 119,
+                "fn": 166,
+                "precision": 0.5082644628099173,
+                "recall": 0.42560553633217996,
+                "f1": 0.4632768361581921
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 140,
+                  "tp": 86,
+                  "fp": 59,
+                  "fn": 54,
+                  "precision": 0.593103448275862,
+                  "recall": 0.6142857142857143,
+                  "f1": 0.6035087719298246
+                },
+                {
+                  "class": "smoke",
+                  "instances": 149,
+                  "tp": 37,
+                  "fp": 60,
+                  "fn": 112,
+                  "precision": 0.38144329896907214,
+                  "recall": 0.2483221476510067,
+                  "f1": 0.3008130081300813
+                }
+              ],
+              "negative_images": 41,
+              "negative_images_with_false_detection": 11,
+              "negative_image_false_positive_rate": 0.2682926829268293
+            }
+          },
+          "gate": {
+            "passed": true,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "recall_priority": {
+      "selection": {
+        "spec_name": "base_independent",
+        "model": {
+          "model_id": "IDEA-Research/grounding-dino-base",
+          "revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+          "files_sha256": {
+            "config.json": "eda416dae6f49419ff831b1c190ec430a060b19aae688dbaf2425a075b650608",
+            "preprocessor_config.json": "8454179ba95e2ad22947835aad7b45862a601fc0055ab88bf1ee70892d3aea60",
+            "tokenizer_config.json": "d40ab645b68211910b9170d22433d43186a6ec8ee6fd10ba170524b25bf4fb56",
+            "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+            "special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+            "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+            "model.safetensors": "5548f844c928c4b6f411fa8cbcc2bfa8dbbba437cb1d513975519f93c2a9ed21"
+          },
+          "device": "cuda:0",
+          "dtype": "float32",
+          "fine_tuned": false,
+          "disable_custom_kernels": true,
+          "hardware": "NVIDIA GeForce RTX 5060 Laptop GPU"
+        },
+        "multilabel": false,
+        "dino_parameters": {
+          "fire_threshold": 0.25,
+          "smoke_threshold": 0.3,
+          "margin": 0,
+          "nms_iou": 0.5
+        },
+        "yolo_parameters": {
+          "fire_threshold": 0.15,
+          "smoke_threshold": 0.5,
+          "order": "dino_first"
+        },
+        "metrics": {
+          "A": {
+            "overall": {
+              "tp": 28,
+              "fp": 34,
+              "fn": 25,
+              "precision": 0.45161290322580644,
+              "recall": 0.5283018867924528,
+              "f1": 0.48695652173913045
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 24,
+                "tp": 20,
+                "fp": 14,
+                "fn": 4,
+                "precision": 0.5882352941176471,
+                "recall": 0.8333333333333334,
+                "f1": 0.6896551724137931
+              },
+              {
+                "class": "smoke",
+                "instances": 29,
+                "tp": 8,
+                "fp": 20,
+                "fn": 21,
+                "precision": 0.2857142857142857,
+                "recall": 0.27586206896551724,
+                "f1": 0.2807017543859649
+              }
+            ],
+            "negative_images": 10,
+            "negative_images_with_false_detection": 4,
+            "negative_image_false_positive_rate": 0.4
+          },
+          "B": {
+            "overall": {
+              "tp": 25,
+              "fp": 37,
+              "fn": 17,
+              "precision": 0.4032258064516129,
+              "recall": 0.5952380952380952,
+              "f1": 0.4807692307692308
+            },
+            "per_class": [
+              {
+                "class": "fire",
+                "instances": 25,
+                "tp": 18,
+                "fp": 16,
+                "fn": 7,
+                "precision": 0.5294117647058824,
+                "recall": 0.72,
+                "f1": 0.6101694915254238
+              },
+              {
+                "class": "smoke",
+                "instances": 17,
+                "tp": 7,
+                "fp": 21,
+                "fn": 10,
+                "precision": 0.25,
+                "recall": 0.4117647058823529,
+                "f1": 0.3111111111111111
+              }
+            ],
+            "negative_images": 11,
+            "negative_images_with_false_detection": 5,
+            "negative_image_false_positive_rate": 0.45454545454545453
+          }
+        },
+        "gate": {
+          "passed": true,
+          "checks": {
+            "A": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            },
+            "B": {
+              "precision": true,
+              "recall": true,
+              "f1": true,
+              "fp": true,
+              "per_class": true
+            }
+          }
+        },
+        "mean_f1": 0.4838628762541806
+      },
+      "adoption_passed": false,
+      "results": {
+        "tuning40": {
+          "images": 40,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 25,
+                "fp": 47,
+                "fn": 28,
+                "precision": 0.3472222222222222,
+                "recall": 0.4716981132075472,
+                "f1": 0.4
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 24,
+                  "tp": 18,
+                  "fp": 21,
+                  "fn": 6,
+                  "precision": 0.46153846153846156,
+                  "recall": 0.75,
+                  "f1": 0.5714285714285714
+                },
+                {
+                  "class": "smoke",
+                  "instances": 29,
+                  "tp": 7,
+                  "fp": 26,
+                  "fn": 22,
+                  "precision": 0.21212121212121213,
+                  "recall": 0.2413793103448276,
+                  "f1": 0.22580645161290322
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 8,
+              "negative_image_false_positive_rate": 0.8
+            },
+            "B": {
+              "overall": {
+                "tp": 22,
+                "fp": 50,
+                "fn": 20,
+                "precision": 0.3055555555555556,
+                "recall": 0.5238095238095238,
+                "f1": 0.38596491228070173
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 25,
+                  "tp": 15,
+                  "fp": 24,
+                  "fn": 10,
+                  "precision": 0.38461538461538464,
+                  "recall": 0.6,
+                  "f1": 0.46875
+                },
+                {
+                  "class": "smoke",
+                  "instances": 17,
+                  "tp": 7,
+                  "fp": 26,
+                  "fn": 10,
+                  "precision": 0.21212121212121213,
+                  "recall": 0.4117647058823529,
+                  "f1": 0.28
+                }
+              ],
+              "negative_images": 11,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.8181818181818182
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 28,
+                "fp": 34,
+                "fn": 25,
+                "precision": 0.45161290322580644,
+                "recall": 0.5283018867924528,
+                "f1": 0.48695652173913045
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 24,
+                  "tp": 20,
+                  "fp": 14,
+                  "fn": 4,
+                  "precision": 0.5882352941176471,
+                  "recall": 0.8333333333333334,
+                  "f1": 0.6896551724137931
+                },
+                {
+                  "class": "smoke",
+                  "instances": 29,
+                  "tp": 8,
+                  "fp": 20,
+                  "fn": 21,
+                  "precision": 0.2857142857142857,
+                  "recall": 0.27586206896551724,
+                  "f1": 0.2807017543859649
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 4,
+              "negative_image_false_positive_rate": 0.4
+            },
+            "B": {
+              "overall": {
+                "tp": 25,
+                "fp": 37,
+                "fn": 17,
+                "precision": 0.4032258064516129,
+                "recall": 0.5952380952380952,
+                "f1": 0.4807692307692308
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 25,
+                  "tp": 18,
+                  "fp": 16,
+                  "fn": 7,
+                  "precision": 0.5294117647058824,
+                  "recall": 0.72,
+                  "f1": 0.6101694915254238
+                },
+                {
+                  "class": "smoke",
+                  "instances": 17,
+                  "tp": 7,
+                  "fp": 21,
+                  "fn": 10,
+                  "precision": 0.25,
+                  "recall": 0.4117647058823529,
+                  "f1": 0.3111111111111111
+                }
+              ],
+              "negative_images": 11,
+              "negative_images_with_false_detection": 5,
+              "negative_image_false_positive_rate": 0.45454545454545453
+            }
+          },
+          "gate": {
+            "passed": true,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              }
+            }
+          }
+        },
+        "grouped40": {
+          "images": 40,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 23,
+                "fp": 69,
+                "fn": 44,
+                "precision": 0.25,
+                "recall": 0.34328358208955223,
+                "f1": 0.2893081761006289
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 37,
+                  "tp": 12,
+                  "fp": 39,
+                  "fn": 25,
+                  "precision": 0.23529411764705882,
+                  "recall": 0.32432432432432434,
+                  "f1": 0.2727272727272727
+                },
+                {
+                  "class": "smoke",
+                  "instances": 30,
+                  "tp": 11,
+                  "fp": 30,
+                  "fn": 19,
+                  "precision": 0.2682926829268293,
+                  "recall": 0.36666666666666664,
+                  "f1": 0.30985915492957744
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 10,
+              "negative_image_false_positive_rate": 1.0
+            },
+            "B": {
+              "overall": {
+                "tp": 20,
+                "fp": 72,
+                "fn": 64,
+                "precision": 0.21739130434782608,
+                "recall": 0.23809523809523808,
+                "f1": 0.22727272727272727
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 44,
+                  "tp": 12,
+                  "fp": 39,
+                  "fn": 32,
+                  "precision": 0.23529411764705882,
+                  "recall": 0.2727272727272727,
+                  "f1": 0.25263157894736843
+                },
+                {
+                  "class": "smoke",
+                  "instances": 40,
+                  "tp": 8,
+                  "fp": 33,
+                  "fn": 32,
+                  "precision": 0.1951219512195122,
+                  "recall": 0.2,
+                  "f1": 0.19753086419753085
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 10,
+              "negative_image_false_positive_rate": 1.0
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 28,
+                "fp": 62,
+                "fn": 39,
+                "precision": 0.3111111111111111,
+                "recall": 0.417910447761194,
+                "f1": 0.35668789808917195
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 37,
+                  "tp": 17,
+                  "fp": 41,
+                  "fn": 20,
+                  "precision": 0.29310344827586204,
+                  "recall": 0.4594594594594595,
+                  "f1": 0.35789473684210527
+                },
+                {
+                  "class": "smoke",
+                  "instances": 30,
+                  "tp": 11,
+                  "fp": 21,
+                  "fn": 19,
+                  "precision": 0.34375,
+                  "recall": 0.36666666666666664,
+                  "f1": 0.3548387096774194
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 4,
+              "negative_image_false_positive_rate": 0.4
+            },
+            "B": {
+              "overall": {
+                "tp": 28,
+                "fp": 62,
+                "fn": 56,
+                "precision": 0.3111111111111111,
+                "recall": 0.3333333333333333,
+                "f1": 0.3218390804597701
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 44,
+                  "tp": 19,
+                  "fp": 39,
+                  "fn": 25,
+                  "precision": 0.3275862068965517,
+                  "recall": 0.4318181818181818,
+                  "f1": 0.37254901960784315
+                },
+                {
+                  "class": "smoke",
+                  "instances": 40,
+                  "tp": 9,
+                  "fp": 23,
+                  "fn": 31,
+                  "precision": 0.28125,
+                  "recall": 0.225,
+                  "f1": 0.25
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 4,
+              "negative_image_false_positive_rate": 0.4
+            }
+          },
+          "gate": {
+            "passed": false,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": false,
+                "per_class": false
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": false,
+                "per_class": true
+              }
+            }
+          }
+        },
+        "recheck27": {
+          "images": 27,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 9,
+                "fp": 53,
+                "fn": 18,
+                "precision": 0.14516129032258066,
+                "recall": 0.3333333333333333,
+                "f1": 0.20224719101123595
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 8,
+                  "tp": 5,
+                  "fp": 30,
+                  "fn": 3,
+                  "precision": 0.14285714285714285,
+                  "recall": 0.625,
+                  "f1": 0.23255813953488372
+                },
+                {
+                  "class": "smoke",
+                  "instances": 19,
+                  "tp": 4,
+                  "fp": 23,
+                  "fn": 15,
+                  "precision": 0.14814814814814814,
+                  "recall": 0.21052631578947367,
+                  "f1": 0.17391304347826086
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.9
+            },
+            "B": {
+              "overall": {
+                "tp": 10,
+                "fp": 52,
+                "fn": 20,
+                "precision": 0.16129032258064516,
+                "recall": 0.3333333333333333,
+                "f1": 0.21739130434782608
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 12,
+                  "tp": 5,
+                  "fp": 30,
+                  "fn": 7,
+                  "precision": 0.14285714285714285,
+                  "recall": 0.4166666666666667,
+                  "f1": 0.2127659574468085
+                },
+                {
+                  "class": "smoke",
+                  "instances": 18,
+                  "tp": 5,
+                  "fp": 22,
+                  "fn": 13,
+                  "precision": 0.18518518518518517,
+                  "recall": 0.2777777777777778,
+                  "f1": 0.2222222222222222
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.9
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 8,
+                "fp": 32,
+                "fn": 19,
+                "precision": 0.2,
+                "recall": 0.2962962962962963,
+                "f1": 0.23880597014925373
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 8,
+                  "tp": 4,
+                  "fp": 18,
+                  "fn": 4,
+                  "precision": 0.18181818181818182,
+                  "recall": 0.5,
+                  "f1": 0.26666666666666666
+                },
+                {
+                  "class": "smoke",
+                  "instances": 19,
+                  "tp": 4,
+                  "fp": 14,
+                  "fn": 15,
+                  "precision": 0.2222222222222222,
+                  "recall": 0.21052631578947367,
+                  "f1": 0.21621621621621623
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 6,
+              "negative_image_false_positive_rate": 0.6
+            },
+            "B": {
+              "overall": {
+                "tp": 10,
+                "fp": 30,
+                "fn": 20,
+                "precision": 0.25,
+                "recall": 0.3333333333333333,
+                "f1": 0.2857142857142857
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 12,
+                  "tp": 5,
+                  "fp": 17,
+                  "fn": 7,
+                  "precision": 0.22727272727272727,
+                  "recall": 0.4166666666666667,
+                  "f1": 0.29411764705882354
+                },
+                {
+                  "class": "smoke",
+                  "instances": 18,
+                  "tp": 5,
+                  "fp": 13,
+                  "fn": 13,
+                  "precision": 0.2777777777777778,
+                  "recall": 0.2777777777777778,
+                  "f1": 0.2777777777777778
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 6,
+              "negative_image_false_positive_rate": 0.6
+            }
+          },
+          "gate": {
+            "passed": false,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": false,
+                "f1": false,
+                "fp": true,
+                "per_class": false
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              }
+            }
+          }
+        },
+        "remaining93": {
+          "images": 93,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 65,
+                "fp": 104,
+                "fn": 58,
+                "precision": 0.38461538461538464,
+                "recall": 0.5284552845528455,
+                "f1": 0.4452054794520548
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 64,
+                  "tp": 47,
+                  "fp": 54,
+                  "fn": 17,
+                  "precision": 0.46534653465346537,
+                  "recall": 0.734375,
+                  "f1": 0.5696969696969697
+                },
+                {
+                  "class": "smoke",
+                  "instances": 59,
+                  "tp": 18,
+                  "fp": 50,
+                  "fn": 41,
+                  "precision": 0.2647058823529412,
+                  "recall": 0.3050847457627119,
+                  "f1": 0.28346456692913385
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.9
+            },
+            "B": {
+              "overall": {
+                "tp": 58,
+                "fp": 111,
+                "fn": 75,
+                "precision": 0.3431952662721893,
+                "recall": 0.43609022556390975,
+                "f1": 0.3841059602649007
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 59,
+                  "tp": 43,
+                  "fp": 58,
+                  "fn": 16,
+                  "precision": 0.42574257425742573,
+                  "recall": 0.7288135593220338,
+                  "f1": 0.5375
+                },
+                {
+                  "class": "smoke",
+                  "instances": 74,
+                  "tp": 15,
+                  "fp": 53,
+                  "fn": 59,
+                  "precision": 0.22058823529411764,
+                  "recall": 0.20270270270270271,
+                  "f1": 0.2112676056338028
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 9,
+              "negative_image_false_positive_rate": 0.9
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 73,
+                "fp": 80,
+                "fn": 50,
+                "precision": 0.477124183006536,
+                "recall": 0.5934959349593496,
+                "f1": 0.5289855072463768
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 64,
+                  "tp": 51,
+                  "fp": 35,
+                  "fn": 13,
+                  "precision": 0.5930232558139535,
+                  "recall": 0.796875,
+                  "f1": 0.68
+                },
+                {
+                  "class": "smoke",
+                  "instances": 59,
+                  "tp": 22,
+                  "fp": 45,
+                  "fn": 37,
+                  "precision": 0.3283582089552239,
+                  "recall": 0.3728813559322034,
+                  "f1": 0.3492063492063492
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 4,
+              "negative_image_false_positive_rate": 0.4
+            },
+            "B": {
+              "overall": {
+                "tp": 69,
+                "fp": 84,
+                "fn": 64,
+                "precision": 0.45098039215686275,
+                "recall": 0.518796992481203,
+                "f1": 0.4825174825174825
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 59,
+                  "tp": 48,
+                  "fp": 38,
+                  "fn": 11,
+                  "precision": 0.5581395348837209,
+                  "recall": 0.8135593220338984,
+                  "f1": 0.6620689655172414
+                },
+                {
+                  "class": "smoke",
+                  "instances": 74,
+                  "tp": 21,
+                  "fp": 46,
+                  "fn": 53,
+                  "precision": 0.31343283582089554,
+                  "recall": 0.28378378378378377,
+                  "f1": 0.2978723404255319
+                }
+              ],
+              "negative_images": 10,
+              "negative_images_with_false_detection": 4,
+              "negative_image_false_positive_rate": 0.4
+            }
+          },
+          "gate": {
+            "passed": true,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              }
+            }
+          }
+        },
+        "all200": {
+          "images": 200,
+          "baseline": {
+            "A": {
+              "overall": {
+                "tp": 122,
+                "fp": 273,
+                "fn": 148,
+                "precision": 0.30886075949367087,
+                "recall": 0.45185185185185184,
+                "f1": 0.3669172932330827
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 133,
+                  "tp": 82,
+                  "fp": 144,
+                  "fn": 51,
+                  "precision": 0.36283185840707965,
+                  "recall": 0.6165413533834586,
+                  "f1": 0.4568245125348189
+                },
+                {
+                  "class": "smoke",
+                  "instances": 137,
+                  "tp": 40,
+                  "fp": 129,
+                  "fn": 97,
+                  "precision": 0.23668639053254437,
+                  "recall": 0.291970802919708,
+                  "f1": 0.26143790849673204
+                }
+              ],
+              "negative_images": 40,
+              "negative_images_with_false_detection": 36,
+              "negative_image_false_positive_rate": 0.9
+            },
+            "B": {
+              "overall": {
+                "tp": 110,
+                "fp": 285,
+                "fn": 179,
+                "precision": 0.27848101265822783,
+                "recall": 0.3806228373702422,
+                "f1": 0.3216374269005848
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 140,
+                  "tp": 75,
+                  "fp": 151,
+                  "fn": 65,
+                  "precision": 0.33185840707964603,
+                  "recall": 0.5357142857142857,
+                  "f1": 0.4098360655737705
+                },
+                {
+                  "class": "smoke",
+                  "instances": 149,
+                  "tp": 35,
+                  "fp": 134,
+                  "fn": 114,
+                  "precision": 0.20710059171597633,
+                  "recall": 0.2348993288590604,
+                  "f1": 0.22012578616352202
+                }
+              ],
+              "negative_images": 41,
+              "negative_images_with_false_detection": 37,
+              "negative_image_false_positive_rate": 0.9024390243902439
+            }
+          },
+          "candidate": {
+            "A": {
+              "overall": {
+                "tp": 137,
+                "fp": 208,
+                "fn": 133,
+                "precision": 0.39710144927536234,
+                "recall": 0.5074074074074074,
+                "f1": 0.44552845528455287
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 133,
+                  "tp": 92,
+                  "fp": 108,
+                  "fn": 41,
+                  "precision": 0.46,
+                  "recall": 0.6917293233082706,
+                  "f1": 0.5525525525525525
+                },
+                {
+                  "class": "smoke",
+                  "instances": 137,
+                  "tp": 45,
+                  "fp": 100,
+                  "fn": 92,
+                  "precision": 0.3103448275862069,
+                  "recall": 0.3284671532846715,
+                  "f1": 0.3191489361702128
+                }
+              ],
+              "negative_images": 40,
+              "negative_images_with_false_detection": 18,
+              "negative_image_false_positive_rate": 0.45
+            },
+            "B": {
+              "overall": {
+                "tp": 132,
+                "fp": 213,
+                "fn": 157,
+                "precision": 0.3826086956521739,
+                "recall": 0.45674740484429066,
+                "f1": 0.416403785488959
+              },
+              "per_class": [
+                {
+                  "class": "fire",
+                  "instances": 140,
+                  "tp": 90,
+                  "fp": 110,
+                  "fn": 50,
+                  "precision": 0.45,
+                  "recall": 0.6428571428571429,
+                  "f1": 0.5294117647058824
+                },
+                {
+                  "class": "smoke",
+                  "instances": 149,
+                  "tp": 42,
+                  "fp": 103,
+                  "fn": 107,
+                  "precision": 0.2896551724137931,
+                  "recall": 0.28187919463087246,
+                  "f1": 0.2857142857142857
+                }
+              ],
+              "negative_images": 41,
+              "negative_images_with_false_detection": 19,
+              "negative_image_false_positive_rate": 0.4634146341463415
+            }
+          },
+          "gate": {
+            "passed": true,
+            "checks": {
+              "A": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              },
+              "B": {
+                "precision": true,
+                "recall": true,
+                "f1": true,
+                "fp": true,
+                "per_class": true
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "models": {
+    "base": {
+      "model_id": "IDEA-Research/grounding-dino-base",
+      "revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+      "files_sha256": {
+        "config.json": "eda416dae6f49419ff831b1c190ec430a060b19aae688dbaf2425a075b650608",
+        "preprocessor_config.json": "8454179ba95e2ad22947835aad7b45862a601fc0055ab88bf1ee70892d3aea60",
+        "tokenizer_config.json": "d40ab645b68211910b9170d22433d43186a6ec8ee6fd10ba170524b25bf4fb56",
+        "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+        "special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+        "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+        "model.safetensors": "5548f844c928c4b6f411fa8cbcc2bfa8dbbba437cb1d513975519f93c2a9ed21"
+      },
+      "device": "cuda:0",
+      "dtype": "float32",
+      "fine_tuned": false,
+      "disable_custom_kernels": true,
+      "hardware": "NVIDIA GeForce RTX 5060 Laptop GPU"
+    },
+    "auxiliary_yolo": {
+      "path": "fire-models/fire_n.pt",
+      "sha256": "22364797523398115f67f43ff379c3d80c00dde9b4bc2e92e844bb357ca777e7",
+      "origin": "upstream; not self-trained or zero-shot"
+    }
+  },
+  "decision": {
+    "type": "Append-only enhanced candidate release after confirmed aggregate improvement; human review remains required.",
+    "initial_strict_every_subgroup_gate_passed": false,
+    "overall_200_and_reserved93_PRF1_improved_for_both_references": true,
+    "overall_200_per_class_tp_not_lower_fp_not_higher": true,
+    "important_limit": "The stricter exploratory criterion of no per-class regression in every small subset did NOT fully pass. Local thin-smoke regressions are retained and flagged; this is not universal or independent-test optimization success.",
+    "selection": "f1_priority: Base joint fire/smoke, per-class thresholds0.30/0.35 plus upstream YOLO0.15/0.50, DINO-first fusion IoU0.50",
+    "baseline_frozen_quality_task_changed": false,
+    "formal_labels_automatically_approved": false
+  },
+  "actual_saved_metrics_200": {
+    "A": {
+      "overall": {
+        "tp": 128,
+        "fp": 114,
+        "fn": 142,
+        "precision": 0.5289256198347108,
+        "recall": 0.4740740740740741,
+        "f1": 0.5
+      },
+      "per_class": [
+        {
+          "class": "fire",
+          "instances": 133,
+          "tp": 85,
+          "fp": 60,
+          "fn": 48,
+          "precision": 0.5862068965517241,
+          "recall": 0.6390977443609023,
+          "f1": 0.6115107913669064
+        },
+        {
+          "class": "smoke",
+          "instances": 137,
+          "tp": 43,
+          "fp": 54,
+          "fn": 94,
+          "precision": 0.44329896907216493,
+          "recall": 0.31386861313868614,
+          "f1": 0.36752136752136755
+        }
+      ],
+      "negative_images": 40,
+      "negative_images_with_false_detection": 11,
+      "negative_image_false_positive_rate": 0.275
+    },
+    "B": {
+      "overall": {
+        "tp": 123,
+        "fp": 119,
+        "fn": 166,
+        "precision": 0.5082644628099173,
+        "recall": 0.42560553633217996,
+        "f1": 0.4632768361581921
+      },
+      "per_class": [
+        {
+          "class": "fire",
+          "instances": 140,
+          "tp": 86,
+          "fp": 59,
+          "fn": 54,
+          "precision": 0.593103448275862,
+          "recall": 0.6142857142857143,
+          "f1": 0.6035087719298246
+        },
+        {
+          "class": "smoke",
+          "instances": 149,
+          "tp": 37,
+          "fp": 60,
+          "fn": 112,
+          "precision": 0.38144329896907214,
+          "recall": 0.2483221476510067,
+          "f1": 0.3008130081300813
+        }
+      ],
+      "negative_images": 41,
+      "negative_images_with_false_detection": 11,
+      "negative_image_false_positive_rate": 0.2682926829268293
+    }
+  },
+  "batch": {
+    "status": "completed",
+    "completed_at_utc": "2026-10-27T02:18:13.436444+00:00",
+    "batch_id": "enhanced_base_20261027",
+    "new_ready_images": 700,
+    "failed_images": 0,
+    "nonempty_images": 539,
+    "empty_images": 161,
+    "source_normal_candidates": 200,
+    "source_normal_with_boxes": 73,
+    "box_counts": {
+      "fire": 528,
+      "smoke": 366
+    },
+    "previous_proposals_unchanged": true,
+    "frozen_quality_task_and_AB_unchanged": true,
+    "previous_human_reviews_unchanged": true,
+    "automatic_human_approvals": 0,
+    "review_record_count": 2,
+    "disagreement_priority_images": 402,
+    "decision": "Append experimental candidates after overall P/R/F1 and per-class totals improve on200 and overall reserved93. Strict every-subgroup gate did NOT fully pass; thin-smoke local regressions are retained for human review. No automatic approval or replacement of human labels.",
+    "config": {
+      "model_id": "IDEA-Research/grounding-dino-base",
+      "revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+      "weights_sha256": "5548f844c928c4b6f411fa8cbcc2bfa8dbbba437cb1d513975519f93c2a9ed21",
+      "fire_prompt": "fire.",
+      "smoke_prompt": "smoke.",
+      "fire_threshold": 0.3,
+      "smoke_threshold": 0.35,
+      "nms_iou": 0.5,
+      "max_boxes_per_class": 50,
+      "shortest_edge": 640,
+      "longest_edge": 1066,
+      "auxiliary_weights": "fire-models/fire_n.pt",
+      "auxiliary_sha256": "22364797523398115f67f43ff379c3d80c00dde9b4bc2e92e844bb357ca777e7",
+      "auxiliary_fire_threshold": 0.15,
+      "auxiliary_smoke_threshold": 0.5,
+      "auxiliary_iou": 0.7,
+      "fusion_iou": 0.5
+    },
+    "elapsed_seconds": 238.14,
+    "box_source_counts": {
+      "grounding_dino_base_joint": 613,
+      "upstream_yolo_fire_n": 281
+    }
+  },
+  "verification": {
+    "regression_tests": 195,
+    "regression_elapsed_seconds": 24.17,
+    "adapter_real_images": 17,
+    "adapter_equivalent": true,
+    "actual_200_metrics_equal_experiment": true,
+    "browser_report": "reports/optimized_prelabel_browser.json",
+    "old_records_preserved": true,
+    "old_run_configuration_records_unchanged": true,
+    "formal_browser_read_only": {
+      "status": "passed",
+      "formal_ui_latest_enhanced_visible": true,
+      "old_candidate_still_viewable": true,
+      "known_thin_smoke_empty_not_auto_confirmed": true,
+      "formal_save_buttons_not_clicked": true,
+      "page_errors": []
+    }
+  },
+  "priority_images": 26,
+  "local_priority_list": "artifacts/prelabel_optimization_20261027/batch/优先复核图片.md",
+  "evidence_sha256": {
+    "artifacts\\prelabel_optimization_20261027\\protocol.json": "75f045166b31ca67e19bd9cc8491addbdbcfc024096a59b471c35e6685c03ce7",
+    "artifacts\\prelabel_optimization_20261027\\base_candidates_locked.json": "b380d73f2e8e8b07388ac303e745456e064edba999622ddaa89c8abc4076541b",
+    "artifacts\\prelabel_optimization_20261027\\base_validation.json": "62a34f68c51bc5ef92eed1b9393184e86d5350ed2309ff96f6e354786a906a89",
+    "artifacts\\prelabel_optimization_20261027\\batch\\summary.json": "70adb8636bd5de1a7037b98114a75c61745cf40f8506e5d3b557ce7d58badcc3",
+    "artifacts\\prelabel_optimization_20261027\\batch\\final_verification.json": "b8f2673222810b3c4c4fa58c03bca1161a21029ae2d295198713c53583177fe3",
+    "artifacts\\prelabel_optimization_20261027\\adapter_verification.json": "ec1115d837e6cc012540102b4abb3bfc0561ed70765638cc166409a97f6ab27f"
+  },
+  "code_sha256": {
+    "optimized_prelabel.py": "854d280cb934b8d6f303cffbc7039472118ff1c7f456338e4b6bc9f63da19bc9",
+    "configs\\preannotation_optimized.json": "3b03deb1fdc828ae46fe8a6031584e4e9cc21c53567a4caf9a70d3b15cb32311",
+    "scripts\\prelabel_tuning\\base_trial.py": "fcc2838a563e45a35caabef44bfa5cd9379ddecce3c624dca6a91da45a3d2535",
+    "scripts\\prelabel_tuning\\base_validate.py": "79e8fe618144bb8ab880a37c4ec93600e86df2bd19a0e5a68dbef8dfa0c48f77",
+    "scripts\\prelabel_tuning\\fallback_trial.py": "ce8c81b178d146e83f0dc8fdab4d1a2db304f96c61f58c5dc58cff248f71a3db",
+    "scripts\\prelabel_tuning\\final_validation.py": "bd6d1a993a7fcfee8b3426a4ffe403ae1ea52bc45c3fc78b295660c5ee62d360",
+    "scripts\\prelabel_tuning\\fusion_trial.py": "8a5859567b599398f6b8733c6bf3291f19224c1d6e19cf75938bdd8a97832717",
+    "scripts\\prelabel_tuning\\highres_trial.py": "078a64661386b40cd54c35d0cbbd2c79ebf197858bae46f79e82b751ad4c4d43",
+    "scripts\\prelabel_tuning\\multilabel_trial.py": "fe3e1e23abea07350eaddd5836d7c88c1fad4ee02629a872334d1f83881719cf",
+    "scripts\\prelabel_tuning\\round2_recheck.py": "f5dbdbecd8bc339942cd402827874a34f1fe273559ed51e90fe9fdf18eaa59bd",
+    "scripts\\prelabel_tuning\\run_batch.py": "c51162a72fd85d009786e734b9e99315a5f65e341262b6d1dd2137759a0c6291",
+    "scripts\\prelabel_tuning\\trial.py": "8da80cc382d42b5ec1c751b7ad62a03b6b1c4f0f582c629012eb3d6c6a02172d",
+    "scripts\\prelabel_tuning\\trial_yolo.py": "048ce3ef1bfa7e8e75113a8bea72f6b34b3227fdef04e53f8a347e2862cf80e1",
+    "scripts\\prelabel_tuning\\verify_adapter.py": "7e04e205b2f7e3af6573a91630638960b2b35f3088708f11e1691e870d09c6b7",
+    "scripts\\prepare_grounding_dino.py": "db79b4c2219d90cf20d0ef3872347f83f4f2cc6f8053cd9a40684e546a543083",
+    "pages\\6_🏷️_Annotations.py": "27a3b4e8fdce05674c73d9b81b979ed548b811afae40c6f50ecd9699e561f07e",
+    "scripts\\verify_optimized_prelabel_browser.mjs": "345859bb175ba3a64f160130222a01640e405bf32fa4649cadc4bc26688d49b7"
+  },
+  "code_hash_convention": "SHA-256 of UTF-8 text normalized to LF newlines; Git CRLF conversion ignored",
+  "test_usage": "Only train references used for tuning/validation. Bulk stage creates unapproved candidates across the existing split; independent test references are not used to tune and must be confirmed independently."
+}

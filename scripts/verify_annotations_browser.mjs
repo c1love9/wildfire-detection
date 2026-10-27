@@ -151,6 +151,8 @@ try {
   await idle();
   if (!historyOnly) {
     await actor('浏览器自动化测试A');
+    await page.getByText('原方案：Tiny独立查询', { exact: true }).click();
+    await idle();
     await button('开始自动预标注').click();
     await page.getByText('预标注任务结束，请进入人工复核；候选框未自动批准。', { exact: true }).waitFor({ timeout: 120000 });
     await idle();

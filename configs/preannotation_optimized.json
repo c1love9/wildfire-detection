@@ -1,0 +1,19 @@
+{
+  "model_id": "IDEA-Research/grounding-dino-base",
+  "revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+  "weights_sha256": "5548f844c928c4b6f411fa8cbcc2bfa8dbbba437cb1d513975519f93c2a9ed21",
+  "fire_prompt": "fire.",
+  "smoke_prompt": "smoke.",
+  "fire_threshold": 0.3,
+  "smoke_threshold": 0.35,
+  "nms_iou": 0.5,
+  "max_boxes_per_class": 50,
+  "shortest_edge": 640,
+  "longest_edge": 1066,
+  "auxiliary_weights": "fire-models/fire_n.pt",
+  "auxiliary_sha256": "22364797523398115f67f43ff379c3d80c00dde9b4bc2e92e844bb357ca777e7",
+  "auxiliary_fire_threshold": 0.15,
+  "auxiliary_smoke_threshold": 0.5,
+  "auxiliary_iou": 0.7,
+  "fusion_iou": 0.5
+}

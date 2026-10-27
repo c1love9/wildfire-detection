@@ -60,6 +60,7 @@ py -3.11 -m venv .venv
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\prepare_grounding_dino.py
+.\.venv\Scripts\python.exe scripts\prepare_grounding_dino.py --base
 ```
 
 模型文件保存在忽略的 `artifacts/models/`；页面推理只读取本机文件。画框、修改记录、负样本确认、训练目录使用和验证步骤见 [annotations.md](annotations.md)。预标注模型与首页上游YOLO权重用途不同，均未在本项目新数据上完成微调。

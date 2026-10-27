@@ -1,6 +1,7 @@
 """Fetch a pinned official model snapshot; verify every downloaded file."""
 
 import hashlib
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -13,9 +14,12 @@ from dataset_store import file_sha
 
 
 def main():
-    config = json.loads((ROOT / 'configs' / 'preannotation.json').read_text(encoding='utf-8'))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--base', action='store_true', help='Prepare the pinned enhanced Base snapshot instead of the original Tiny.')
+    args = parser.parse_args()
+    config = json.loads((ROOT / 'configs' / ('preannotation_optimized.json' if args.base else 'preannotation.json')).read_text(encoding='utf-8'))
     model, revision = config['model_id'], config['revision']
-    destination = ROOT / 'artifacts' / 'models' / 'grounding-dino-tiny' / revision
+    destination = ROOT / 'artifacts' / 'models' / ('grounding-dino-base' if args.base else 'grounding-dino-tiny') / revision
     destination.mkdir(parents=True, exist_ok=True)
     response = requests.get(f'https://huggingface.co/api/models/{model}/revision/{revision}?blobs=true', timeout=30)
     response.raise_for_status()
