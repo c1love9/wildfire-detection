@@ -1,0 +1,79 @@
+{
+  "status": "passed",
+  "date": "2026-10-30",
+  "priority_count": 26,
+  "class_counts": {
+    "fire": 8,
+    "smoke": 18
+  },
+  "queue_sha256": "edd42f2c955f8f9c05be42e7336275e013edf868e35a515d85ca11c6164961e2",
+  "unit_and_regression_tests": {
+    "passed": 201
+  },
+  "formal_database_tables_unchanged": {
+    "annotation_proposals": {
+      "count": 1600,
+      "sha256": "8cea2c19f5edb4fe22a911db04db5a9b6d92a9cca5262a44cf4043f61fc19c70"
+    },
+    "annotation_runs": {
+      "count": 18,
+      "sha256": "a71127ef6b12551ddd80a73a0acd6cb9af8a350ebdaf21cf18490d6019a0dfa2"
+    },
+    "annotation_reviews": {
+      "count": 2,
+      "sha256": "43b9ed1ab1fe9af75d28b4f25ba12c5668caf6f62fb7a12525a7224ecafd04e1"
+    },
+    "quality_tasks": {
+      "count": 1,
+      "sha256": "d2bd7d977cf7fafaf1d5f09347a1f0d8ef29ae4a7d151efd5d5734e3b835eac9"
+    },
+    "quality_submissions": {
+      "count": 400,
+      "sha256": "419a7668048eb4ebea1864975670f941daf60501a58a4f8b6ae294fe17afa5db"
+    },
+    "quality_references": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "quality_worktime": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "formal_browser": {
+    "generated_at": "2026-10-30T08:10:26.396Z",
+    "status": "passed",
+    "formal_read_only": true,
+    "automated_edits_are_human_gt": false,
+    "page_errors": [],
+    "priority_count": 26,
+    "class_counts": {
+      "fire": 8,
+      "smoke": 18
+    },
+    "q103_missing_smoke_hint": true,
+    "missing_target_not_autoapproved": true,
+    "nonmember_hidden_and_accessible_in_all": true,
+    "saved_human_version_retained": true,
+    "queue_survives_new_browser_session": true,
+    "original_coordinate_caption": "原图 320×240 · 标签坐标对应原图 · 6e22b4efa48d178f"
+  },
+  "isolated_fixture_browser": {
+    "generated_at": "2026-10-28T06:38:16.821Z",
+    "status": "passed",
+    "formal_read_only": false,
+    "automated_edits_are_human_gt": false,
+    "page_errors": [],
+    "synthetic_queue_count": 2,
+    "preserved_saved_labels": true,
+    "draw_missing_target_and_change_class": true,
+    "draft_remains_pending": true,
+    "approval_updates_counts_and_empty_pending_scope": true,
+    "review_survives_reload": true
+  },
+  "limits": [
+    "Priority list identifies suspected missing classes, not confirmed errors.",
+    "Browser fixture edits are automated workflow tests, not human GT.",
+    "No formal human review or A/B submission was modified."
+  ]
+}

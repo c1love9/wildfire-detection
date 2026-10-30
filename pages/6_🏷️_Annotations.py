@@ -15,6 +15,7 @@ from annotations import AnnotationStore, validate_boxes
 from dataset_store import DatasetStore, dataset_root
 from grounding_prelabel import GroundingPrelabeler, PrelabelConfig, model_directory
 from optimized_prelabel import OptimizedPrelabeler, OptimizedPrelabelConfig, model_directory as optimized_model_directory
+from review_priorities import load_review_queue, queue_in_catalog
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -122,12 +123,68 @@ if mode == '自动预标注':
                        '候选框数': row['box_count'], '说明': row['error'] or ''} for row in st.session_state['annotation_last_results']], hide_index=True, width='stretch')
 
 elif mode == '人工复核' and catalog:
-    asset_id = st.selectbox('复核图片', list(by_id), format_func=image_name)
+    queue = None
+    try:
+        queue = load_review_queue(dataset.root)
+    except (OSError, ValueError) as exc:
+        st.warning(str(exc))
+    priority_rows, unavailable = queue_in_catalog(queue, catalog) if queue else ([], [])
+    priority_by_id = {row['asset_id']: row for row in priority_rows}
+    ranges = ['priority', 'all'] if queue else ['all']
+    if st.session_state.get('annotation_review_scope') not in ranges:
+        st.session_state['annotation_review_scope'] = ranges[0]
+    review_scope = st.radio('复核范围', ranges,
+                            format_func=lambda value: f"优先复核（{queue['count']}幅）" if value == 'priority' else f'全部图片（{len(catalog)}幅）',
+                            horizontal=True, key='annotation_review_scope')
+    priority_only = review_scope == 'priority'
+    if priority_only:
+        approved_count = sum(by_id[row['asset_id']]['decision'] == 'approved' for row in priority_rows)
+        st.caption(f"清单共 {queue['count']} 幅 · 当前可用 {len(priority_rows)} 幅 · 已通过 {approved_count} 幅 · 尚未通过 {len(priority_rows) - approved_count} 幅。保存后清单成员不变，状态实时更新。")
+        st.info('这些图片在已完成的A/B独立标注中都有某类目标，而指定增强候选缺少该类。请看原图判断并补漏；这是一份普通人工复核清单，无须重新独立标注或逐图仲裁。')
+        if unavailable:
+            st.warning(f'{len(unavailable)} 幅清单图片不在当前数据目录或图像哈希不匹配，已排除；不会用其他图片补足数量。')
+        with st.expander('查看优先复核清单和当前状态'):
+            st.caption(f"依据批次：{queue['batch_id']}；Q编号沿用原200幅任务编号。清单中的提示不是已核实的错误。")
+            st.dataframe([{'编号': row['number'], '图像ID': row['asset_id'][:12], '重点检查': row['class'],
+                           '原方案有该类框': '有' if row['original_model_had_class'] else '无',
+                           '当前状态': '已通过' if by_id[row['asset_id']]['decision'] == 'approved' else '草稿' if by_id[row['asset_id']]['decision'] else '待复核'}
+                          for row in priority_rows], hide_index=True, width='stretch')
+        with st.expander('优先复核：怎么检查和修改'):
+            st.markdown('1. 填写复核者，选择图片，先看整图，再检查提示的 fire / smoke 类别。\n'
+                        '2. 保留正确框；漏标用“画框”拖出矩形，再选中新框设置“框类别”；误检用“删除选中框”；边界不准用“选择/移动”或坐标调整。\n'
+                        '3. 如采用历史候选，先保存重要修改，再点击“采用所选预标注”；这会替换未保存画布，旧框也须检查。\n'
+                        '4. 勾选实际完成的“复核处理”，点击“确认复核通过”；拿不准时保存草稿，补充说明选填。\n'
+                        '5. 整图确实没有火烟才可删除全部框并确认无目标；模型没有框不代表正常场景。切图前先保存。')
+            st.download_button('下载优先复核操作指南', (ROOT / 'docs' / 'priority_review_guide.md').read_text(encoding='utf-8'),
+                               file_name='优先复核操作指南.md', mime='text/markdown', on_click='ignore')
+    pending_only = st.checkbox('只看尚未通过', key='annotation_review_pending_only')
+    review_ids = [row['asset_id'] for row in priority_rows] if priority_only else list(by_id)
+    if pending_only:
+        review_ids = [key for key in review_ids if by_id[key]['decision'] != 'approved']
+    if not review_ids:
+        st.info('当前筛选下没有图片。可取消“只看尚未通过”查看已完成记录，或选择全部图片。')
+        st.stop()
+    if st.session_state.get('annotation_review_asset') not in review_ids:
+        st.session_state['annotation_review_asset'] = review_ids[0]
+
+    def review_image_name(key):
+        priority = priority_by_id.get(key) if priority_only else None
+        return f"{priority['number']} · 重点检查 {priority['class']} · {image_name(key)}" if priority else image_name(key)
+
+    asset_id = st.selectbox('复核图片', review_ids, format_func=review_image_name, key='annotation_review_asset')
+    priority = priority_by_id.get(asset_id) if priority_only else None
+    if priority:
+        label = 'smoke（烟雾）' if priority['class'] == 'smoke' else 'fire（明火）'
+        st.warning(f"{priority['number']}：重点检查 {label} 是否漏标。A/B均标过该类，清单指定的增强候选没有该类框；请以原图为准。")
+        st.caption(('原方案含该类候选，可切换历史版本参考，仍须检查误检和边界。' if priority['original_model_had_class']
+                    else '原方案也没有该类候选，请重点观察薄烟、小火焰等容易漏检的区域。') + '已有人工版本优先保留，不会因筛选自动替换。')
     try:
         asset = store.image(asset_id)
         latest = store.latest(asset_id)
         proposals = {row['id']: row for row in store.proposals(asset_id)}
         ready = {key: row for key, row in proposals.items() if row['status'] == 'ready'}
+        if priority and proposals and next(iter(proposals)) != priority['proposal_id']:
+            st.caption('此图在清单生成后已有其他预标注版本；上述漏标提示对应清单记录的历史增强版本，不代表当前候选或人工版本仍然漏标。')
         work_map = st.session_state.setdefault('annotation_working', {})
         if asset_id not in work_map:
             work_map[asset_id] = new_work(asset, latest, next(iter(ready.values()), None))
