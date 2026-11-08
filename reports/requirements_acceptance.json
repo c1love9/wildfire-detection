@@ -1,7 +1,7 @@
 {
   "status": "NOT_ALL_COMPLETE",
   "formal_acceptance_complete": false,
-  "audited_at": "2026-11-08T05:46:10.148015+00:00",
+  "audited_at": "2026-11-08T06:30:16.385888+00:00",
   "source_document": "第4题-智能火灾报警系统.pdf",
   "source_sha256": "46919025b0bcbce225c675d85071338d128a4232630e69367d8bbc0f1a2d4af5",
   "source_pages_visually_inspected": [
@@ -10,7 +10,7 @@
     3,
     4
   ],
-  "code_base_commit": "6e3cb01db3dc3410588b64ad77ba8114fb818356",
+  "code_base_commit": "ff6e6e5cbec776a49511f2b4d1acb88e399e1e35",
   "evidence_scope": "Official data catalog plus explicitly identified user-reported review-rate estimate; isolated synthetic tests are software evidence, never formal experiments",
   "facts": {
     "exists": true,

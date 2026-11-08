@@ -111,6 +111,36 @@ class FormalWorkflowTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             with self.assertRaises(ValueError):safe_path(Path(temp),'../outside')
 
+    def test_version_two_restores_custom_layout_and_checks_mapping_hash(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);package=root/'package';project=root/'project'
+            package.mkdir();(package/'payload').write_bytes(b'verified model')
+            map_path=package/'new_layout/map.json';map_path.parent.mkdir()
+            map_path.write_text(json.dumps({'files':[{'source':'payload','target':'models/model.pt'}]}))
+            files={name:{'bytes':(package/name).stat().st_size,'sha256':sha256(package/name)}
+                   for name in ('payload','new_layout/map.json')}
+            manifest={'schema_version':2,'release_id':'test','restore_map':'new_layout/map.json',
+                      'offline_models_included':True,'files':files}
+            (package/'manifest.json').write_text(json.dumps(manifest))
+            original=map_path.read_bytes()
+            map_path.write_text(json.dumps({'files':[{'source':'payload','target':'different.pt'}]}))
+            with self.assertRaises(OSError):restore(package,project)
+            self.assertFalse(project.exists())
+            map_path.write_bytes(original)
+            result=restore(package,project)
+            self.assertTrue(result['offline_models_included'])
+            self.assertEqual((project/'models/model.pt').read_bytes(),b'verified model')
+
+    def test_version_two_rejects_unverified_or_outside_mapping(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);package=root/'package';package.mkdir()
+            manifest={'schema_version':2,'release_id':'test','restore_map':'unlisted.json','files':{}}
+            (package/'manifest.json').write_text(json.dumps(manifest))
+            with self.assertRaises(ValueError):restore(package,root/'project')
+            manifest['restore_map']='../outside.json'
+            (package/'manifest.json').write_text(json.dumps(manifest))
+            with self.assertRaises(ValueError):restore(package,root/'project')
+
     def test_cpu_prediction_cannot_hide_gpu_for_later_first_load(self):
         detector=object.__new__(YoloDetector);detector.device='cpu';detector.imgsz=640
         detector.model=Mock()

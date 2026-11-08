@@ -72,7 +72,7 @@ try{
  await page.goto(base+'/Annotations');await page.getByRole('heading',{name:'自动预标注与人工复核',exact:true}).waitFor();await idle();
  await caption('10 700幅人工复核均已保存 · 原Tiny、增强候选、A/B独立标注和最终标签分别保留');await screen('review_completed');await dwell(10000);
  await page.goto(base+'/Quality');await page.getByRole('heading',{name:'标注质量与面积误差',exact:true}).waitFor();await idle();
- await page.getByText('面积误差',{exact:true}).click();await caption('11 待补项如实保留 · 人工参考掩码与有效复核工时尚未实测');await dwell(8000);
+ await page.getByText('面积误差',{exact:true}).click();await caption('11 面积分割误差待独立参考 · 工时按负责人实测约5秒每幅估算，非全量计时');await dwell(8000);
  await page.getByText('工时对照',{exact:true}).click();await dwell(7000);
  await caption('交付含真实数据、本人权重、训练评测、模板报告和复现说明；还需确认补足5幅自主火烟帧及7幅正常图');
  await dwell(Math.max(7000,195000-(Date.now()-started)));

@@ -25,13 +25,17 @@ def safe_path(root, relative):
 
 def restore(package, project):
     manifest = json.loads((package/'manifest.json').read_text(encoding='utf-8'))
-    mapping = json.loads((package/'08_验收与校验/restore_map.json').read_text(encoding='utf-8'))
+    mapping_name = manifest.get('restore_map', '08_验收与校验/restore_map.json')
+    mapping_path = safe_path(package, mapping_name)
+    if manifest.get('schema_version', 1) >= 2 and mapping_name not in manifest['files']:
+        raise ValueError('Restore map must be included in the verified inventory')
     pending = []
     # Validate everything before copying; existing work is never overwritten.
     for relative, record in manifest['files'].items():
         source = safe_path(package, relative)
         if source.stat().st_size != record['bytes'] or sha256(source) != record['sha256']:
             raise OSError('Package verification failed: '+relative)
+    mapping = json.loads(mapping_path.read_text(encoding='utf-8'))
     for row in mapping['files']:
         if row['source'] not in manifest['files']:
             raise ValueError('Restore map references a file outside the inventory')
@@ -47,7 +51,10 @@ def restore(package, project):
     return {'status':'passed','release_id':manifest['release_id'],'project':str(project),
             'restored_files':len(pending),'existing_identical_files':len(mapping['files'])-len(pending),
             'old_annotation_access_codes_included':False,
-            'note':'SAM/DINO weights require official pinned download. Historical absolute paths remain provenance; restored inference uses relative state paths.'}
+            'offline_models_included':manifest.get('offline_models_included',False),
+            'note':('Pinned SAM/DINO snapshots restored and verified; Python dependencies, FFmpeg and drivers must be installed separately. '
+                    if manifest.get('offline_models_included') else 'SAM/DINO weights require official pinned download. ')
+                   +'Historical absolute paths remain provenance; restored inference uses relative state paths.'}
 
 
 if __name__=='__main__':
