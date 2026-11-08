@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "verified_at": "2026-11-08T05:02:19.211+00:00",
+  "cpu_enhanced_candidates": 1,
+  "subsequent_first_gpu_prediction_boxes": 2,
+  "visibility_preserved": true,
+  "new_annotation_proposals_saved": false,
+  "scope": "Read-only inference on a public demo; no official review or label changed."
+}

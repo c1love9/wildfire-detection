@@ -77,13 +77,14 @@ def build(reference,output,source):
         replace_text(paragraphs[0],value)
         for p in paragraphs[1:]:replace_text(p,'')
     for t in cover_table.xpath('.//w:t',namespaces=NS):
-        if '20xx' in (t.text or ''):t.text='2026年10月24日'
+        if '20xx' in (t.text or ''):t.text='2026年11月8日'
     section=deepcopy(original[-1])
     for n in list(body):body.remove(n)
     for n in cover:body.append(n)
     additions={};next_image=100
 
     def paragraph(text='',kind='body',new_page=False,citations=True):
+        text=re.sub(r'\[([^\]]+)\]\([^\)]+\)',r'\1',text)
         prototype=chapter_source if kind=='chapter' else body_source
         p=deepcopy(prototype)
         for key in list(p.attrib):del p.attrib[key]
@@ -132,7 +133,12 @@ def build(reference,output,source):
         for side in ('top','bottom'):borders.append(element('w:'+side,{'val':'single','sz':8,'color':'000000'}))
         for side in ('left','right','insideV','insideH'):borders.append(element('w:'+side,{'val':'nil'}))
         properties.append(borders);tbl.append(properties)
-        widths=[2200,6106] if count==2 else [1650,3328,3328]
+        if any(len(row)!=count for row in rows):raise ValueError('Table column counts differ')
+        if count==2:widths=[2200,6106]
+        elif count==3:widths=[1650,3328,3328]
+        else:
+            widths=[1650]+[(8306-1650)//(count-1)]*(count-1)
+            widths[-1]+=8306-sum(widths)
         grid=element('w:tblGrid')
         for width in widths:grid.append(element('w:gridCol',{'w':width}))
         tbl.append(grid)
@@ -150,6 +156,7 @@ def build(reference,output,source):
                 cell.append(cp);p=paragraph(value,'cell',citations=False)
                 put(p.find('w:pPr',NS),'jc',{'val':'center' if col==0 else 'left'})
                 if index==0:
+                    put(p.find('w:pPr',NS),'keepNext',{'val':1})
                     for rpr in p.findall('w:r/w:rPr',NS):rpr.append(element('w:b'))
                 cell.append(p);row.append(cell)
             tbl.append(row)

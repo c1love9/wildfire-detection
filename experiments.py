@@ -78,7 +78,7 @@ class ExperimentStore:
                 references[path.stem]=transform_boxes(boxes,transform)
                 def predict():
                     prepared,_=letterbox(image)
-                    return detector.predict_frame(cv2.cvtColor(np.array(prepared),cv2.COLOR_RGB2BGR),.001,.5).detections
+                    return detector.predict_boxes(prepared,.001,.5)
                 if index==0:predict()
                 synchronize(device);started=time.perf_counter();predictions[path.stem]=predict();synchronize(device);times.append((time.perf_counter()-started)*1000)
             if reference_ids is not None and reference_ids!=references:raise OSError('参考标签或图像不一致。')
@@ -90,6 +90,22 @@ class ExperimentStore:
                 'warning':'An optimization experiment; improvement is not assumed. Formal conclusions require actual independent data.'}
         path=bounded(self.root,identifier)/'evaluation.json';write_json(path,output);manifest['evaluation_sha']=file_sha(path);self.save(manifest)
         return output
+
+    def retry(self,identifier,variant,launch=True):
+        """New attempt after an exited worker; never overwrite its evidence."""
+        manifest=self.read(identifier)
+        if variant not in manifest['jobs'] or manifest['evaluation_sha']:
+            raise ValueError('仅能在test评估前重试已中断或失败的训练组。')
+        training=TrainingStore(self.dataset);previous=training.get(manifest['jobs'][variant],refresh=True)
+        if previous['status'] not in ('interrupted','failed'):
+            raise ValueError('不自动重启运行中或由用户取消的训练。')
+        _,receipt=inspect_export(self.dataset,manifest['export_id'])
+        if receipt['fingerprint']!=manifest['dataset_fingerprint'] or file_sha(ROOT/'general-models/yolov8n.pt')!=manifest['initial_sha256']:
+            raise OSError('数据或初始权重改变，请另建实验。')
+        job=training.start_train(manifest['export_id'],TrainConfig(**manifest['configs'][variant]),manifest['actor'],
+                                 manifest['id']+' '+variant+' retry after '+previous['id'],launch=launch)
+        manifest.setdefault('previous_attempts',{}).setdefault(variant,[]).append(previous['id'])
+        manifest['jobs'][variant]=job;self.save(manifest);return job
 
     def evaluation(self,identifier):
         manifest=self.read(identifier);path=bounded(self.root,identifier)/'evaluation.json'

@@ -54,6 +54,7 @@ def add_table(doc, rows):
             paragraph = cell.paragraphs[0]
             paragraph.paragraph_format.space_after = Pt(0)
             paragraph.paragraph_format.line_spacing = 1.10
+            if index==0:paragraph.paragraph_format.keep_with_next=True
             if column == 0:
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = paragraph.add_run(value)
@@ -111,6 +112,7 @@ def build(source, output):
         elif line.startswith('### '):
             doc.add_paragraph(line[4:], 'Heading 2')
         else:
+            line=re.sub(r'\[([^\]]+)\]\([^\)]+\)',r'\1',line)
             paragraph = doc.add_paragraph(line)
             if re.match(r'\d+\.', line):
                 paragraph.paragraph_format.left_indent = Inches(.18)

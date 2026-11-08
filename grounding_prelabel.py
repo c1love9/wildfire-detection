@@ -16,6 +16,7 @@ import torch
 from PIL import Image
 
 from dataset_store import file_sha
+from device_environment import preserve_cuda_visibility
 
 
 ROOT = Path(__file__).resolve().parent
@@ -88,7 +89,9 @@ class GroundingPrelabeler:
         self.device = device
         self.processor = AutoProcessor.from_pretrained(str(directory), local_files_only=True, use_fast=False)
         self.model = AutoModelForZeroShotObjectDetection.from_pretrained(
-            str(directory), local_files_only=True, use_safetensors=True, disable_custom_kernels=True).to(device).eval()
+            str(directory), local_files_only=True, use_safetensors=True, disable_custom_kernels=True)
+        with preserve_cuda_visibility():
+            self.model.to(device).eval()
         self._lock = threading.Lock()
         self.metadata = {'model_id': MODEL_ID, 'revision': REVISION, 'files_sha256': receipt['files'],
                          'transformers': transformers.__version__, 'torch': torch.__version__, 'device': device,

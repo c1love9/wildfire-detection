@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "verified_at": "2026-11-08T05:10:11.643+00:00",
+  "editable_report": {
+    "pages": 18,
+    "sha256": "eac6c4cc33f5d772b75f525860555e16d3c95cd5dbbccf454f556a734ebb5550",
+    "template_preservation": {
+      "status": "passed",
+      "reference_sha256": "a53057dc5e41568263441f4b358cb338c5d2124cc566f16715f136304d43c80d",
+      "reference_unchanged": true,
+      "preserve_only_parts_identical": true,
+      "a4_section_unchanged": true,
+      "cover_logo_preserved": true,
+      "teacher_signature_and_scores_blank": true,
+      "native_word_equations": 2,
+      "bibliography_items": 9,
+      "added_figures": 6,
+      "output_sha256": "eac6c4cc33f5d772b75f525860555e16d3c95cd5dbbccf454f556a734ebb5550"
+    }
+  },
+  "user_guide": {
+    "pages": 18,
+    "sha256": "1091f033395945e281ac02a6080efaf3d39f8a31887b10a027c6fccb88f29428"
+  },
+  "all_pages_visually_inspected": true,
+  "equations_native_editable": 2,
+  "teacher_signature_and_scores_blank": true,
+  "identity_fields_left_unfilled_as_requested": true,
+  "figure_source_data_unchanged": true,
+  "diagram_and_curve_sources_included": true,
+  "scope": "Native Word rendering followed by visual inspection of every page; later unchanged rendered pages verified byte-identical before reusing that inspection."
+}

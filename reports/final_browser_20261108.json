@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "verified_at": "2026-11-08T04:41:50.080Z",
+  "routes": [
+    "Home",
+    "Demo_Images",
+    "Demo_Videos",
+    "Alarm_History",
+    "Dataset",
+    "Annotations",
+    "Training",
+    "Channels",
+    "Comparison",
+    "Experiments",
+    "Quality"
+  ],
+  "own_model_selected": "train_984a486d3e6f459eb8eea567da186ef0",
+  "own_model_video_controls": true,
+  "model_locked_while_running": true,
+  "pause_frame_counter_frozen": "当前帧\n\n46 / 294",
+  "trend_csv_downloaded": true,
+  "history_playback": {
+    "duration": 0.533333,
+    "currentTime": 0.533333,
+    "error": null
+  },
+  "formal_comparison_and_pair_results_visible": true,
+  "page_errors": [],
+  "scope": "Actual production browser, public demo video. This verifies UI operations and persistence visibility, not formal detection accuracy."
+}

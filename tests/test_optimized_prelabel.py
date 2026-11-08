@@ -5,6 +5,8 @@ from pathlib import Path
 import re
 import unittest
 import uuid
+import os
+from unittest.mock import Mock,patch
 
 import torch
 
@@ -25,6 +27,19 @@ class Tokenizer:
 class OptimizedPrelabelTests(unittest.TestCase):
     def setUp(self):
         self.config = OptimizedPrelabelConfig()
+
+    def test_auxiliary_cpu_inference_preserves_later_gpu_visibility(self):
+        model=object.__new__(OptimizedPrelabeler);model.device='cpu';model.auxiliary=Mock()
+        expected=object()
+        def predict(*args,**kwargs):
+            self.assertIsInstance(kwargs['device'],torch.device)
+            self.assertEqual(kwargs['device'].type,'cpu')
+            os.environ['CUDA_VISIBLE_DEVICES']='-1'
+            return [expected]
+        model.auxiliary.predict.side_effect=predict
+        with patch.dict(os.environ,{'CUDA_VISIBLE_DEVICES':'0'}):
+            self.assertIs(model._predict_auxiliary(None,self.config),expected)
+            self.assertEqual(os.environ['CUDA_VISIBLE_DEVICES'],'0')
 
     def boxes(self, probabilities, bounds=None, spans=None, groups=None, config=None):
         probs = torch.tensor(probabilities)

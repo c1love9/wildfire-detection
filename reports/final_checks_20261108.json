@@ -1,0 +1,111 @@
+{
+  "status": "passed",
+  "verified_at": "2026-11-08T05:10:11.649+00:00",
+  "scope": "Software, real frozen experiments and delivery artifacts; not certification that all coursework human/data requirements are complete.",
+  "unit_tests": 214,
+  "regression_log_sha256": "0306ea8919e479d01ae584d921fc49b4545f8b7f5cc55185966690e2b0cdab0b",
+  "browser_pages": 11,
+  "browser_errors": 0,
+  "own_model_confirmed_events": 2,
+  "physical_camera_passed": true,
+  "original_reviews_and_AB_unchanged": true,
+  "documents": {
+    "status": "passed",
+    "verified_at": "2026-11-08T05:10:11.643+00:00",
+    "editable_report": {
+      "pages": 18,
+      "sha256": "eac6c4cc33f5d772b75f525860555e16d3c95cd5dbbccf454f556a734ebb5550",
+      "template_preservation": {
+        "status": "passed",
+        "reference_sha256": "a53057dc5e41568263441f4b358cb338c5d2124cc566f16715f136304d43c80d",
+        "reference_unchanged": true,
+        "preserve_only_parts_identical": true,
+        "a4_section_unchanged": true,
+        "cover_logo_preserved": true,
+        "teacher_signature_and_scores_blank": true,
+        "native_word_equations": 2,
+        "bibliography_items": 9,
+        "added_figures": 6,
+        "output_sha256": "eac6c4cc33f5d772b75f525860555e16d3c95cd5dbbccf454f556a734ebb5550"
+      }
+    },
+    "user_guide": {
+      "pages": 18,
+      "sha256": "1091f033395945e281ac02a6080efaf3d39f8a31887b10a027c6fccb88f29428"
+    },
+    "all_pages_visually_inspected": true,
+    "equations_native_editable": 2,
+    "teacher_signature_and_scores_blank": true,
+    "identity_fields_left_unfilled_as_requested": true,
+    "figure_source_data_unchanged": true,
+    "diagram_and_curve_sources_included": true,
+    "scope": "Native Word rendering followed by visual inspection of every page; later unchanged rendered pages verified byte-identical before reusing that inspection."
+  },
+  "video": {
+    "status": "passed",
+    "recorded_at": "2026-11-08T04:41:50.075Z",
+    "duration_seconds": 189.333333,
+    "chapters": [
+      {
+        "seconds": 0,
+        "text": "01 选择本人训练模型 · 700幅已复核图像，两组各50轮，主模型由验证集选择"
+      },
+      {
+        "seconds": 9.339,
+        "text": "02 当前帧检测框提示 SAM · 彩色掩码与面积占比，公开演示素材不计入正式精度"
+      },
+      {
+        "seconds": 25.081000000000003,
+        "text": "03 通道 A 实时逐帧处理 · 本人模型、SAM分割、连续确认与分级报警"
+      },
+      {
+        "seconds": 53.405,
+        "text": "04 暂停后不新增采样 · 原图像素并集、面积变化和等级历史可导出"
+      },
+      {
+        "seconds": 65.33800000000001,
+        "text": "05 停止后切换通道 B · 位置和视角同步，旧通道确认状态不继承"
+      },
+      {
+        "seconds": 83.774,
+        "text": "06 报警历史 · 回溯模型与模拟位置，查看确认截图、实际前后片段和趋势"
+      },
+      {
+        "seconds": 96.772,
+        "text": "07 真实50轮训练 · 环境、超参数、逐轮损失和验证mAP均可下载"
+      },
+      {
+        "seconds": 111.976,
+        "text": "08 YOLO 与未微调 GroundingDINO · 同一冻结test、同尺寸设备、统一固定阈值"
+      },
+      {
+        "seconds": 129.26899999999998,
+        "text": "09 固定尺寸与多尺度 · 仅改变一个因素，保留实际改善或退化，不按test再选模"
+      },
+      {
+        "seconds": 150.399,
+        "text": "10 700幅人工复核均已保存 · 原Tiny、增强候选、A/B独立标注和最终标签分别保留"
+      },
+      {
+        "seconds": 162.69899999999998,
+        "text": "11 待补项如实保留 · 人工参考掩码与有效复核工时尚未实测"
+      },
+      {
+        "seconds": 177.744,
+        "text": "交付含真实数据、本人权重、训练评测、模板报告和复现说明；还需确认补足5幅自主火烟帧及7幅正常图"
+      }
+    ],
+    "page_errors": [],
+    "source": "Actual production browser; real trained models and frozen formal experiment history. Public demo media; no personal camera recording.",
+    "selected_training_id": "train_984a486d3e6f459eb8eea567da186ef0",
+    "video": "artifacts\\final_completion_20261108\\demo\\系统演示.mp4",
+    "wall_clock_seconds": 195.007,
+    "removed_loading_lead_seconds": 11.932000000000004
+  },
+  "remaining_manual_requirements": [
+    "5 curated fire/smoke frames and 7 normal images need final confirmation",
+    "Strict scene/stage coverage",
+    "Independent reference masks and measured assisted worktime deferred by user",
+    "Cover identity and teacher assessment left blank"
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "status": "completed",
+  "created_at": "2026-11-08T04:20:27.398+00:00",
+  "experiment_id": "pair_1daf5b49568945308d2842d6870689c4",
+  "jobs": {
+    "baseline": "train_984a486d3e6f459eb8eea567da186ef0",
+    "multiscale": "train_1f711de846be417dbe4d220af8b0e808"
+  },
+  "selection": {
+    "selected_at": "2026-11-08T04:19:19.263+00:00",
+    "selection_rule": "highest validation mAP50-95; ties choose baseline",
+    "validation_map50_95": {
+      "baseline": 0.19218347403687785,
+      "multiscale": 0.17900111969660043
+    },
+    "variant": "baseline",
+    "training_id": "train_984a486d3e6f459eb8eea567da186ef0",
+    "test_used_for_selection": false
+  },
+  "comparison_id": "compare_e48a6a4b8e294b919d1d5431028f0672",
+  "test_images": 76,
+  "rows": [
+    {
+      "experiment": "baseline",
+      "precision": 0.6276595744680851,
+      "recall": 0.4178981937602627,
+      "f1": 0.49763722282806255,
+      "map50": 0.48493847661259426,
+      "map50_95": 0.2914260357505434,
+      "mean_ms": 29.008585526316654,
+      "negative_images": 1,
+      "negative_false_positives": 1
+    },
+    {
+      "experiment": "multiscale",
+      "precision": 0.7555194805194805,
+      "recall": 0.4178981937602627,
+      "f1": 0.5353019909653672,
+      "map50": 0.4998720474347059,
+      "map50_95": 0.2824887218878809,
+      "mean_ms": 32.618302631554364,
+      "negative_images": 1,
+      "negative_false_positives": 0
+    },
+    {
+      "experiment": "comparison_YOLO",
+      "precision": 0.6276595744680851,
+      "recall": 0.4178981937602627,
+      "f1": 0.49763722282806255,
+      "map50": 0.48493847661259426,
+      "map50_95": 0.2914260357505434,
+      "mean_ms": 20.7945131578646,
+      "negative_images": 1,
+      "negative_false_positives": 1
+    },
+    {
+      "experiment": "comparison_GroundingDINO",
+      "precision": 0.37704155030887704,
+      "recall": 0.5821018062397373,
+      "f1": 0.45630338871679343,
+      "map50": 0.502867806318967,
+      "map50_95": 0.3817825802935442,
+      "mean_ms": 441.347514473672,
+      "negative_images": 1,
+      "negative_false_positives": 1
+    }
+  ],
+  "difference_multiscale_minus_baseline": {
+    "precision": 0.1278599060513954,
+    "recall": 0.0,
+    "f1": 0.03766476813730468,
+    "map50": 0.014933570822111664,
+    "map50_95": -0.0089373138626625
+  },
+  "workflow_sha256": "e03278429857168bdd3d2641d194ee15d47f9d6c39e3804cc50da2a53c0ef01a",
+  "limitations": [
+    "Test split has only one approved normal image; its false-positive rate is not stable.",
+    "Known source groups are separated, but full public-pretraining/source-event overlap is unknown.",
+    "No independent manual masks or measured assisted-review worktime have been supplied."
+  ]
+}

@@ -8,9 +8,6 @@
   "teacher_signature_and_scores_blank": true,
   "native_word_equations": 2,
   "bibliography_items": 9,
-  "added_figures": 5,
-  "output_sha256": "13465a72668fbfda0460981d970b600b6858d0e85818ec60de4b9c9bca42f18b",
-  "rendered_pages": 16,
-  "all_pages_visually_inspected": true,
-  "visual_review": "All 16 pages inspected; final changed pages 10, 11, 13 inspected again, remaining final PNGs are pixel-identical to inspected pages"
+  "added_figures": 6,
+  "output_sha256": "eac6c4cc33f5d772b75f525860555e16d3c95cd5dbbccf454f556a734ebb5550"
 }

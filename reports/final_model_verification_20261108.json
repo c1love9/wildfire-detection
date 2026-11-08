@@ -1,0 +1,188 @@
+{
+  "status": "passed",
+  "verified_at": "2026-11-08T04:28:17.757+00:00",
+  "models": [
+    {
+      "variant": "baseline",
+      "training_id": "train_984a486d3e6f459eb8eea567da186ef0",
+      "sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3",
+      "epochs": 50
+    },
+    {
+      "variant": "multiscale",
+      "training_id": "train_1f711de846be417dbe4d220af8b0e808",
+      "sha256": "1dea408f424cd09cb23ce28cffd86149f9770c636d515b75ef6209963ca79774",
+      "epochs": 50
+    }
+  ],
+  "image_checks": [
+    {
+      "image": "image0.jpeg",
+      "device": "cpu",
+      "counts": {
+        "fire": 0,
+        "smoke": 0
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image1.jpeg",
+      "device": "cpu",
+      "counts": {
+        "fire": 0,
+        "smoke": 0
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image10.jpeg",
+      "device": "cpu",
+      "counts": {
+        "fire": 3,
+        "smoke": 0
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image11.jpeg",
+      "device": "cpu",
+      "counts": {
+        "fire": 0,
+        "smoke": 0
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image12.jpeg",
+      "device": "cpu",
+      "counts": {
+        "fire": 1,
+        "smoke": 1
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image0.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "fire": 0,
+        "smoke": 0
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image1.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "fire": 0,
+        "smoke": 0
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image10.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "fire": 3,
+        "smoke": 0
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image11.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "fire": 0,
+        "smoke": 0
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    },
+    {
+      "image": "image12.jpeg",
+      "device": "cuda:0",
+      "counts": {
+        "fire": 1,
+        "smoke": 1
+      },
+      "model_sha256": "4e5bf60e0c8ef00e7589371f6e8e2fdfbdccbbe860b2614d51d2639def6737c3"
+    }
+  ],
+  "video_checks": [
+    {
+      "source": "fire1.mov",
+      "frames": 181,
+      "pause_does_not_sample": true,
+      "resumed": true
+    },
+    {
+      "source": "fire2.mov",
+      "frames": 181,
+      "pause_does_not_sample": true,
+      "resumed": true
+    }
+  ],
+  "sam": {
+    "shape": [
+      720,
+      1280
+    ],
+    "status": "ready",
+    "areas": {
+      "fire": 0.1708148871527778,
+      "smoke": 0.0,
+      "combined": 0.1708148871527778
+    },
+    "accuracy_not_measured": true
+  },
+  "real_model_confirmed_events": 2,
+  "media": [
+    {
+      "status": "partial",
+      "trigger_seconds": 0.5,
+      "start_seconds": 0.0,
+      "end_seconds": 2.5,
+      "encoded_duration": 2.533333,
+      "encoded_frames": 38,
+      "pre_truncated": true,
+      "post_truncated": false,
+      "completion_reason": "window_complete",
+      "codec": "h264",
+      "snapshot_sha256": "54c6e32e5063456fe8c979887b5acc9f61f3c4b53ace8008ceafc0b70eb79b3c",
+      "clip_sha256": "53c46e1d673d9f2a92481b730864d8b4b2b491970bb838a60c42c4018cc09452"
+    },
+    {
+      "status": "ready",
+      "trigger_seconds": 1.5,
+      "start_seconds": 0.4666666666666667,
+      "end_seconds": 3.5,
+      "encoded_duration": 3.0,
+      "encoded_frames": 45,
+      "pre_truncated": false,
+      "post_truncated": false,
+      "completion_reason": "window_complete",
+      "codec": "h264",
+      "snapshot_sha256": "c897a615691d2cb8e17c21ec4d18bcadef06d24df4e681d42719a4869a9c8a2d",
+      "clip_sha256": "dfc19821f284986b33397e346310d5a81a5f18b79517d00bd33029502a472452"
+    }
+  ],
+  "physical_camera": {
+    "status": "passed",
+    "frames": 25,
+    "observed_seconds": 2.344000000000051,
+    "delivered_width": 640,
+    "delivered_height": 480,
+    "reported_fps": 30.00003000003,
+    "backend": "DSHOW",
+    "skipped_capture_frames": 13,
+    "personal_images_saved": false,
+    "released_on_pause": true,
+    "resumed_frames": 8,
+    "resumed_in_new_observation": true,
+    "capture_process_loss_detected_without_ui_poll": true,
+    "reopened_after_process_loss": true,
+    "released_at_end": true
+  },
+  "all_700_reviews_unchanged": true,
+  "original_AB_400_submissions_unchanged": true,
+  "scope": "Functional integration of real own weights. Physical camera status is reported separately; no independent mask accuracy or camera fire accuracy claim."
+}

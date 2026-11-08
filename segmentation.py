@@ -1,5 +1,6 @@
 """Pinned local SAM box prompting, applied only to the current source frame."""
 import torch
+from device_environment import preserve_cuda_visibility
 import cv2
 import json
 import threading
@@ -36,7 +37,9 @@ class SamSegmenter:
         from transformers import SamModel, SamProcessor
         receipt = verify_model(directory)
         self.processor = SamProcessor.from_pretrained(str(directory), local_files_only=True)
-        self.model = SamModel.from_pretrained(str(directory), local_files_only=True, use_safetensors=True).to(device).eval()
+        self.model = SamModel.from_pretrained(str(directory), local_files_only=True, use_safetensors=True)
+        with preserve_cuda_visibility():
+            self.model.to(device).eval()
         self.device = device
         self._lock = threading.Lock()
         self.metadata = {'model_id': MODEL_ID, 'revision': REVISION, 'files': receipt['files'],

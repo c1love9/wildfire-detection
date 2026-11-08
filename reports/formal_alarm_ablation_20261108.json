@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-11-08T04:47:46.657+00:00",
+  "runs": [
+    {
+      "source": "fire1.mov",
+      "frames": 294,
+      "single_frame_trigger_episodes": 21,
+      "continuous_confirmed_events": 2,
+      "first_single_seconds": 0.0,
+      "first_confirmed_seconds": 1.5,
+      "note": "Same detection sequence; trigger episode counts are not false-alarm rates without event reference labels."
+    },
+    {
+      "source": "fire2.mov",
+      "frames": 300,
+      "single_frame_trigger_episodes": 2,
+      "continuous_confirmed_events": 1,
+      "first_single_seconds": 0.0,
+      "first_confirmed_seconds": 0.5,
+      "note": "Same detection sequence; trigger episode counts are not false-alarm rates without event reference labels."
+    }
+  ],
+  "event_reference_available": false
+}

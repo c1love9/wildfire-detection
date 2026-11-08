@@ -15,9 +15,9 @@ from dataset_store import file_sha, now
 from training import TrainingStore, read_json, write_json, verify_inventory, bounded
 from grounding_prelabel import PrelabelConfig
 
-PROTOCOL={'version':'common_detection_v1','imgsz':640,'batch':1,'precision':'FP32','candidate_conf':.001,
+PROTOCOL={'version':'common_detection_v2','imgsz':640,'batch':1,'precision':'FP32','candidate_conf':.001,
           'operating_conf':.25,'match_iou':.5,'ap_ious':[round(.5+i*.05,2) for i in range(10)],'nms_iou':.5,'max_det':300,
-          'timing':'warmed synchronous preprocessing+model+postprocessing; excludes loading, disk, UI, network',
+          'timing':'warmed synchronous preprocessing+model+postprocessing; excludes drawing, loading, disk, UI, network',
           'pr_point':'fixed confidence .25; macro over classes with reference objects; absent class=null'}
 
 
@@ -157,7 +157,7 @@ class ComparisonStore:
                 for name in predictions:
                     def predict():
                         prepared,_=letterbox(image)
-                        return yolo.predict_frame(cv2.cvtColor(np.array(prepared),cv2.COLOR_RGB2BGR),.001,.5).detections if name=='YOLO' else dino.predict_boxes(prepared)
+                        return yolo.predict_boxes(prepared,.001,.5) if name=='YOLO' else dino.predict_boxes(prepared)
                     if index==0:predict()
                     synchronize(yolo.device);started=time.perf_counter();boxes=predict();synchronize(yolo.device)
                     times[name].append((time.perf_counter()-started)*1000);predictions[name][path.stem]=boxes

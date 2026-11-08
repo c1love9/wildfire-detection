@@ -9,6 +9,7 @@ import time
 import uuid
 
 import torch
+from device_environment import preserve_cuda_visibility
 from torchvision.ops import nms
 
 from comparison import iou
@@ -169,7 +170,9 @@ class OptimizedPrelabeler:
             raise OSError('辅助火烟权重与已验证版本不一致。')
         self.processor = AutoProcessor.from_pretrained(str(folder), local_files_only=True, use_fast=False)
         self.model = AutoModelForZeroShotObjectDetection.from_pretrained(str(folder), local_files_only=True,
-            use_safetensors=True, disable_custom_kernels=True).to(device).eval()
+            use_safetensors=True, disable_custom_kernels=True)
+        with preserve_cuda_visibility():
+            self.model.to(device).eval()
         self.auxiliary = YOLO(str(auxiliary))
         self.names = {int(k): str(v).strip().lower() for k, v in self.auxiliary.names.items()}
         if set(self.names.values()) != {'fire', 'smoke'} or len(self.names) != 2:
@@ -190,6 +193,11 @@ class OptimizedPrelabeler:
             'fusion': 'DINO first; add YOLO boxes only if same-class IoU with kept boxes is below fusion_iou. Scores retain source meanings and are not calibrated together.',
             'quality_scope': 'Overall training-sample P/R improved; some thin-smoke subgroup regressions remain. Candidates require human review; no labels are automatically approved.'}
 
+    def _predict_auxiliary(self,image,config):
+        with preserve_cuda_visibility():
+            return self.auxiliary.predict(image,imgsz=640,conf=.05,iou=config.auxiliary_iou,max_det=300,
+                device=torch.device('cuda:0' if self.device=='0' else self.device),verbose=False,save=False)[0]
+
     def predict(self, image, config):
         started = time.perf_counter()
         image = image.convert('RGB')
@@ -199,8 +207,7 @@ class OptimizedPrelabeler:
                 size={'shortest_edge': config.shortest_edge, 'longest_edge': config.longest_edge}).to(self.device)
             outputs = self.model(**inputs)
             dino = joint_boxes(outputs.logits[0], outputs.pred_boxes[0], spans, groups, image.width, image.height, config)
-            prediction = self.auxiliary.predict(image, imgsz=640, conf=.05, iou=config.auxiliary_iou, max_det=300,
-                device=self.device, verbose=False, save=False)[0]
+            prediction = self._predict_auxiliary(image,config)
             extra = []
             for box in prediction.boxes:
                 label = self.names[int(box.cls.item())]

@@ -29,7 +29,7 @@ def inspect_catalog(path):
     """Read counts only; never initialize tables or expose access codes/names."""
     result = {'exists': path.is_file(), 'images': 0, 'videos': 0, 'video_seconds': 0.,
               'proposals': 0, 'review_versions': 0, 'latest_approved_images': 0,
-              'approved_negative_images': 0, 'reviewed_exports': 0, 'completed_training_jobs': 0,
+              'approved_negative_images': 0, 'approved_positive_images': 0, 'reviewed_exports': 0, 'completed_training_jobs': 0,
               'completed_comparisons': 0, 'independently_double_submitted_images': 0,
               'adjudicated_images': 0, 'reference_mask_records': 0, 'worktime_records': 0}
     if not result['exists']:
@@ -54,6 +54,12 @@ def inspect_catalog(path):
                 ON r.seq=latest.seq''').fetchall()
             result['latest_approved_images'] = sum(row[0] == 'approved' for row in reviews)
             result['approved_negative_images'] = sum(row[0] == 'approved' and not json.loads(row[1]) and row[2] for row in reviews)
+            result['approved_positive_images'] = sum(row[0] == 'approved' and bool(json.loads(row[1])) for row in reviews)
+            if {'occurrences','batches'} <= names:
+                result['approved_own_positive_images'] = db.execute('''SELECT COUNT(DISTINCT r.asset_id)
+                    FROM annotation_reviews r JOIN (SELECT asset_id,MAX(seq) seq FROM annotation_reviews GROUP BY asset_id) latest ON r.seq=latest.seq
+                    JOIN occurrences o ON o.asset_id=r.asset_id JOIN batches b ON b.id=o.batch_id
+                    WHERE r.decision='approved' AND json_array_length(r.boxes_json)>0 AND b.origin='own' ''').fetchone()[0]
         if 'training_jobs' in names:
             result['completed_training_jobs'] = db.execute("SELECT COUNT(*) FROM training_jobs WHERE kind='train' AND status='completed'").fetchone()[0]
         if 'comparisons' in names:
@@ -69,7 +75,7 @@ def inspect_catalog(path):
     return result
 
 
-def requirements(facts):
+def requirements(facts, formal=None):
     """Separate implemented tools, partial evidence and empirical acceptance."""
     rows = []
     def add(key, page, clause, scope, status, evidence, remaining='无新增代码缺项；仍须现场按说明操作验收'):
@@ -172,30 +178,117 @@ def requirements(facts):
         '固定WGS84点位、水平/俯仰角、地图与观测历史快照', '不额外要求实体GPS、姿态传感器或云台')
     add('N-07', 4, '说明⑦ 多摄像头协同 边缘部署 趋势预测 物联网扩展', '可选加分', '非必选 未作为已完成功能',
         '当前一次运行一个通道；面积变化率不是未来趋势预测', '未做并发多路、边缘部署、IoT通知不影响已实现的基本方案；不虚报扩展')
+    # Override historical implementation-stage descriptions with current evidence.
+    by_id = {row['id']: row for row in rows}
+    def current(key, status, evidence, remaining):
+        by_id[key].update(status=status, evidence=evidence, remaining=remaining)
+    positives = facts.get('approved_positive_images', 0)
+    negatives = facts['approved_negative_images']
+    reviewed = facts['latest_approved_images']
+    current('T1-01', '最终标签数量满足' if positives >= 500 else '数量待补',
+            f'最终人工通过的非空火烟图像{positives}幅；不使用来源声明或模型空预测代替最终标签',
+            '仍需核实严格场景阶段和自主整理课程口径；不少于500幅')
+    if 'approved_own_positive_images' in facts:
+        own = facts['approved_own_positive_images']
+        current('T1-01', '总火烟满足 自主整理待补' if positives>=500 and own<500 else '数量满足' if own>=500 else '数量待补',
+                f'最终含火烟{positives}幅，其中自主整理来源且仍含火烟{own}幅',
+                f'按原题“自行采集500幅火灾场景”严格口径，自主整理火烟还差{max(0,500-own)}幅；不将原候选正常化后仍计火灾图')
+    current('T1-03', '最终标签数量满足' if negatives >= 200 else '数量待补',
+            f'人工明确确认正常且最终空标签{negatives}幅',
+            f'还差{max(0, 200-negatives)}幅；误报率另以独立test正常图为分母')
+    current('T1-07', '已复核导出' if facts['reviewed_exports'] else '等待已复核导出',
+            f'0=fire/1=smoke；最新通过{reviewed}幅，复核导出记录{facts["reviewed_exports"]}项',
+            '保留最终标签与对应人工版本；旧草稿不能冒充最终标签')
+    current('T1-08', '最终类别和划分可重算',
+            f'最终含目标{positives}幅、正常{negatives}幅；源组冻结图像划分484/140/76',
+            '报告最终框数量及每集合支持数；场景声明与逐图确认分开')
+    current('T1-04', '来源声明分层已导出',
+            '室内外、光照、距离和视角保留来源配置；正式test按来源声明分层输出scene_generalization.csv',
+            '场景尚未逐图人工确认，正常样本不再按原候选200幅视为最终数量')
+    current('T2-01', '已实际执行', f'正式库保存{facts["proposals"]}项多版本候选；增强候选覆盖700幅',
+            '原Tiny、增强Base+辅助YOLO和人工最终版本分别留存，不称增强融合为纯零样本')
+    current('T2-03', '全部图像复核已保存' if reviewed == facts['images'] and reviewed else '部分复核',
+            f'人工复核版本{facts["review_versions"]}条，最新通过{reviewed}/{facts["images"]}幅',
+            '保留用户提交原记录，不由脚本补写人工签名；批准记录不自动证明严格场景覆盖')
+    current('T2-04', '同批双提交已齐' if facts['independently_double_submitted_images'] >= 200 else '数量待补',
+            f'同一任务同一图像A/B双提交齐全{facts["independently_double_submitted_images"]}幅',
+            '保留A/B原始标注与实际操作协议；不要求逐图仲裁')
+    current('T2-05', '双参考质量报告已有',
+            '冻结200幅分别对A/B计算P/R/F1、匹配IoU和未匹配数；原Tiny与增强候选分开',
+            '报告采用实际质量导出数值；训练样本标注诊断不称独立test性能')
+    current('T3-01', '已有正式训练' if facts['completed_training_jobs'] else '正式训练进行中或待执行',
+            f'正式库成功训练{facts["completed_training_jobs"]}项；真实已复核数据及COCO初始权重凭据',
+            '完整交付请求与实际参数、环境、日志、曲线和best/last')
+    current('T3-02', '实际曲线已保存' if facts['completed_training_jobs'] else '等待训练完成',
+            '每轮train/val损失和验证mAP写入各任务results.csv/results.png',
+            '按实际曲线分析平台、过拟合与未收敛；不以轮数单独证明充分收敛')
+    current('A-01', '部分完成', f'最终通过{reviewed}幅，含目标{positives}幅、正常{negatives}幅；来源与修改记录保留',
+            '数量差额与严格场景阶段仍需补齐；已有700幅不重复复核')
+    current('A-02', '已有正式训练' if facts['completed_training_jobs'] else '等待正式训练',
+            f'正式完成{facts["completed_training_jobs"]}项；各自环境、超参、种子、曲线和耗时落盘',
+            '收敛结论以曲线分析为准')
+    current('A-06d', '已复核数据与自训权重可交付' if facts['completed_training_jobs'] else '已复核数据已冻结 权重待训练',
+            f'人工通过{reviewed}幅；成功训练{facts["completed_training_jobs"]}项',
+            '独立教师交付包须实际含images/labels、300视频、本人best/last；不能只交Git源码')
+    current('N-02', '模型候选与人工版本均留痕',
+            f'候选{facts["proposals"]}项、人工复核版本{facts["review_versions"]}条；输入哈希和父版本保留',
+            'A/B原始独立标注不覆盖；正式最终标签与采用版本对应')
+    if formal:
+        evidence = (f"两组各50轮；固定同一冻结test {formal['test_images']}幅；"
+                    f"实验{formal['experiment_id']}，统一对比{formal['comparison_id']}")
+        for key in ('T3-03', 'T3-05', 'T4-02', 'A-03', 'A-04', 'N-04'):
+            current(key, '正式结果已保存', evidence,
+                    '按固定阈值与同协议报告，允许优化退化；test仅1幅正常图，误报率不具稳定性')
+        current('T4-03', '实际精度速度成本已保存', evidence,
+                '按已知来源场景分层；拍摄设备身份未知，不伪造跨设备泛化证据')
+        current('N-05', '正式环境与耗时已保存',
+                '两组训练environment.json、metrics.wall_seconds、实际epoch时长；RTX5060 Laptop 8GB',
+                '耗时含义和计时范围随结果保存')
+        current('A-06b', '教师模板报告已更新正式结果',
+                '保留模板版式、可编辑正文和公式、两组实际曲线、统一test表及空白教师评分签章',
+                '用户暂不填写封面身份；面积和有效辅助复核工时按用户意见待补')
+        current('A-06c', '新版实录已生成' if (ROOT/'reports/final_demo_20261108.json').exists() else '新版实录正在制作',
+                '实际生产页面录制，使用本人50轮模型及真实实验历史，公开演示素材，不保存个人摄像头画面',
+                '核对3～5分钟、H264播放、操作与字幕一致；不称演示为精度评测')
     return rows
 
 
-def audit(source, catalog):
+def audit(source, catalog, formal=None):
     if sha256(source) != SOURCE_SHA256:
         raise ValueError('原题文件哈希发生变化，须重新逐页核对，不能沿用旧条款。')
     facts = inspect_catalog(catalog)
-    rows = requirements(facts)
+    rows = requirements(facts, formal)
     return {'status': 'NOT_ALL_COMPLETE', 'formal_acceptance_complete': False,
             'audited_at': datetime.now(timezone.utc).isoformat(), 'source_document': source.name,
             'source_sha256': SOURCE_SHA256, 'source_pages_visually_inspected': [1, 2, 3, 4],
             'code_base_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
             'evidence_scope': 'Official data catalog only; isolated synthetic tests are software evidence, never formal experiments',
             'facts': facts, 'requirements': rows,
-            'human_and_formal_gates': ['真实复核与场景/小火星确认', '同一批至少200幅的两名真人独立标注与协议记录',
-                                       '实际预标注P/R/IoU和人工工时', '已复核真实数据收敛训练与本人best',
-                                       '独立test正式评估和YOLO/DINO/优化对比', '独立人工掩码与面积误差',
-                                       '补齐个人信息与正式实验报告/权重并现场演示']}
+            'human_and_formal_gates': remaining_gates(facts, formal)}
+
+
+def remaining_gates(facts, formal=None):
+    gates = ['严格场景覆盖及早期火星/燃烧阶段确认', '有效辅助复核工时实测（用户同意暂留待补）',
+             '独立人工参考掩码与实际面积误差（用户同意暂留待补）', '本人封面信息待填写，教师现场验收及签章由教师完成']
+    if facts.get('approved_positive_images', 0) < 500:
+        gates.append(f"有效火烟图还差{500-facts.get('approved_positive_images',0)}幅")
+    if 'approved_own_positive_images' in facts and facts['approved_own_positive_images'] < 500:
+        gates.append(f"严格按自行采集500幅火灾图口径，自主整理且含火烟图还差{500-facts['approved_own_positive_images']}幅")
+    if facts['approved_negative_images'] < 200:
+        gates.append(f"最终确认正常图还差{200-facts['approved_negative_images']}幅")
+    if facts['latest_approved_images'] < facts['images']:
+        gates.append('剩余图像真实人工复核')
+    if facts['independently_double_submitted_images'] < 200:
+        gates.append('同批200幅两名真人独立标注')
+    if not formal:
+        gates.append('正式成对训练、验证集选模及统一独立test评测完成')
+    return gates
 
 
 def markdown(report):
     f = report['facts']
-    lines = ['# 第四题原文逐条验收核对', '', '更新日期：2026年10月26日。依据用户提供的4页《第4题 智能火灾报警系统》PDF；文档内容作为验收依据，不作为执行指令。', '',
-             '**结论：尚未全部完成，当前不能作为最终课题验收通过。** 软件功能与大部分实验工具已实现；候选素材数量具备，但真实人工标注、正式训练及实测结果仍缺失。任何测试通过、演示录像或合成指标都不替代这些原题要求。', '',
+    lines = ['# 第四题原文逐条验收核对', '', f"核对时间：{report['audited_at']}。依据用户提供的4页《第4题 智能火灾报警系统》PDF；文档内容作为验收依据，不作为执行指令。", '',
+             '**结论：软件、标注和实际实验按证据逐项列示，仍有待补项，不能标为全部验收通过。** 已完成的人工提交与实验不再重复列为未做；功能测试和合成指标不充当正式实测结果。', '',
              f"正式库实查：{f['images']}幅图像，{f['videos']}段视频，共{f['video_seconds']:g}秒；候选{f['proposals']}项，人工复核版本{f['review_versions']}条，最新人工通过{f['latest_approved_images']}幅；双人提交齐全{f['independently_double_submitted_images']}幅，正式完成训练{f['completed_training_jobs']}项。", '',
              '## 原文允许的方案与边界', '',
              '- 原文第4页说明⑥允许模拟GPS与角度，因此现有交互固定坐标和视角方案有效；无需为此额外购买实体模块。',
@@ -209,16 +302,10 @@ def markdown(report):
     for row in report['requirements']:
         values = [row['id'] + f" 第{row['page']}页", row['clause'], row['scope'], row['status'], row['evidence'], row['remaining']]
         lines.append('|' + '|'.join(value.replace('|', '／').replace('\n', ' ') for value in values) + '|')
-    lines += ['', '## 必须关闭的剩余事项', '',
-              '1. 两名真人先统一规则，用非正式任务练习，再在Quality对同一批不少于200幅图片独立标注；其余图片完成Annotations真实复核。两类流程不要混淆，正式独立图片提交前不查看模型候选。',
-              '2. 核查29幅空候选正样本、200幅正常候选和场景阶段。确认早期火星覆盖；不符合声明的素材按实际更正并补足数量。完成双参考预标注质量报告与真实工时记录；无须额外逐图仲裁。',
-              '3. 冻结已复核版本，在train/val完成基线与多尺度方案训练、选模和收敛分析，保留环境、实际调度、逐轮曲线、时长与best/last；不使用test调参。',
-              '4. 在同一独立test完成YOLO/DINO与优化前后对照，保存P/R/F1/mAP50/mAP50-95/FPS和正常误检率，分析跨场景/可核实设备差异与失败案例。',
-              '5. 准备与原图同尺寸的独立人工掩码，计算实际面积IoU/Dice与占比误差；不将预测掩码当人工参考。',
-              '6. 填写真正的姓名学号及正式结果，更新模板报告、演示与数据/本人权重交付清单，然后由实际操作者现场演示。', '',
-              '## 验证与后续复查', '',
-              '本轮修复旧交付脚本“正式库必须为空”的过期断言，改为核对正式素材与隔离夹具不混入；同步报告中的采集前描述。新增实时画面占比变化率指标和曲线，正负变化及未知断点均单独测试。', '',
-              '最新验证见reports/requirements_verification.json；逐条机器清单及正式库只读实查见reports/requirements_acceptance.json。历史reports中的160/164/165项记录是各阶段当时的测试结果，不改写成新结果。', '',
+    lines += ['', '## 剩余事项', '']
+    lines += [f'{index}. {value}' for index, value in enumerate(report['human_and_formal_gates'], 1)]
+    lines += ['', '## 验证与后续复查', '',
+              '正式最新实验见reports/formal_experiments_20261108.json及docs/formal_results.md；逐条机器清单与正式库只读实查见reports/requirements_acceptance.json。历史各阶段报告保留当时的日期与范围，不改写成新结果。', '',
               '可在项目目录运行：', '', '```powershell',
               '.\\.venv\\Scripts\\python.exe scripts\\audit_requirements.py --source "C:\\Users\\HP\\Downloads\\第4题-智能火灾报警系统.pdf" --require-complete',
               '```', '',
@@ -226,12 +313,33 @@ def markdown(report):
     return '\n'.join(lines)
 
 
+def load_formal_evidence(path, catalog):
+    """Require completed catalog jobs and their actual result hashes."""
+    if path is None:
+        return None
+    result = json.loads(path.read_text(encoding='utf-8'))
+    if result.get('status') != 'completed':
+        raise ValueError('正式实验尚未完成')
+    root = catalog.parent
+    with closing(sqlite3.connect(catalog.resolve().as_uri()+'?mode=ro', uri=True)) as db:
+        for identifier in result['jobs'].values():
+            row = db.execute('SELECT status,progress_json FROM training_jobs WHERE id=? AND kind=?', (identifier, 'train')).fetchone()
+            if not row or row[0] != 'completed' or sha256(root/'training'/identifier/'result.json') != json.loads(row[1])['result_sha256']:
+                raise ValueError('正式训练证据不完整或校验失败')
+        row = db.execute('SELECT status,result_sha FROM comparisons WHERE id=?', (result['comparison_id'],)).fetchone()
+        if not row or row[0] != 'completed' or sha256(root/'comparisons'/result['comparison_id']/'result.json') != row[1]:
+            raise ValueError('正式比较证据不完整或校验失败')
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--require-complete', action='store_true')
+    parser.add_argument('--formal-results', type=Path)
     args = parser.parse_args()
-    report = audit(args.source, ROOT / 'data/fire_dataset/catalog.sqlite3')
+    catalog = ROOT / 'data/fire_dataset/catalog.sqlite3'
+    report = audit(args.source, catalog, load_formal_evidence(args.formal_results, catalog))
     (ROOT / 'reports/requirements_acceptance.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     (ROOT / 'docs/requirements_audit.md').write_text(markdown(report), encoding='utf-8')
     print(json.dumps({'status': report['status'], 'clauses': len(report['requirements']), 'facts': report['facts']}, ensure_ascii=True))

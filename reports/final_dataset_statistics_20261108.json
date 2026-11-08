@@ -1,0 +1,115 @@
+{
+  "created_at": "2026-11-08T04:22:03.899+00:00",
+  "export_id": "yolo_6504e04ed71948e0aaa384d0e515b89f",
+  "split_id": "split_20261022_091321_5a8d09dd",
+  "totals": {
+    "images": 700,
+    "positive": 507,
+    "negative": 193,
+    "images_fire": 335,
+    "images_smoke": 300,
+    "boxes_fire": 489,
+    "boxes_smoke": 348,
+    "approved_own_positive_images": 495
+  },
+  "by_split": {
+    "train": {
+      "images": 484,
+      "positive": 372,
+      "negative": 112,
+      "images_fire": 239,
+      "images_smoke": 239,
+      "boxes_fire": 285,
+      "boxes_smoke": 253
+    },
+    "val": {
+      "images": 140,
+      "positive": 60,
+      "negative": 80,
+      "images_fire": 53,
+      "images_smoke": 11,
+      "boxes_fire": 146,
+      "boxes_smoke": 11
+    },
+    "test": {
+      "images": 76,
+      "positive": 75,
+      "negative": 1,
+      "images_fire": 43,
+      "images_smoke": 50,
+      "boxes_smoke": 84,
+      "boxes_fire": 58
+    }
+  },
+  "by_source": {
+    "firesense": {
+      "images": 200,
+      "positive": 199,
+      "negative": 1,
+      "images_fire": 112,
+      "images_smoke": 110,
+      "boxes_fire": 242,
+      "boxes_smoke": 116
+    },
+    "kmu": {
+      "images": 250,
+      "positive": 246,
+      "negative": 4,
+      "images_fire": 201,
+      "images_smoke": 132,
+      "boxes_fire": 209,
+      "boxes_smoke": 140
+    },
+    "dfire": {
+      "images": 200,
+      "positive": 12,
+      "negative": 188,
+      "images_fire": 4,
+      "images_smoke": 8,
+      "boxes_smoke": 8,
+      "boxes_fire": 5
+    },
+    "flame2": {
+      "images": 50,
+      "positive": 50,
+      "negative": 0,
+      "images_fire": 18,
+      "images_smoke": 50,
+      "boxes_smoke": 84,
+      "boxes_fire": 33
+    }
+  },
+  "source_declared_scene_profiles": {
+    "setting": {
+      "室外": 377,
+      "未说明": 200,
+      "室内": 123
+    },
+    "lighting": {
+      "白天": 281,
+      "夜间": 115,
+      "未说明": 262,
+      "逆光": 42
+    },
+    "scale": {
+      "充分燃烧浓烟": 203,
+      "发展期明火": 297,
+      "正常无火": 200
+    },
+    "distance": {
+      "中景": 114,
+      "远景": 117,
+      "未说明": 200,
+      "近景": 269
+    },
+    "view": {
+      "平视": 450,
+      "未说明": 200,
+      "俯视": 50
+    }
+  },
+  "scene_profiles_human_verified_per_image": false,
+  "videos": 300,
+  "video_seconds": 900.0,
+  "accounting_basis": "Teacher reportedly accepts public video curation as self-collection; original provenance remains public."
+}

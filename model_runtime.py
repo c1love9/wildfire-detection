@@ -11,6 +11,7 @@ from ultralytics import YOLO
 
 from dataset_store import file_sha
 from inference_result import FrameResult
+from device_environment import preserve_cuda_visibility
 
 
 class YoloDetector:
@@ -28,7 +29,8 @@ class YoloDetector:
             raise ValueError('请选择仅包含fire和smoke两类的目标检测模型。')
         if model_metadata and model_metadata.get('origin') == 'trained' and names != {0: 'fire', 1: 'smoke'}:
             raise ValueError('自训模型类别映射与训练导出不一致。')
-        self.model.to(device)
+        with preserve_cuda_visibility():
+            self.model.to(device)
         if file_sha(weights) != digest:
             raise OSError('模型在加载时发生变化，请重新选择。')
         self._metadata = {**deepcopy(model_metadata or {}), 'path': str(weights), 'sha256': digest,
@@ -41,8 +43,13 @@ class YoloDetector:
         return deepcopy(self._metadata)
 
     def _infer(self, source, conf, iou):
-        result = self.model.predict(source, conf=conf, iou=iou, device=self.device, imgsz=self.imgsz,
-                                    half=False, max_det=300, verbose=False)[0]
+        with preserve_cuda_visibility():
+            # A torch.device bypasses Ultralytics' process-wide visibility edits.
+            # Restoring the string env after CPU inference alone is too late:
+            # the CUDA runtime may already have cached a zero-device count.
+            runtime_device=torch.device('cuda:0' if self.device=='0' else self.device)
+            result = self.model.predict(source, conf=conf, iou=iou, device=runtime_device, imgsz=self.imgsz,
+                                        half=False, max_det=300, verbose=False)[0]
         detections, counts = [], {}
         for x1, y1, x2, y2, confidence, class_id in result.boxes.data.cpu().tolist():
             label = result.names[int(class_id)]
@@ -69,3 +76,8 @@ class YoloDetector:
         rgb, boxes, counts, elapsed = self.predict_image(Image.fromarray(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)), conf, iou)
         return FrameResult(rgb, boxes, {'fire': 0, 'smoke': 0, **counts}, bgr.shape[1], bgr.shape[0],
                            {'detection': elapsed}, self.metadata)
+
+    def predict_boxes(self, image, conf=.001, iou=.5):
+        """Evaluate without drawing boxes or resizing a UI preview."""
+        with self._lock:
+            return self._infer(image.convert('RGB'), conf, iou)[1]

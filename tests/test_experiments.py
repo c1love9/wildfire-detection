@@ -4,7 +4,7 @@ from pathlib import Path
 import uuid
 from test_training import seed
 from experiments import ExperimentStore,alarm_ablation
-from training import TrainConfig
+from training import TrainConfig,TrainingStore
 
 
 class ExperimentTests(unittest.TestCase):
@@ -28,6 +28,22 @@ class ExperimentTests(unittest.TestCase):
 
     def test_multiscale_type_validation(self):
         with self.assertRaises(ValueError):TrainConfig(multi_scale=1)
+
+    def test_retry_keeps_interrupted_attempt_and_refuses_user_cancel(self):
+        root=Path(__file__).resolve().parents[1]/'artifacts/completion_checks'/('retry_'+uuid.uuid4().hex)
+        dataset,_,export=seed(root);store=ExperimentStore(dataset);training=TrainingStore(dataset)
+        key=store.create(export,TrainConfig(epochs=1,imgsz=160,batch=2,device='cpu'),'unit simulation','Synthetic retry only')
+        first=store.start(key,'multiscale',launch=False)
+        with self.assertRaises(ValueError):store.retry(key,'multiscale',launch=False)
+        training.update(first,status='interrupted',error='simulated exited worker')
+        second=store.retry(key,'multiscale',launch=False)
+        self.assertNotEqual(first,second)
+        manifest=store.read(key)
+        self.assertEqual(manifest['previous_attempts']['multiscale'],[first])
+        self.assertEqual(training.get(first)['status'],'interrupted')
+        self.assertEqual(training.get(first)['request']['config'],training.get(second)['request']['config'])
+        training.update(second,status='cancelled')
+        with self.assertRaises(ValueError):store.retry(key,'multiscale',launch=False)
 
 
 if __name__=='__main__':unittest.main()

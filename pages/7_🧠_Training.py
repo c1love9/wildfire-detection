@@ -4,8 +4,7 @@ from pathlib import Path
 
 import torch
 import streamlit as st
-import pandas as pd
-import altair as alt
+from training_charts import history_svg
 
 from annotations import AnnotationStore
 from dataset_store import DatasetStore, dataset_root
@@ -117,18 +116,11 @@ if jobs:
         try:
             rows = history_rows(directory)
             if rows:
-                frame = pd.DataFrame(rows).set_index('epoch')
-                for title, columns in [('训练损失', [c for c in frame if c.startswith('train/')]),
-                                       ('验证损失', [c for c in frame if c.startswith('val/')]),
-                                       ('验证指标', [c for c in frame if c.startswith('metrics/')])]:
+                for title, columns in [('训练损失', [c for c in rows[0] if c.startswith('train/')]),
+                                       ('验证损失', [c for c in rows[0] if c.startswith('val/')]),
+                                       ('验证指标', [c for c in rows[0] if c.startswith('metrics/')])]:
                     st.write(title)
-                    long = frame[columns].reset_index().melt('epoch', var_name='series', value_name='value')
-                    chart = alt.Chart(long).mark_line(point=True).encode(
-                        x=alt.X('epoch:Q', axis=alt.Axis(format='.0f', tickMinStep=1, tickCount=min(8, len(rows)))),
-                        y='value:Q', color='series:N', tooltip=['epoch:Q', 'series:N', 'value:Q']).properties(height=240)
-                    # A new history length/job gets a new Vega view. Reusing
-                    # line_chart views across fragments can retain stale data IDs.
-                    st.altair_chart(chart, key=f'curve_{identifier}_{title}_{len(rows)}', use_container_width=True)
+                    st.markdown(history_svg(rows,columns,title),unsafe_allow_html=True)
             if job['status'] == 'completed':
                 result = store.result(identifier)
                 report = result['metrics']
