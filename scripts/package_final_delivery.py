@@ -64,8 +64,16 @@ def package(workspace, output):
             path=dataset.asset_path(asset)
             if file_sha(path)!=asset['sha256']:raise OSError('Video changed')
             add(path,'03_最终数据集/videos/'+asset['id']+'.mp4','data/fire_dataset/'+asset['path'])
-    split_path=next(row['manifest_path'] for row in dataset.splits() if row['id']==workflow['split_id'])
-    restore.append({'source':'03_最终数据集/source_split.json','target':'data/fire_dataset/'+split_path})
+    split_record=next(row for row in dataset.splits() if row['id']==workflow['split_id'])
+    split_path=dataset.root/split_record['manifest_path']
+    if file_sha(split_path)!=split_record['manifest_sha256']:
+        raise OSError('Original frozen split changed')
+    # The reviewed export serializes the same JSON without the original final
+    # newline. Restore the original bytes, because the catalog pins their hash.
+    for path in sorted(split_path.parent.glob('*')):
+        if path.is_file():
+            add(path,'03_最终数据集/frozen_split/'+path.name,
+                'data/fire_dataset/'+path.relative_to(dataset.root).as_posix())
     for name in ('final_dataset_statistics.json','final_image_statistics.csv'):
         add(workspace/name,'03_最终数据集/'+name)
     safe_sources=[]
