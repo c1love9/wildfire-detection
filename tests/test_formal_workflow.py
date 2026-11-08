@@ -7,16 +7,48 @@ import threading
 import tempfile
 import json
 import os
+from contextlib import closing
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from complete_reviewed_workflow import select_by_validation
-from audit_requirements import remaining_gates, requirements
+from audit_requirements import remaining_gates, requirements, load_worktime_evidence
+from summarize_worktime import summarize
 from model_runtime import YoloDetector
 from restore_final_delivery import restore, sha256, safe_path
 
 
 class FormalWorkflowTests(unittest.TestCase):
+    def test_reported_worktime_does_not_close_segmentation_reference_gap(self):
+        facts = {'images': 700, 'videos': 300, 'video_seconds': 900, 'proposals': 1600, 'review_versions': 701,
+                 'approved_positive_images': 507, 'approved_negative_images': 193, 'latest_approved_images': 700,
+                 'reviewed_exports': 1, 'completed_training_jobs': 2, 'completed_comparisons': 1,
+                 'independently_double_submitted_images': 200, 'reference_mask_records': 0, 'worktime_records': 0}
+        estimate = {'assisted': {'seconds_per_image': 5}, 'manual_mean_seconds_per_image': 10,
+                    'target_images': 700, 'estimated_saved_seconds': 3500, 'estimated_saved_fraction': .5}
+        rows = {row['id']: row for row in requirements(facts, worktime=estimate)}
+        self.assertIn('已有', rows['T2-06']['status'])
+        self.assertIn('待参考', rows['T4-06']['status'])
+        gates = remaining_gates(facts, {'status': 'completed'}, estimate)
+        self.assertFalse(any('工时估算尚缺' in gate for gate in gates))
+        self.assertTrue(any('分割IoU' in gate for gate in gates))
+        self.assertEqual(facts['worktime_records'], 0)
+
+    def test_worktime_estimate_rejects_later_modified_manual_timers(self):
+        import sqlite3
+        with tempfile.TemporaryDirectory() as temp:
+            catalog=Path(temp)/'catalog.sqlite3';path=Path(temp)/'estimate.json'
+            with closing(sqlite3.connect(catalog)) as db, db:
+                db.executescript('CREATE TABLE quality_submissions(task_id TEXT,asset_id TEXT,role TEXT,seconds REAL);'
+                                 'CREATE TABLE annotation_reviews(seq INTEGER,asset_id TEXT,decision TEXT);')
+                db.executemany('INSERT INTO quality_submissions VALUES(?,?,?,?)',[('test','image','A',8),('test','image','B',10)])
+                db.execute("INSERT INTO annotation_reviews VALUES(1,'image','approved')")
+            estimate=summarize(catalog,5,'Synthetic unit-test input, not real measurement.',task_id='test')
+            path.write_text(json.dumps(estimate),encoding='utf-8')
+            self.assertIsNotNone(load_worktime_evidence(path,catalog))
+            with closing(sqlite3.connect(catalog)) as db, db:db.execute("UPDATE quality_submissions SET seconds=80 WHERE role='A'")
+            with self.assertRaises(ValueError):load_worktime_evidence(path,catalog)
+
     def test_choose_validation_winner_and_tie_baseline(self):
         def result(value): return {'metrics': {'overall': {'map50_95': value}}, 'test_map': 1-value}
         jobs = {'baseline': 'a', 'multiscale': 'b'}

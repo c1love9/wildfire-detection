@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "status": "estimated_from_user_reported_measurement",
+  "generated_at": "2026-11-08T05:46:09.960662+00:00",
+  "task_id": "quality_6146eb5a5ab24f5ebc6961d07e392ad2",
+  "source_submissions_sha256": "cabf0253357c3c23f2113ba96bfe0440870597a554a35d5b8479cea654ed3c89",
+  "source_submission_count": 400,
+  "manual_baselines": {
+    "A": {
+      "images": 200,
+      "total_seconds": 1751.840000000022,
+      "mean_seconds_per_image": 8.75920000000011
+    },
+    "B": {
+      "images": 200,
+      "total_seconds": 2012.6650000000263,
+      "mean_seconds_per_image": 10.063325000000132
+    }
+  },
+  "manual_mean_seconds_per_image": 9.41126250000012,
+  "assisted": {
+    "seconds_per_image": 5.0,
+    "basis": "user_reported_approximate_measurement",
+    "source_statement": "有效辅助复核工时按找一张图片5s左右估计这是我的实测时间",
+    "observed_sample_count": null,
+    "raw_paired_timer_log_available": false
+  },
+  "target_images": 700,
+  "estimated_manual_seconds": 6587.883750000085,
+  "estimated_assisted_seconds": 3500.0,
+  "estimated_saved_seconds": 3087.8837500000845,
+  "estimated_saved_fraction": 0.46872165131937016,
+  "per_annotator_reference": {
+    "A": {
+      "estimated_manual_seconds": 6131.440000000077,
+      "estimated_saved_seconds": 2631.440000000077,
+      "estimated_saved_fraction": 0.42917161384602054
+    },
+    "B": {
+      "estimated_manual_seconds": 7044.327500000092,
+      "estimated_saved_seconds": 3544.3275000000926,
+      "estimated_saved_fraction": 0.5031463258912999
+    }
+  },
+  "scope": "Human review labor only; model inference, setup, export and unrelated waiting excluded.",
+  "assumptions": [
+    "User-reported approximately 5 seconds is treated as full effective review/correction time per image.",
+    "The observed review sample size was not supplied; this is not a measured mean over all 700 images.",
+    "Recorded independent A/B timers estimate one-person manual annotation time: sum time / 400 submissions, not sum time / 200 images.",
+    "Extrapolation assumes comparable task difficulty and annotation quality; no randomized paired experiment was performed.",
+    "A/B reference variation is not a confidence interval."
+  ],
+  "original_submissions_modified": false,
+  "raw_worktime_records_synthesized": false
+}

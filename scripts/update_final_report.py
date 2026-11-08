@@ -99,6 +99,10 @@ def update(workspace):
     text=text.replace('用户取消任务不自动重启。','用户取消任务不自动重启。训练曲线改为自含SVG，避免切换任务时引用过期Vega数据；逐轮数据与下载保留。')
     text=text.replace('该融合流程不称为纯DINO零样本，独立test仍待完成。','该融合流程不称为纯DINO零样本。该阶段的诊断不是独立test，本次正式测试结果见3.6节。')
     text=text.replace('test只有76幅且仅1幅正常图，正常误报率不能据此作稳定结论。','test只有76幅且仅1幅正常图。基线和DINO均在该图误检（1/1），多尺度未误检（0/1）；样本过少，不据此判定误报优劣。')
+    worktime_path=ROOT/'reports/worktime_estimate_20261108.json'
+    if worktime_path.exists():
+        from update_worktime_materials import apply_report
+        text=apply_report(text,read_json(worktime_path))
     source.write_text(text,encoding='utf-8')
 
     guide=ROOT/'docs/user_guide.md';value=guide.read_text(encoding='utf-8')

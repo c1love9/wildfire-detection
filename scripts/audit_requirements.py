@@ -7,6 +7,7 @@ until those remaining requirements have explicit acceptance evidence.
 import argparse
 import hashlib
 import json
+import math
 import sqlite3
 import subprocess
 from contextlib import closing
@@ -75,7 +76,7 @@ def inspect_catalog(path):
     return result
 
 
-def requirements(facts, formal=None):
+def requirements(facts, formal=None, worktime=None):
     """Separate implemented tools, partial evidence and empirical acceptance."""
     rows = []
     def add(key, page, clause, scope, status, evidence, remaining='无新增代码缺项；仍须现场按说明操作验收'):
@@ -216,6 +217,14 @@ def requirements(facts, formal=None):
     current('T2-05', '双参考质量报告已有',
             '冻结200幅分别对A/B计算P/R/F1、匹配IoU和未匹配数；原Tiny与增强候选分开',
             '报告采用实际质量导出数值；训练样本标注诊断不称独立test性能')
+    if worktime:
+        current('T2-06', '已有基于实测单幅用时的估算',
+                f"辅助复核约{worktime['assisted']['seconds_per_image']:g}秒/幅由用户实测提供；A/B原始计时平均{worktime['manual_mean_seconds_per_image']:.2f}秒/幅；"
+                f"{worktime['target_images']}幅估计节省{worktime['estimated_saved_seconds']/60:.2f}分钟（{worktime['estimated_saved_fraction']*100:.2f}%）",
+                '实测样本量未提供，700幅总量为推算；未进行同人同图配对计时，不将估算写成全量实测；不包含机器推理等待')
+    current('T4-06', '分割IoU与面积误差待参考',
+            f"Quality支持掩码IoU；人工参考掩码{facts['reference_mask_records']}条，现有检测框IoU另列为定位一致性",
+            '原题要求面积误差分析，未指定必须手工掩码或样本数；目前缺独立分割参考，框IoU不替代SAM分割IoU或面积误差')
     current('T3-01', '已有正式训练' if facts['completed_training_jobs'] else '正式训练进行中或待执行',
             f'正式库成功训练{facts["completed_training_jobs"]}项；真实已复核数据及COCO初始权重凭据',
             '完整交付请求与实际参数、环境、日志、曲线和best/last')
@@ -246,6 +255,7 @@ def requirements(facts, formal=None):
                 '耗时含义和计时范围随结果保存')
         current('A-06b', '教师模板报告已更新正式结果',
                 '保留模板版式、可编辑正文和公式、两组实际曲线、统一test表及空白教师评分签章',
+                '用户暂不填写封面身份；工时已有基于用户实测单幅时间的估算，分割面积误差仍待独立参考' if worktime else
                 '用户暂不填写封面身份；面积和有效辅助复核工时按用户意见待补')
         current('A-06c', '新版实录已生成' if (ROOT/'reports/final_demo_20261108.json').exists() else '新版实录正在制作',
                 '实际生产页面录制，使用本人50轮模型及真实实验历史，公开演示素材，不保存个人摄像头画面',
@@ -253,23 +263,26 @@ def requirements(facts, formal=None):
     return rows
 
 
-def audit(source, catalog, formal=None):
+def audit(source, catalog, formal=None, worktime=None):
     if sha256(source) != SOURCE_SHA256:
         raise ValueError('原题文件哈希发生变化，须重新逐页核对，不能沿用旧条款。')
     facts = inspect_catalog(catalog)
-    rows = requirements(facts, formal)
+    rows = requirements(facts, formal, worktime)
     return {'status': 'NOT_ALL_COMPLETE', 'formal_acceptance_complete': False,
             'audited_at': datetime.now(timezone.utc).isoformat(), 'source_document': source.name,
             'source_sha256': SOURCE_SHA256, 'source_pages_visually_inspected': [1, 2, 3, 4],
             'code_base_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
-            'evidence_scope': 'Official data catalog only; isolated synthetic tests are software evidence, never formal experiments',
+            'evidence_scope': 'Official data catalog plus explicitly identified user-reported review-rate estimate; isolated synthetic tests are software evidence, never formal experiments',
             'facts': facts, 'requirements': rows,
-            'human_and_formal_gates': remaining_gates(facts, formal)}
+            'worktime_estimate': worktime,
+            'human_and_formal_gates': remaining_gates(facts, formal, worktime)}
 
 
-def remaining_gates(facts, formal=None):
-    gates = ['严格场景覆盖及早期火星/燃烧阶段确认', '有效辅助复核工时实测（用户同意暂留待补）',
-             '独立人工参考掩码与实际面积误差（用户同意暂留待补）', '本人封面信息待填写，教师现场验收及签章由教师完成']
+def remaining_gates(facts, formal=None, worktime=None):
+    gates = ['严格场景覆盖及早期火星/燃烧阶段确认',
+             '分割IoU与实际面积误差待独立参考（可采用人工参考掩码）；已有框IoU仅作定位一致性', '本人封面信息待填写，教师现场验收及签章由教师完成']
+    if not worktime:
+        gates.insert(1, '预标注节省工时估算尚缺辅助复核用时依据')
     if facts.get('approved_positive_images', 0) < 500:
         gates.append(f"有效火烟图还差{500-facts.get('approved_positive_images',0)}幅")
     if 'approved_own_positive_images' in facts and facts['approved_own_positive_images'] < 500:
@@ -332,14 +345,40 @@ def load_formal_evidence(path, catalog):
     return result
 
 
+def load_worktime_evidence(path, catalog):
+    if path is None or not path.exists():
+        return None
+    result = json.loads(path.read_text(encoding='utf-8'))
+    if result.get('status') != 'estimated_from_user_reported_measurement':
+        raise ValueError('工时文件必须区分用户实测单幅用时与总量推算')
+    with closing(sqlite3.connect(catalog.resolve().as_uri()+'?mode=ro',uri=True)) as db:
+        db.row_factory = sqlite3.Row
+        records = [dict(row) for row in db.execute('SELECT * FROM quality_submissions WHERE task_id=? ORDER BY asset_id,role', (result['task_id'],))]
+        approved = db.execute("SELECT COUNT(*) FROM annotation_reviews r JOIN (SELECT asset_id,MAX(seq) seq FROM annotation_reviews GROUP BY asset_id) l ON r.seq=l.seq WHERE r.decision='approved'").fetchone()[0]
+    digest = hashlib.sha256(json.dumps(records,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+    rate=result['assisted']['seconds_per_image']
+    if (not records or digest!=result['source_submissions_sha256'] or len(records)!=result['source_submission_count']
+            or approved!=result['target_images'] or not math.isfinite(rate) or rate<=0
+            or not result['assisted']['source_statement'].strip()):
+        raise ValueError('工时估算与原始提交或复核数量不一致')
+    baseline=sum(row['seconds'] for row in records)/len(records)
+    expected={'manual_mean_seconds_per_image':baseline,'estimated_manual_seconds':baseline*approved,
+              'estimated_assisted_seconds':rate*approved,'estimated_saved_seconds':(baseline-rate)*approved,
+              'estimated_saved_fraction':1-rate/baseline}
+    if any(not math.isclose(result[key],value,rel_tol=1e-10,abs_tol=1e-8) for key,value in expected.items()):
+        raise ValueError('工时推算公式不一致')
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--require-complete', action='store_true')
     parser.add_argument('--formal-results', type=Path)
+    parser.add_argument('--worktime-report', type=Path, default=ROOT/'reports/worktime_estimate_20261108.json')
     args = parser.parse_args()
     catalog = ROOT / 'data/fire_dataset/catalog.sqlite3'
-    report = audit(args.source, catalog, load_formal_evidence(args.formal_results, catalog))
+    report = audit(args.source, catalog, load_formal_evidence(args.formal_results, catalog),load_worktime_evidence(args.worktime_report,catalog))
     (ROOT / 'reports/requirements_acceptance.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     (ROOT / 'docs/requirements_audit.md').write_text(markdown(report), encoding='utf-8')
     print(json.dumps({'status': report['status'], 'clauses': len(report['requirements']), 'facts': report['facts']}, ensure_ascii=True))

@@ -28,7 +28,7 @@ from comparison import ComparisonStore
 from experiments import ExperimentStore
 
 
-def package(workspace, output):
+def package(workspace, output, report_document=None):
     if output.exists():
         raise FileExistsError('Use a new versioned output directory; never replace an earlier release.')
     output.mkdir(parents=True)
@@ -108,7 +108,13 @@ def package(workspace, output):
     for path in (ROOT/'configs').glob('*preannot*.json'):
         add(path,'04_标注过程与质量/configs/'+path.name)
     text('04_标注过程与质量/worktime.csv','group_id,actor,condition,effective_seconds,note\n')
-    text('04_标注过程与质量/worktime_report.md','有效辅助复核工时未实测，用户同意暂留待补。\nA/B独立标注计时随原始提交保留，不将两人总和与单人辅助时间混比，不把Annotations页面停留时间当有效工时。\n')
+    worktime_path=ROOT/'reports/worktime_estimate_20261108.json'
+    if worktime_path.exists():
+        add(worktime_path,'04_标注过程与质量/worktime_estimate.json')
+        add(ROOT/'reports/annotation_iou_20261108.json','04_标注过程与质量/annotation_iou.json')
+        add(ROOT/'docs/worktime_and_iou.md','04_标注过程与质量/worktime_report.md')
+    else:
+        text('04_标注过程与质量/worktime_report.md','辅助复核用时缺少依据，工时估算待补。\nA/B独立标注计时随原始提交保留，不将两人总和与单人辅助时间混比，不把Annotations页面停留时间当有效工时。\n')
 
     for variant,identifier in formal['jobs'].items():
         result=training.result(identifier);directory=training.directory(identifier)
@@ -145,10 +151,13 @@ def package(workspace, output):
         add(path,'06_评测与实验/optimization/'+path.name,'data/fire_dataset/experiments/'+formal['experiment_id']+'/'+path.name)
     add(ROOT/'docs/formal_results.md','06_评测与实验/README_结果口径.md')
     text('06_评测与实验/area_error.csv','asset_id,class,reference_sha256,prediction_sha256,iou,dice,absolute_area_error_percentage_points\n')
-    text('06_评测与实验/area_error_pending.md','用户同意暂留待补：需要独立人工原图同尺寸二值参考掩码，不以SAM输出作真值，当前不填写IoU/Dice或面积误差。\n')
+    text('06_评测与实验/area_error_pending.md','分割IoU与面积误差待独立参考；现有检测框IoU仅作定位一致性，不替代SAM分割IoU。原题未指定必须手绘掩码或样本数，本工具可使用独立人工原图同尺寸二值参考掩码，不以SAM自身输出作真值。\n')
 
     for name in ('智能火灾报警系统设计报告.docx','智能火灾报警系统完整使用指南.docx'):
-        add(workspace/'documents'/name,('01_设计报告/' if '设计报告' in name else '07_演示与操作/')+name)
+        document=report_document if '设计报告' in name and report_document else workspace/'documents'/name
+        if '设计报告' in name and file_sha(document)!=read_json(ROOT/'reports/template_report.json')['output_sha256']:
+            raise OSError('Report differs from the latest verified template build; supply --report-document for the current revision.')
+        add(document,('01_设计报告/' if '设计报告' in name else '07_演示与操作/')+name)
     report_source=(ROOT/'docs/template_report.md').read_text(encoding='utf-8')
     # Keep Markdown image links usable inside the teacher package as well.
     def local_figure(match):
@@ -215,6 +224,9 @@ def package(workspace, output):
     write_json(stage/'08_验收与校验/restore_map.json',{'schema_version':1,'files':restore,'access_codes_excluded':True})
     for name in ('requirements_acceptance.json','formal_experiments_20261108.json','formal_alarm_ablation_20261108.json','final_dataset_statistics_20261108.json','final_browser_20261108.json','final_model_verification_20261108.json','final_prelabel_device_check_20261108.json','final_demo_20261108.json','final_documents_20261108.json','final_checks_20261108.json'):
         add(ROOT/'reports'/name,'08_验收与校验/'+name)
+    if worktime_path.exists():
+        for name in ('worktime_estimate_20261108.json','annotation_iou_20261108.json','worktime_revision_20261108.json'):
+            add(ROOT/'reports'/name,'08_验收与校验/'+name)
     add(workspace/'regression_tests.txt','08_验收与校验/regression_tests.txt')
     add(ROOT/'docs/requirements_audit.md','08_验收与校验/requirements_checklist.md')
     add(workspace/'review_receipt.json','08_验收与校验/review_freeze_receipt.json')
@@ -269,4 +281,5 @@ def package(workspace, output):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--workspace',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
-    args=parser.parse_args();package(args.workspace.resolve(),args.output.resolve())
+    parser.add_argument('--report-document',type=Path)
+    args=parser.parse_args();package(args.workspace.resolve(),args.output.resolve(),args.report_document.resolve() if args.report_document else None)

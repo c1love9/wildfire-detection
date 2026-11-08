@@ -189,7 +189,7 @@ def build(reference,output,source):
     while index<len(lines):
         line=lines[index].strip();index+=1
         if not line:continue
-        if line=='<!-- page -->':continue
+        if line.startswith('<!--') and line.endswith('-->'):continue
         if line.startswith('# '):
             title=line[2:];in_references=title=='参考文献';body.append(paragraph(title,'chapter',new_page=title=='课题研究背景与意义',citations=False));new_page=False;continue
         if line.startswith('## '):

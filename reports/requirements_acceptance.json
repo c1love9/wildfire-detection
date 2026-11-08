@@ -1,7 +1,7 @@
 {
   "status": "NOT_ALL_COMPLETE",
   "formal_acceptance_complete": false,
-  "audited_at": "2026-11-08T05:10:11.849487+00:00",
+  "audited_at": "2026-11-08T05:46:10.148015+00:00",
   "source_document": "第4题-智能火灾报警系统.pdf",
   "source_sha256": "46919025b0bcbce225c675d85071338d128a4232630e69367d8bbc0f1a2d4af5",
   "source_pages_visually_inspected": [
@@ -10,8 +10,8 @@
     3,
     4
   ],
-  "code_base_commit": "75e0b991894b8e1be9aae592e657b269b920b71c",
-  "evidence_scope": "Official data catalog only; isolated synthetic tests are software evidence, never formal experiments",
+  "code_base_commit": "6e3cb01db3dc3410588b64ad77ba8114fb818356",
+  "evidence_scope": "Official data catalog plus explicitly identified user-reported review-rate estimate; isolated synthetic tests are software evidence, never formal experiments",
   "facts": {
     "exists": true,
     "images": 700,
@@ -174,9 +174,9 @@
       "page": 2,
       "clause": "子任务2③ 预标注节省人力工时估算",
       "scope": "基本",
-      "status": "待实测",
-      "evidence": "正式有效工时记录0条",
-      "remaining": "实际计时比较人工与辅助复核，记录配对任务和质量标准；页面停留时长不能直接当工时"
+      "status": "已有基于实测单幅用时的估算",
+      "evidence": "辅助复核约5秒/幅由用户实测提供；A/B原始计时平均9.41秒/幅；700幅估计节省51.46分钟（46.87%）",
+      "remaining": "实测样本量未提供，700幅总量为推算；未进行同人同图配对计时，不将估算写成全量实测；不包含机器推理等待"
     },
     {
       "id": "T3-01",
@@ -273,9 +273,9 @@
       "page": 3,
       "clause": "子任务4④ 面积估计误差分析",
       "scope": "发挥",
-      "status": "待人工参考",
-      "evidence": "Quality有IoU/Dice与面积误差工具；正式人工参考掩码记录0条",
-      "remaining": "由人工独立绘制原图同尺寸掩码，计算实际误差，不能用SAM自身输出作参考"
+      "status": "分割IoU与面积误差待参考",
+      "evidence": "Quality支持掩码IoU；人工参考掩码0条，现有检测框IoU另列为定位一致性",
+      "remaining": "原题要求面积误差分析，未指定必须手工掩码或样本数；目前缺独立分割参考，框IoU不替代SAM分割IoU或面积误差"
     },
     {
       "id": "T5-01",
@@ -392,7 +392,7 @@
       "scope": "提交物",
       "status": "教师模板报告已更新正式结果",
       "evidence": "保留模板版式、可编辑正文和公式、两组实际曲线、统一test表及空白教师评分签章",
-      "remaining": "用户暂不填写封面身份；面积和有效辅助复核工时按用户意见待补"
+      "remaining": "用户暂不填写封面身份；工时已有基于用户实测单幅时间的估算，分割面积误差仍待独立参考"
     },
     {
       "id": "A-06c",
@@ -485,10 +485,64 @@
       "remaining": "未做并发多路、边缘部署、IoT通知不影响已实现的基本方案；不虚报扩展"
     }
   ],
+  "worktime_estimate": {
+    "schema_version": 1,
+    "status": "estimated_from_user_reported_measurement",
+    "generated_at": "2026-11-08T05:46:09.960662+00:00",
+    "task_id": "quality_6146eb5a5ab24f5ebc6961d07e392ad2",
+    "source_submissions_sha256": "cabf0253357c3c23f2113ba96bfe0440870597a554a35d5b8479cea654ed3c89",
+    "source_submission_count": 400,
+    "manual_baselines": {
+      "A": {
+        "images": 200,
+        "total_seconds": 1751.840000000022,
+        "mean_seconds_per_image": 8.75920000000011
+      },
+      "B": {
+        "images": 200,
+        "total_seconds": 2012.6650000000263,
+        "mean_seconds_per_image": 10.063325000000132
+      }
+    },
+    "manual_mean_seconds_per_image": 9.41126250000012,
+    "assisted": {
+      "seconds_per_image": 5.0,
+      "basis": "user_reported_approximate_measurement",
+      "source_statement": "有效辅助复核工时按找一张图片5s左右估计这是我的实测时间",
+      "observed_sample_count": null,
+      "raw_paired_timer_log_available": false
+    },
+    "target_images": 700,
+    "estimated_manual_seconds": 6587.883750000085,
+    "estimated_assisted_seconds": 3500.0,
+    "estimated_saved_seconds": 3087.8837500000845,
+    "estimated_saved_fraction": 0.46872165131937016,
+    "per_annotator_reference": {
+      "A": {
+        "estimated_manual_seconds": 6131.440000000077,
+        "estimated_saved_seconds": 2631.440000000077,
+        "estimated_saved_fraction": 0.42917161384602054
+      },
+      "B": {
+        "estimated_manual_seconds": 7044.327500000092,
+        "estimated_saved_seconds": 3544.3275000000926,
+        "estimated_saved_fraction": 0.5031463258912999
+      }
+    },
+    "scope": "Human review labor only; model inference, setup, export and unrelated waiting excluded.",
+    "assumptions": [
+      "User-reported approximately 5 seconds is treated as full effective review/correction time per image.",
+      "The observed review sample size was not supplied; this is not a measured mean over all 700 images.",
+      "Recorded independent A/B timers estimate one-person manual annotation time: sum time / 400 submissions, not sum time / 200 images.",
+      "Extrapolation assumes comparable task difficulty and annotation quality; no randomized paired experiment was performed.",
+      "A/B reference variation is not a confidence interval."
+    ],
+    "original_submissions_modified": false,
+    "raw_worktime_records_synthesized": false
+  },
   "human_and_formal_gates": [
     "严格场景覆盖及早期火星/燃烧阶段确认",
-    "有效辅助复核工时实测（用户同意暂留待补）",
-    "独立人工参考掩码与实际面积误差（用户同意暂留待补）",
+    "分割IoU与实际面积误差待独立参考（可采用人工参考掩码）；已有框IoU仅作定位一致性",
     "本人封面信息待填写，教师现场验收及签章由教师完成",
     "严格按自行采集500幅火灾图口径，自主整理且含火烟图还差5幅",
     "最终确认正常图还差7幅"
