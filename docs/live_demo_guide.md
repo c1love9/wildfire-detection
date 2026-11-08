@@ -171,4 +171,3 @@ powershell -NoProfile -ExecutionPolicy Bypass `
 结束时回Demo Videos点“停止检测”，等待保存完成，再关闭服务窗口；保持源数据、训练权重和旧日志不变。若重新运行了公开样例，产生新的报警记录属于正常现象。
 
 备用视频位于项目内artifacts/final_completion_20261108/demo/系统演示.mp4，时长约3分9秒；排练时先打开所在文件夹。
-
