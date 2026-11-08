@@ -6,6 +6,7 @@
 >
 > - [700幅复核后的正式训练与评测](docs/formal_results.md)
 > - [按原题六项要求整理的统一提交说明](docs/submission_guide.md)
+> - [76幅独立测试的性能图表与统计口径](docs/performance_visualizations.md)
 > - [辅助复核约5秒每幅的工时估算与框IoU说明](docs/worktime_and_iou.md)
 > - [本轮含数据和本人权重的交付与恢复](docs/delivery.md)
 > - [本地启动与重新安装](docs/quick_start.md)

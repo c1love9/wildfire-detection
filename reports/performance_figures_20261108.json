@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "figures": 7,
+  "test_images": 76,
+  "test_positive": 75,
+  "test_negative": 1,
+  "test_known_groups": 2,
+  "train_val_used_as_test": false,
+  "metrics_recomputed": true,
+  "test_input_hashes_verified": 152,
+  "regression_tests": 222,
+  "figure_integrity_tests": 4,
+  "pdf_text_audits": 8,
+  "minimum_pdf_text_pt": 9,
+  "minimum_text_pt_at_180mm": 6.785056123303736,
+  "html_local_targets": 23,
+  "new_training_or_inference": false,
+  "source_data_modified": false,
+  "formal_acceptance_complete": false,
+  "source_package_release": "submission_20261108",
+  "source_package_commit": "80865c9a6d1795cf23d0ab68f78b7f8ffba1fb58",
+  "artifact_folder": "artifacts/performance_visualizations_20261108/03_性能图表_交付版",
+  "limitations": [
+    "Normal test images = 1; test known collection groups = 2.",
+    "Unknown event/near-duplicate/public pretraining overlap and annotation dependence not ruled out.",
+    "Single seed/split, no significance or cross-seed confidence intervals.",
+    "Inference FPS excludes SAM, UI and I/O."
+  ]
+}
