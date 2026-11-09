@@ -152,30 +152,122 @@ def check(root, deep=False):
     return report
 
 
-def owns_process(root, state, process):
-    """A saved PID alone never authorizes stopping an unrelated process."""
+def is_server_process(root, process):
+    """Match this copy's Streamlit entrypoint, resolving relative argv at its cwd."""
     import psutil
     try:
         command = process.cmdline()
-        same_entry = any(Path(arg).resolve() == Path(root).resolve()/'1_🔥_Home.py'
-                         for arg in command if arg.endswith('_Home.py'))
-        return ('streamlit' in command and same_entry and
-                abs(process.create_time()-state['created_at']) < .01)
-    except (OSError, ValueError, KeyError, psutil.Error):
+        module = command.index('streamlit')
+        if module < 1 or command[module-1] != '-m' or command[module+1] != 'run':
+            return False
+        entry = Path(command[module+2])
+        if not entry.is_absolute():
+            entry = Path(process.cwd())/entry
+        return entry.resolve() == Path(root).resolve()/'1_🔥_Home.py'
+    except (OSError, ValueError, IndexError, psutil.Error):
         return False
+
+
+def owns_process(root, state, process):
+    """A PID must still have both the expected command and creation time."""
+    import psutil
+    try:
+        return (is_server_process(root, process) and
+                abs(process.create_time()-state['created_at']) < .01)
+    except (OSError, ValueError, TypeError, KeyError, psutil.Error):
+        return False
+
+
+def server_processes(root):
+    import psutil
+    return [process for process in psutil.process_iter()
+            if is_server_process(root, process)]
+
+
+def server_port(process):
+    import psutil
+    try:
+        command = process.cmdline()
+        for index, argument in enumerate(command):
+            if argument == '--server.port':
+                port = int(command[index+1])
+                return port if 0 < port < 65536 else None
+            if argument.startswith('--server.port='):
+                port = int(argument.partition('=')[2])
+                return port if 0 < port < 65536 else None
+    except (OSError, ValueError, IndexError, psutil.Error):
+        pass
+    return None
 
 
 def running(root):
     import psutil
     state_path = Path(root)/'.runtime/run/server.json'
-    if not state_path.is_file():
+    if state_path.is_file():
+        try:
+            state = read(state_path)
+            process = psutil.Process(state['pid'])
+            if process.is_running() and owns_process(root, state, process):
+                port = server_port(process)
+                if port is not None:
+                    return {**state, 'root': str(Path(root).resolve()), 'port': port,
+                            'url': f'http://127.0.0.1:{port}'}, process
+        except (OSError, ValueError, TypeError, psutil.Error, KeyError):
+            pass
+    # Windows venv python.exe forwards to another Python process. An old stop
+    # could remove its PID record while that real server remained alive.
+    candidates = []
+    for process in server_processes(root):
+        try:
+            port = server_port(process)
+            if port is not None:
+                candidates.append((process.create_time(), port, process))
+        except psutil.Error:
+            continue
+    if not candidates:
         return None
-    state = read(state_path)
+    created, port, process = max(candidates, key=lambda item: (item[0], item[2].pid))
+    return {'pid': process.pid, 'created_at': created, 'root': str(Path(root).resolve()),
+            'port': port, 'url': f'http://127.0.0.1:{port}'}, process
+
+
+def terminate_servers(root, processes):
+    """Stop verified server processes, leaving independent training workers alone."""
+    import psutil
+    identities = {}
+    for process in processes:
+        try:
+            if is_server_process(root, process):
+                identities[process.pid] = (process, {'created_at': process.create_time()})
+        except psutil.Error:
+            continue
+    signalled = []
+    # Stop the real child before its venv launcher. The launcher may exit itself.
+    for process, identity in sorted(identities.values(), key=lambda item: item[1]['created_at'], reverse=True):
+        try:
+            if owns_process(root, identity, process):
+                process.terminate()
+                signalled.append(process)
+        except psutil.NoSuchProcess:
+            pass
+    _, alive = psutil.wait_procs(signalled, timeout=10)
+    for process in alive:
+        if owns_process(root, identities[process.pid][1], process):
+            try:
+                process.kill()
+            except psutil.NoSuchProcess:
+                pass
+    _, alive = psutil.wait_procs(alive, timeout=5)
+    if alive:
+        raise RuntimeError('服务进程尚未退出，保留启动记录；请检查进程权限后重试。')
+
+
+def port_open(port):
     try:
-        process = psutil.Process(state['pid'])
-        return (state, process) if process.is_running() and owns_process(root, state, process) else None
-    except (psutil.Error, KeyError):
-        return None
+        with socket.create_connection(('127.0.0.1', port), timeout=.3):
+            return True
+    except OSError:
+        return False
 
 
 def free_port(preferred):
@@ -194,6 +286,7 @@ def start(root, port=8506, open_browser=True):
     root = Path(root).resolve()
     current = running(root)
     if current:
+        write(root/'.runtime/run/server.json', current[0])
         print('本运行包已启动：'+current[0]['url'])
         if open_browser:
             webbrowser.open(current[0]['url'])
@@ -227,26 +320,38 @@ def start(root, port=8506, open_browser=True):
         except OSError:
             pass
         time.sleep(.4)
-    # Only the child created by this invocation is terminated on startup timeout.
-    process.terminate()
+    # Capture the venv launcher's server children before ending their parent.
+    try:
+        parent = psutil.Process(process.pid)
+        terminate_servers(root, [parent, *parent.children(recursive=True)])
+    except psutil.NoSuchProcess:
+        pass
     raise RuntimeError('服务启动超时，请查看.runtime/run/server.log。')
 
 
 def stop(root):
-    import psutil
+    root = Path(root).resolve()
     current = running(root)
-    if not current:
+    processes = server_processes(root)
+    if not processes:
         print('没有本运行包启动的服务，不会停止其他项目。')
         return
-    state, process = current
-    process.terminate()
-    try:
-        process.wait(timeout=10)
-    except psutil.TimeoutExpired:
-        if owns_process(root, state, process):
-            process.kill(); process.wait(timeout=5)
-    (Path(root)/'.runtime/run/server.json').unlink(missing_ok=True)
-    print('本运行包服务已停止。')
+    ports = set()
+    for process in processes:
+        port = server_port(process)
+        if port is not None:
+            ports.add(port)
+    if current:
+        ports.add(current[0]['port'])
+    terminate_servers(root, processes)
+    if server_processes(root):
+        raise RuntimeError('本运行包仍有服务进程，保留启动记录，请重试停止。')
+    (root/'.runtime/run/server.json').unlink(missing_ok=True)
+    occupied = [port for port in sorted(ports) if port_open(port)]
+    if occupied:
+        print('本运行包服务已停止；以下端口仍有其他监听者，未停止其他项目：'+', '.join(map(str, occupied)))
+    else:
+        print('本运行包服务已停止，端口已释放：'+', '.join(map(str, sorted(ports))))
 
 
 if __name__ == '__main__':
