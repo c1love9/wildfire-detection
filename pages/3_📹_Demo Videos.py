@@ -17,7 +17,7 @@ from camera_source import CameraConfig
 from camera_session import CameraSession
 from monitoring_ui import edit_monitoring_point, show_location
 from dataset_store import dataset_root
-from model_catalog import fire_models
+from model_catalog import fire_models, default_model_index
 from inference_ui import load_detector, show_model, with_segmentation, show_segmentation
 from trends import show_trends
 from alerts import show_notifications, notification_pending
@@ -121,7 +121,7 @@ with model_col:
     if not model_names:
         st.error('缺少火烟模型，请按运行说明取回fire_n.pt。')
         st.stop()
-    selected_model = st.selectbox('检测模型', model_names, index=model_names.index('fire_n') if 'fire_n' in model_names else 0,
+    selected_model = st.selectbox('检测模型', model_names, index=default_model_index(models),
                                   format_func=lambda key: models[key].label, disabled=locked)
 choice = models[selected_model]
 with device_col:

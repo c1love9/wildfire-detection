@@ -12,6 +12,7 @@
 > - [本地启动与重新安装](docs/quick_start.md)
 > - [完整使用指南](docs/user_guide.md)
 > - [现场演示操作指南](docs/live_demo_guide.md)
+> - [当前电脑现场运行包与一键启动](docs/live_runtime.md)
 > - [队友项目入门手册](docs/teammate_project_guide.md)
 > - [火焰烟雾数据标注操作手册](docs/teammate_annotation_manual.md)
 > - [已建立的200幅双人独立任务与交接操作](docs/dual_annotation_200_guide.md)

@@ -2,6 +2,7 @@
 
 from dataclasses import asdict, dataclass
 import json
+import os
 from pathlib import Path
 
 from dataset_store import DatasetStore, file_sha
@@ -31,6 +32,16 @@ class ModelChoice:
             raise ValueError(self.error)
         if not self.path or not self.sha256 or file_sha(Path(self.path)) != self.sha256:
             raise OSError('模型权重缺失或校验失败，请恢复原权重或选择其他模型。')
+
+
+def default_model_index(choices, preferred='fire_n'):
+    """A demo launcher may pin its trained model without changing normal defaults."""
+    requested = os.environ.get('FIRE_DEMO_MODEL_KEY') if preferred == 'fire_n' else None
+    if requested and requested not in choices:
+        raise ValueError('现场演示指定的模型缺失，请先运行演示前检查。')
+    keys = list(choices)
+    key = requested or preferred
+    return keys.index(key) if key in choices else 0
 
 
 def fire_models(project_root, data_root):

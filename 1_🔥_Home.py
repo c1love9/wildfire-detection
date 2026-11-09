@@ -6,7 +6,7 @@ from pathlib import Path
 from numpy import random
 import io
 from dataset_store import dataset_root
-from model_catalog import fire_models, general_models
+from model_catalog import fire_models, general_models, default_model_index
 from inference_ui import load_detector, show_model, with_segmentation, show_segmentation
 from image_input import load_image
 
@@ -126,7 +126,7 @@ def main():
         st.error('No model weights found. See docs/quick_start.md.')
         st.stop()
     preferred_model = 'yolov8n' if model_type == 'General' else 'fire_n'
-    default_index = model_files.index(preferred_model) if preferred_model in model_files else 0
+    default_index = default_model_index(choices, preferred_model)
     
     with col2:
         selected_model = st.selectbox("Select Model Size", model_files, index=default_index, format_func=lambda key: choices[key].label)
