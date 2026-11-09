@@ -1,5 +1,6 @@
 """Check and launch a separate local demonstration, without touching the source workspace."""
 import argparse
+from contextlib import closing
 import hashlib
 import json
 import os
@@ -109,7 +110,7 @@ def check(root, deep=False):
                 raise OSError('开放模型文件不完整：'+family+'/'+name)
         open_models.append({'model_id': receipt['model_id'], 'revision': receipt['revision']})
     db_path = root/'data/fire_dataset/catalog.sqlite3'
-    with sqlite3.connect(db_path.as_uri()+'?mode=ro', uri=True) as db:
+    with closing(sqlite3.connect(db_path.as_uri()+'?mode=ro', uri=True)) as db:
         if db.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
             raise OSError('演示副本数据库完整性检查未通过。')
         kinds = dict(db.execute('SELECT kind,COUNT(*) FROM assets GROUP BY kind'))

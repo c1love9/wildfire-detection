@@ -1,5 +1,6 @@
 """Assemble an executable demo copy from committed source and the verified frozen release."""
 import argparse
+from contextlib import closing
 from datetime import datetime, timezone
 import hashlib
 from io import BytesIO
@@ -20,13 +21,19 @@ from scripts.demo_runtime import digest, read, safe_path, write
 
 def table_fingerprints(database):
     output = {}
-    with sqlite3.connect(Path(database).resolve().as_uri()+'?mode=ro', uri=True) as db:
+    with closing(sqlite3.connect(Path(database).resolve().as_uri()+'?mode=ro', uri=True)) as db:
         names = [r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")]
         for name in names:
             quoted = '"'+name.replace('"', '""')+'"'
             rows = sorted(db.execute('SELECT * FROM '+quoted).fetchall(), key=repr)
             output[name] = {'rows': len(rows), 'sha256': hashlib.sha256(json.dumps(rows, ensure_ascii=False, default=str).encode()).hexdigest()}
     return output
+
+
+def runtime_payload(stage):
+    return [p for p in sorted(stage.rglob('*')) if p.is_file() and
+            '__pycache__' not in p.parts and not p.name.endswith(('-wal', '-shm', '-journal')) and
+            not p.relative_to(stage).as_posix().startswith('.runtime/run/')]
 
 
 def assemble(package, output):
@@ -63,7 +70,7 @@ def assemble(package, output):
     database = stage/'data/fire_dataset/catalog.sqlite3'
     before = table_fingerprints(database)
     token = secrets.token_urlsafe(24)
-    with sqlite3.connect(database) as db:
+    with closing(sqlite3.connect(database)) as db:
         if db.execute('SELECT COUNT(*) FROM quality_access').fetchone()[0] != 0:
             raise ValueError('Use the sanitized release without historical access credentials.')
         tasks = db.execute("SELECT task_id FROM quality_submissions GROUP BY task_id HAVING SUM(role='A')=200 AND SUM(role='B')=200").fetchall()
@@ -71,6 +78,7 @@ def assemble(package, output):
             raise ValueError('Expected one completed 200-image A/B task.')
         db.execute('INSERT INTO quality_access VALUES(?,?,?,?)',
                    (hashlib.sha256(token.encode()).hexdigest(), tasks[0][0], 'admin', '现场演示报告查看'))
+        db.commit()
     after = table_fingerprints(database)
     if {k: v for k, v in before.items() if k != 'quality_access'} != {k: v for k, v in after.items() if k != 'quality_access'}:
         raise ValueError('Demonstration access setup must not change any original annotation or experiment row.')
@@ -92,9 +100,7 @@ def assemble(package, output):
     if figures.is_dir():
         shutil.copy2(figures/'独立测试性能图表汇总.pdf', materials/'独立测试性能图表.pdf')
     files = {}
-    for p in sorted(stage.rglob('*')):
-        if not p.is_file():
-            continue
+    for p in runtime_payload(stage):
         relative = p.relative_to(stage).as_posix()
         mutable = relative.endswith('.sqlite3') or relative in (
             '.runtime/machine.json', 'configs/channels.json', 'configs/monitoring_points.json',
@@ -124,7 +130,7 @@ def archive_verified(stage):
     archive = stage.parent/'智能火灾报警系统_现场运行包.zip'
     if archive.exists():
         raise FileExistsError('Archive already exists.')
-    files = [p for p in sorted(stage.rglob('*')) if p.is_file() and '.runtime/run/' not in p.relative_to(stage).as_posix() and '__pycache__' not in p.parts]
+    files = runtime_payload(stage)
     with ZipFile(archive, 'x', ZIP_DEFLATED, compresslevel=3, allowZip64=True) as z:
         for index, p in enumerate(files, 1):
             relative = p.relative_to(stage).as_posix()

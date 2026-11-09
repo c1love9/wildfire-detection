@@ -9,9 +9,27 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.demo_runtime import safe_path, owns_process, free_port
 from model_catalog import default_model_index
+from scripts.package_demo_runtime import runtime_payload, table_fingerprints
+import sqlite3
 
 
 class DemoRuntimeTests(unittest.TestCase):
+    def test_sqlite_sidecars_and_live_pid_files_are_not_packaged(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name in ('catalog.sqlite3', 'catalog.sqlite3-wal', 'catalog.sqlite3-shm', '.runtime/run/server.json', 'app.py'):
+                p = root/name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text('fixture')
+            self.assertEqual({p.name for p in runtime_payload(root)}, {'catalog.sqlite3', 'app.py'})
+
+    def test_fingerprint_closes_wal_database(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/'catalog.sqlite3'
+            db = sqlite3.connect(path)
+            db.execute('PRAGMA journal_mode=WAL'); db.execute('CREATE TABLE records(value TEXT)')
+            db.execute("INSERT INTO records VALUES('human record')"); db.commit(); db.close()
+            self.assertEqual(table_fingerprints(path)['records']['rows'], 1)
+            self.assertFalse(Path(str(path)+'-shm').exists())
+
     def test_package_paths_cannot_escape_selected_root(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
