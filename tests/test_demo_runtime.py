@@ -1,4 +1,5 @@
 import os
+import hashlib
 from pathlib import Path
 import socket
 import sys
@@ -21,14 +22,15 @@ class DemoRuntimeTests(unittest.TestCase):
                 p = root/name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text('fixture')
             self.assertEqual({p.name for p in runtime_payload(root)}, {'catalog.sqlite3', 'app.py'})
 
-    def test_fingerprint_closes_wal_database(self):
+    def test_fingerprint_does_not_change_database_contents(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)/'catalog.sqlite3'
             db = sqlite3.connect(path)
             db.execute('PRAGMA journal_mode=WAL'); db.execute('CREATE TABLE records(value TEXT)')
             db.execute("INSERT INTO records VALUES('human record')"); db.commit(); db.close()
+            before = hashlib.sha256(path.read_bytes()).hexdigest()
             self.assertEqual(table_fingerprints(path)['records']['rows'], 1)
-            self.assertFalse(Path(str(path)+'-shm').exists())
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), before)
 
     def test_package_paths_cannot_escape_selected_root(self):
         with tempfile.TemporaryDirectory() as directory:
