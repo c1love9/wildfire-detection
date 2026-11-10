@@ -42,6 +42,31 @@ def digest(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
+def is_editable_material(relative):
+    path = Path(relative)
+    return (bool(path.parts) and path.parts[0] in ('演示资料', 'docs') or
+            path.as_posix() == '00_先读说明.md')
+
+
+def verify_runtime_manifest(root, deep=False):
+    """Compare the packaged runtime only on request; presentation edits are allowed."""
+    root = Path(root).resolve()
+    manifest_path = root/'runtime_manifest.json'
+    if not deep or not manifest_path.is_file():
+        return 0
+    checked = 0
+    for relative, info in read(manifest_path)['files'].items():
+        path = safe_path(root, relative)
+        if info.get('mutable') or is_editable_material(relative):
+            continue
+        if not path.is_file():
+            raise FileNotFoundError('运行包缺少文件：'+relative)
+        if path.stat().st_size != info['bytes'] or digest(path) != info['sha256']:
+            raise OSError('运行包文件损坏或已改变：'+relative)
+        checked += 1
+    return checked
+
+
 def configure(root):
     root = Path(root).resolve()
     config_path = root/'.runtime/runtime.json'
@@ -81,19 +106,7 @@ def check(root, deep=False):
     import transformers
     from segmentation import verify_model
     from channels import load_channels
-    manifest_path = root/'runtime_manifest.json'
-    checked = 0
-    if manifest_path.is_file():
-        manifest = read(manifest_path)
-        for relative, info in manifest['files'].items():
-            path = safe_path(root, relative)
-            if not path.is_file():
-                raise FileNotFoundError('运行包缺少文件：'+relative)
-            if info.get('mutable'):
-                continue
-            if path.stat().st_size != info['bytes'] or deep and digest(path) != info['sha256']:
-                raise OSError('运行包文件损坏或已改变：'+relative)
-            checked += 1
+    checked = verify_runtime_manifest(root, deep)
     for filename in ('1_🔥_Home.py', 'demo-videos/fire1.mov', 'demo-videos/fire2.mov'):
         if not (root/filename).is_file():
             raise FileNotFoundError('缺少现场演示文件：'+filename)
@@ -143,6 +156,8 @@ def check(root, deep=False):
               'open_models': open_models, 'channels': len(channels), 'ffmpeg': encoder,
               'selected_training_id': config.get('selected_training_id'),
               'immutable_files_checked': checked, 'deep_sha256_check': deep,
+              'manifest_check_mode': 'runtime_files' if deep else 'not_requested',
+              'editable_materials_checked': False,
               'scope': 'Current computer: reuses an existing Python environment; datasets, models and state are local to this copy.'}
     write(root/'.runtime/run/environment_check.json', report)
     print('环境检查通过。图像 %s 幅，视频 %s 段，双人标注 %s 份。' %

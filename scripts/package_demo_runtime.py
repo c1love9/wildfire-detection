@@ -16,7 +16,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.restore_final_delivery import restore
-from scripts.demo_runtime import digest, read, safe_path, write
+from scripts.demo_runtime import digest, is_editable_material, read, safe_path, write
 
 
 def table_fingerprints(database):
@@ -57,6 +57,12 @@ def assemble(package, output):
                 target.write_bytes(source.read(name))
     print('Committed code copied. Verifying and restoring the frozen release...', flush=True)
     restoration = restore(package, stage)
+    curated = ROOT/'demo-images/curated'
+    if (curated/'manifest.json').is_file():
+        shutil.copytree(curated, stage/'demo-images/curated', dirs_exist_ok=True)
+    curated_videos = ROOT/'demo-videos/curated'
+    if (curated_videos/'manifest.json').is_file():
+        shutil.copytree(curated_videos, stage/'demo-videos/curated', dirs_exist_ok=True)
     frozen = read(package/'manifest.json')
     write(stage/'.runtime/runtime.json', {
         'schema_version': 1, 'release_id': 'onsite_20261109', 'source_commit': commit,
@@ -102,7 +108,7 @@ def assemble(package, output):
     files = {}
     for p in runtime_payload(stage):
         relative = p.relative_to(stage).as_posix()
-        mutable = relative.endswith('.sqlite3') or relative in (
+        mutable = is_editable_material(relative) or relative.endswith('.sqlite3') or relative in (
             '.runtime/machine.json', 'configs/channels.json', 'configs/monitoring_points.json',
             'configs/alarm.json', 'configs/recording.json', 'configs/camera.json')
         files[relative] = {'bytes': p.stat().st_size, 'sha256': digest(p), 'mutable': mutable}

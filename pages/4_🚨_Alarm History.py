@@ -21,7 +21,9 @@ ROOT = Path(__file__).resolve().parents[1]
 LOG_PATH = alarm_log_path(ROOT)
 
 st.set_page_config(page_title='报警日志', page_icon='🚨', layout='wide')
-st.title('报警日志')
+from ui_theme import apply_theme, page_header
+apply_theme()
+page_header('报警事件与历史回看', '按通道和等级检索事件，查看截图、视频片段、面积趋势与位置快照。', section='ALARM HISTORY')
 st.caption('本机保存的火烟确认事件；最高等级用于筛选。停止、视频结束或异常表示观察结束，不表示火情恢复。')
 st.button('刷新记录')
 if not LOG_PATH.exists():

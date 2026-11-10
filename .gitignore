@@ -160,3 +160,5 @@ data/
 runs/
 .streamlit/secrets.toml
 .runtime/
+demo-images/curated/
+demo-videos/curated/

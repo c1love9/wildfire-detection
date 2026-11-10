@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.demo_runtime import (safe_path, owns_process, free_port, is_server_process,
-                                 running, stop, terminate_servers)
+                                 running, stop, terminate_servers, verify_runtime_manifest)
 from model_catalog import default_model_index
 from scripts.package_demo_runtime import runtime_payload, table_fingerprints
 import sqlite3
@@ -50,6 +50,47 @@ class ServerProcess:
 
 
 class DemoRuntimeTests(unittest.TestCase):
+    def test_startup_does_not_compare_release_inventory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = {'files': {'演示资料/答辩.pptx': {'bytes': 1, 'sha256': 'old'},
+                                  'app.py': {'bytes': 1, 'sha256': 'old'}}}
+            (root/'runtime_manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
+            (root/'app.py').write_text('locally edited application', encoding='utf-8')
+            self.assertEqual(verify_runtime_manifest(root), 0)
+
+    def test_deep_check_allows_edited_or_missing_presentation_materials(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            editable = ['演示资料/答辩.pptx', '演示资料/已移动的讲稿.md',
+                        'docs/live_runtime.md', '00_先读说明.md']
+            files = {name: {'bytes': 1, 'sha256': 'old', 'mutable': False} for name in editable}
+            presentation = root/editable[0]
+            presentation.parent.mkdir(parents=True)
+            presentation.write_bytes(b'updated presentation')
+            code = b'application'
+            (root/'app.py').write_bytes(code)
+            files['app.py'] = {'bytes': len(code), 'sha256': hashlib.sha256(code).hexdigest()}
+            (root/'runtime_manifest.json').write_text(json.dumps({'files': files}), encoding='utf-8')
+            self.assertEqual(verify_runtime_manifest(root, deep=True), 1)
+
+    def test_deep_check_still_rejects_changed_runtime_file_of_same_size(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root/'app.py').write_bytes(b'new')
+            info = {'bytes': 3, 'sha256': hashlib.sha256(b'old').hexdigest()}
+            (root/'runtime_manifest.json').write_text(json.dumps({'files': {'app.py': info}}), encoding='utf-8')
+            with self.assertRaisesRegex(OSError, 'app.py'):
+                verify_runtime_manifest(root, deep=True)
+
+    def test_deep_check_still_rejects_missing_runtime_file(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            info = {'bytes': 3, 'sha256': hashlib.sha256(b'old').hexdigest()}
+            (root/'runtime_manifest.json').write_text(json.dumps({'files': {'app.py': info}}), encoding='utf-8')
+            with self.assertRaisesRegex(FileNotFoundError, 'app.py'):
+                verify_runtime_manifest(root, deep=True)
+
     def test_sqlite_sidecars_and_live_pid_files_are_not_packaged(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

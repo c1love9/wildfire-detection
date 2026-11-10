@@ -1,6 +1,31 @@
-"""Decode still images in their displayed orientation before inference."""
+"""Decode still images and load the selected Home demonstration gallery."""
 
+import json
+from pathlib import Path
 from PIL import Image, ImageOps
+
+
+def demo_image_choices(project_root):
+    folder = Path(project_root).resolve()/'demo-images'
+    manifest = folder/'curated/manifest.json'
+    if manifest.is_file():
+        samples = json.loads(manifest.read_text(encoding='utf-8'))['samples']
+        choices = []
+        for sample in samples:
+            name, label = sample['file'], sample['label']
+            if not isinstance(name, str) or not isinstance(label, str) or not label.strip():
+                raise ValueError('演示图片清单中的名称无效。')
+            path = (manifest.parent/name).resolve()
+            if (Path(name).is_absolute() or not path.is_relative_to(manifest.parent) or
+                    path.suffix.lower() not in {'.png', '.jpg', '.jpeg'}):
+                raise ValueError('演示图片必须位于精选图片目录内。')
+            if not path.is_file():
+                raise ValueError('缺少精选演示图片：'+name)
+            choices.append({'path': path, 'label': label, 'curated': True})
+        return choices
+    return [{'path': path, 'label': path.name, 'curated': False}
+            for path in sorted(folder.glob('*'))
+            if path.is_file() and path.suffix.lower() in {'.png', '.jpg', '.jpeg'}]
 
 
 def load_image(source, max_pixels=24_000_000):

@@ -10,6 +10,7 @@ from training import TrainConfig,TrainingStore,history_rows
 from experiments import ExperimentStore,alarm_ablation
 from model_catalog import fire_models
 from inference_ui import load_detector
+from demo_media import video_choices
 
 ROOT=Path(__file__).resolve().parents[1]
 st.set_page_config(page_title='优化实验',page_icon='🧪',layout='wide');st.title('优化对照实验')
@@ -49,11 +50,12 @@ if records:
     except (OSError,ValueError,RuntimeError) as exc:st.error(str(exc))
 else:st.info('待实验：没有保存的优化配置。')
 st.divider();st.subheader('单帧触发与连续确认对照')
-video=st.selectbox('报警对照样例',[p.name for p in sorted((ROOT/'demo-videos').glob('*'))])
+samples={sample['file']:sample for sample in video_choices(ROOT)}
+video=st.selectbox('报警对照样例',list(samples),format_func=lambda key:samples[key]['label'])
 if st.button('运行样例前10秒策略对照'):
     try:
         detector=load_detector(fire_models(ROOT,dataset.root)['fire_n'],device,640)
-        capture=cv2.VideoCapture(str(ROOT/'demo-videos'/video));fps=capture.get(cv2.CAP_PROP_FPS)
+        capture=cv2.VideoCapture(str(samples[video]['path']));fps=capture.get(cv2.CAP_PROP_FPS)
         if not capture.isOpened() or fps<=0:raise ValueError('样例帧率无效。')
         frames=[]
         try:
